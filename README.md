@@ -1,101 +1,116 @@
 # BTCLab AI Panel Factor Factory
 
-> 一个文献约束、审计优先的加密资产横截面因子研究项目。
+**Language:** **English** | [简体中文](./README.zh-CN.md)
 
-**English summary:** BTCLab is a literature-constrained, audit-first research
-framework for testing crypto cross-sectional factors. AI proposes falsifiable
-candidates; deterministic code freezes, evaluates, records, and rejects them.
-The project is research software, not a claim of profitable deployment.
+> A literature-constrained, audit-first research project for crypto
+> cross-sectional factors.
 
-## 一句话说明
+## In One Sentence
 
-我们不是让 AI 不断试公式，直到碰巧得到漂亮回测。我们希望建立一条可审计的研究流水线：
+We are not asking AI to try formulas until one happens to produce an attractive
+backtest. We are building an auditable research pipeline:
 
-**文献给方向，AI 给候选，程序做裁判，未来数据给最终证据。**
+**Literature sets the direction, AI proposes candidates, deterministic code
+judges them, and future data provides the final evidence.**
 
-## 为什么做这个项目
+## Why This Project Exists
 
-量化研究最常见的问题之一是虚假收益，也叫假 alpha（假超额收益）。当研究者反复尝试指标、参数和样本切分时，即使市场完全随机，也可能找到看起来优秀的历史结果。
+False alpha is one of the most common problems in quantitative research. When
+researchers repeatedly try indicators, parameters, and sample splits, even a
+random market can produce impressive historical results by chance.
 
-BTCLab 尝试通过以下制度降低这种风险：
+BTCLab attempts to reduce that risk through the following controls:
 
-- Literature registry（文献注册表）：候选必须来自预先登记的经济机制和论文来源。
-- Preregistration（预注册）：公式在评估前冻结，看到结果后不能沿用同一候选编号修改。
-- Trial registry（试验登记）：成功、失败、语法拒绝和人工候选都计入试验次数。
-- Holdout isolation（保留集隔离）：Holdout 只用于最终审计，不反馈给 AI 调参。
-- Multiple-testing control（多重检验控制）：尝试越多，统计门槛越严格。
-- Economic audit（经济审计）：手续费、滑点、资金费、换手率、容量和回撤都必须进入判断。
-- Prospective evidence（前瞻证据）：通过历史检查只代表值得继续观察，不能直接进入实盘。
+- **Literature registry:** every eligible candidate must cite a preregistered
+  economic mechanism and research source.
+- **Preregistration:** formulas are frozen before evaluation and cannot be
+  revised under the same candidate ID after results are observed.
+- **Trial registry:** successful, failed, manually created, and syntax-rejected
+  candidates all count as trials.
+- **Holdout isolation:** Holdout data is used only for final audit and is never
+  returned to AI for tuning.
+- **Multiple-testing control:** the statistical burden increases as more
+  hypotheses are tried.
+- **Economic audit:** fees, slippage, funding, turnover, capacity, and drawdown
+  are part of the decision.
+- **Prospective evidence:** passing historical checks permits continued
+  observation, not immediate deployment.
 
-## 研究流程
+## Research Workflow
 
 ```mermaid
 flowchart TD
-    A["1. 论文与市场机制"] --> B["2. 文献假设注册"]
-    B --> C["3. AI 生成可证伪候选"]
-    C --> D["4. 校验、预注册与批次冻结"]
-    D --> E["5. 样本内与验证集评估"]
-    E --> F["6. 成本、基准与稳健性审计"]
-    F --> G{"7. 审计分类"}
-    G --> H["拒绝并记录失败原因"]
-    G --> I["观察名单"]
-    G --> J["历史证据合格"]
-    J --> K["8. 前瞻影子跟踪"]
-    K --> L["9. 组合研究"]
-    L --> M["10. 模拟交易"]
-    M --> N["11. 运营与风险审计"]
-    N --> O["12. 才可能讨论小规模资金"]
+    A["1. Papers and market mechanisms"] --> B["2. Register literature hypotheses"]
+    B --> C["3. AI proposes falsifiable candidates"]
+    C --> D["4. Validate, preregister, and freeze batch"]
+    D --> E["5. In-sample and validation evaluation"]
+    E --> F["6. Cost, baseline, and robustness audits"]
+    F --> G{"7. Audit classification"}
+    G --> H["Reject and record failure"]
+    G --> I["Research watchlist"]
+    G --> J["Historical evidence accepted"]
+    J --> K["8. Prospective shadow tracking"]
+    K --> L["9. Combination research"]
+    L --> M["10. Paper trading"]
+    M --> N["11. Operational and risk audit"]
+    N --> O["12. Only then consider small capital"]
 ```
 
-Holdout（保留集）不会回到 AI 生成环节。没有通过的候选也不会被删除，因为失败本身是研究证据。
+Holdout evidence never flows back into AI generation. Rejected candidates are
+not erased because failure is itself research evidence.
 
-## AI 做什么，不做什么
+## What AI Does and Does Not Do
 
-AI 可以：
+AI may:
 
-- 阅读已登记文献并提出可证伪假设；
-- 将经济机制翻译成标准化 panel formula（横截面公式）；
-- 生成候选元数据、测试和研究报告；
-- 根据样本内和验证集失败原因提出新的研究方向。
+- read registered literature and propose falsifiable hypotheses;
+- translate economic mechanisms into standardized panel formulas;
+- generate candidate metadata, tests, and research reports;
+- use in-sample and validation failures to suggest new research directions.
 
-AI 不可以：
+AI may not:
 
-- 查看 Holdout 细节后反向修改候选；
-- 绕过文献来源、试验预算或批次冻结；
-- 自己宣布候选可以交易；
-- 把历史回测通过等同于未来盈利。
+- inspect Holdout details and reverse-engineer a revised candidate;
+- bypass source registration, trial budgets, or batch freezing;
+- declare a candidate ready for trading;
+- treat a successful historical backtest as proof of future profit.
 
-## 当前公开基线
+## Current Public Baseline
 
-截至 2026-07-19，这个公开快照包括：
+As of 2026-07-19, this public snapshot includes:
 
-- 50 个已登记 OKX 永续资产，以及逐时点最多 40 个资产的流动性筛选；
-- 730 天历史 panel（面板）数据接口与缓存审计逻辑；
-- 价格、成交额、真实稀疏 funding（资金费）、basis（基差）、open interest（持仓量）、市值、上市年龄和资产标签支持；
-- 文献注册、候选冻结、trial registry、多重检验、基准和稳健性审计；
-- prospective shadow tracking（前瞻影子跟踪）和 promotion（晋级）政策；
-- 本地 Python 3.11 环境下 **294 项测试通过**。
+- 50 registered OKX perpetual assets and a point-in-time liquidity universe of
+  at most 40 assets;
+- interfaces and cache audits for a 730-day historical panel;
+- support for price, quote volume, sparse realized funding, basis, open
+  interest, market capitalization, listing age, and asset labels;
+- literature registration, candidate freezing, trial accounting,
+  multiple-testing controls, baselines, and robustness audits;
+- prospective shadow tracking and promotion policies;
+- **294 passing tests** under the local Python 3.11 environment.
 
-这不代表已经获得可部署策略。当前项目仍处于研究和前瞻证据积累阶段，没有任何收益保证，也不应据此投入资金。
+This does not mean the project has produced a deployable strategy. It remains
+in the research and prospective-evidence stage. There is no return guarantee,
+and the repository should not be used as a reason to deploy capital.
 
-## 代码地图
+## Code Map
 
-| 文件 | 作用 |
+| File | Purpose |
 | --- | --- |
-| `LITERATURE_HYPOTHESIS_REGISTRY.md` | 文献、经济机制、公式族和失败条件 |
-| `panel_ai_candidate_generator.py` | 在注册文献约束内生成候选 |
-| `panel_candidate_registry.py` | 候选 schema、批次冻结和登记 |
-| `panel_factor_research.py` | Panel 回测、成本和稳健性评估 |
-| `panel_gate_policy_v3.py` | 历史审计门槛与状态规则 |
-| `panel_run_registry.py` | 可审计运行记录和输入指纹 |
-| `prospective_factor_snapshot.py` | 冻结因子的未来影子快照 |
-| `strategy_*` | 组合、策略、怀疑者审计与导出层 |
-| `tests/` | 数据边界、审计逻辑和完整流程测试 |
-| `FACTORY_MASTER_ROADMAP.md` | 当前目标、完成项、阻塞项和长期路线 |
+| `LITERATURE_HYPOTHESIS_REGISTRY.md` | Literature, mechanisms, formula families, and failure conditions |
+| `panel_ai_candidate_generator.py` | Candidate generation within registered-source constraints |
+| `panel_candidate_registry.py` | Candidate schema, frozen batches, and trial admission |
+| `panel_factor_research.py` | Panel evaluation, costs, baselines, and robustness checks |
+| `panel_gate_policy_v3.py` | Historical audit thresholds and status rules |
+| `panel_run_registry.py` | Auditable runs and input fingerprints |
+| `prospective_factor_snapshot.py` | Future shadow snapshots for frozen factors |
+| `strategy_*` | Combination, strategy, skeptic audit, and export layers |
+| `tests/` | Data boundaries, audit behavior, and end-to-end tests |
+| `FACTORY_MASTER_ROADMAP.md` | Goals, completed work, blockers, and long-term roadmap |
 
-## 快速验证
+## Quick Validation
 
-建议使用 Python 3.11：
+Python 3.11 is recommended:
 
 ```bash
 git clone https://github.com/qniequn-boop/btclab-factor-factory-public.git
@@ -105,29 +120,50 @@ python -m pip install -r requirements.txt
 python -m pytest -q
 ```
 
-仓库不包含行情缓存、运行日志、交易所密钥、云凭证或服务器配置值。部分完整研究流程需要自行获取公开市场数据。
+The repository does not contain market-data caches, ordinary runtime logs,
+exchange keys, cloud credentials, or server configuration values. Some full
+research workflows require users to acquire public market data independently.
 
-## 推荐阅读顺序
+## Suggested Reading Order
 
-1. `FACTORY_MASTER_ROADMAP.md`：先了解最终目标与当前进度。
-2. `LITERATURE_HYPOTHESIS_REGISTRY.md`：了解候选为什么必须有文献和经济机制。
-3. `PANEL_DATA_SUBSTRATE_V2.md`：了解时间点一致性、退市偏差和数据限制。
-4. `RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md`：查看独立怀疑者视角的自审。
-5. `PROSPECTIVE_FACTOR_PROMOTION_POLICY_V1.json`：了解为什么历史通过后仍需等待未来数据。
+1. `FACTORY_MASTER_ROADMAP.md`: understand the final objective and current
+   stage.
+2. `LITERATURE_HYPOTHESIS_REGISTRY.md`: see why candidates require literature
+   and an economic mechanism.
+3. `PANEL_DATA_SUBSTRATE_V2.md`: understand point-in-time eligibility,
+   delisting bias, and data limitations.
+4. `RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md`: read the independent
+   skeptic's review.
+5. `PROSPECTIVE_FACTOR_PROMOTION_POLICY_V1.json`: see why historical acceptance
+   is followed by future observation.
 
-## 已知限制
+## Known Limitations
 
-- 加密市场历史较短，制度和市场状态变化快。
-- 当前交易标的来自现存合约，冻结日前的历史研究仍受退市与幸存者偏差限制。
-- 日频或低频因子无法代表专业做市与低延迟策略能力。
-- Funding、basis 和流动性收益可能被费用、冲击成本和做空约束消耗。
-- 多重检验控制只能降低数据挖掘风险，不能证明未来一定有效。
-- 前瞻观察、模拟交易和真实执行是不同阶段，不能互相替代。
+- Crypto history is short, and both market regimes and institutions change
+  quickly.
+- The registered universe begins with currently surviving contracts, so
+  pre-freeze history remains exposed to delisting and survivorship bias.
+- Daily or low-frequency factors do not reproduce the capabilities of
+  professional market-making or low-latency systems.
+- Funding, basis, and liquidity premia may be consumed by fees, market impact,
+  and shorting constraints.
+- Multiple-testing controls reduce data-mining risk but cannot prove future
+  effectiveness.
+- Prospective observation, paper trading, and real execution are separate
+  stages and cannot substitute for one another.
 
-## 公开版与私人版
+## Public and Private Editions
 
-这个仓库是面向公开复核的研究快照。完整研发仓库保持私有，并继续保存运行记录、未公开实验和服务器运维内容。公开版只会在经过筛选后主动更新，不会自动同步私人仓库。
+This repository is a curated public research snapshot. The full development
+repository remains private and continues to store operational records,
+unpublished experiments, and server-maintenance material. Public releases are
+selected deliberately and are not synchronized automatically from the private
+repository.
 
-## 研究声明
+## Research Disclaimer
 
-本项目仅用于教育、研究和方法讨论，不构成投资建议。任何历史收益、统计关系或候选状态都不代表未来表现。使用者应独立验证数据、代码、交易成本、法律要求和风险承受能力。
+This project is for education, research, and methodological discussion only.
+It is not investment advice. Historical returns, statistical relationships,
+and candidate statuses do not imply future performance. Users must
+independently verify data, code, trading costs, legal requirements, and their
+own risk tolerance.
