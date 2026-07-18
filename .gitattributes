@@ -1,0 +1,5 @@
+# Research contracts use byte-level SHA-256 fingerprints. Keep text identical
+# across Windows and Linux checkouts so a clone does not invalidate a freeze.
+* text=auto eol=lf
+
+*.png binary
