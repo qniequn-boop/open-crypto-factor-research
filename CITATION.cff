@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this research software, please cite it using the metadata below."
+title: "Open Crypto Factor Research"
+type: software
+authors:
+  - name: "Open Crypto Factor Research contributors"
+version: 0.1.0
+date-released: 2026-07-19
+repository-code: "https://github.com/qniequn-boop/open-crypto-factor-research"
+url: "https://github.com/qniequn-boop/open-crypto-factor-research"
+license: MIT
+keywords:
+  - cryptocurrency
+  - asset pricing
+  - factor models
+  - empirical finance
+  - reproducible research
+  - multiple testing
+  - panel data
+abstract: >-
+  Open and reproducible research software for evaluating cryptocurrency
+  cross-sectional factors under literature grounding, preregistration,
+  multiple-testing control, economic costs, robustness audits, and prospective
+  evidence requirements.

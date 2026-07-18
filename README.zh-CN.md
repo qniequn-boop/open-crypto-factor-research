@@ -1,160 +1,153 @@
-# BTCLab AI Panel Factor Factory
+# 开放式加密资产因子研究
 
 **语言：** [English](./README.md) | **简体中文**
 
-[![CI](https://github.com/qniequn-boop/btclab-factor-factory-public/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qniequn-boop/btclab-factor-factory-public/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![可复现性 CI](https://github.com/qniequn-boop/open-crypto-factor-research/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qniequn-boop/open-crypto-factor-research/actions/workflows/ci.yml)
+[![MIT 许可证](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![引用信息](https://img.shields.io/badge/cite-CITATION.cff-2f6f5e.svg)](./CITATION.cff)
 
-> 一个文献约束、审计优先的加密资产横截面因子研究项目。
+> 一个以文献为基础、可复现、可审计的加密资产横截面因子实证研究框架。
 
-**English summary:** BTCLab is a literature-constrained, audit-first research
-framework for testing crypto cross-sectional factors. AI proposes falsifiable
-candidates; deterministic code freezes, evaluates, records, and rejects them.
-The project is research software, not a claim of profitable deployment.
+Open Crypto Factor Research（开放式加密资产因子研究）关注一个核心问题：
+文献中报告的加密资产收益关系，在面对逐时点数据约束、多重检验、真实成本、
+稳健性检查和真正的未来数据后，是否依然成立。本仓库是研究工具，不是赚钱信号目录。
 
-## 一句话说明
+## 当前能下什么结论
 
-我们不是让 AI 不断试公式，直到碰巧得到漂亮回测。我们希望建立一条可审计的研究流水线：
+**本仓库目前没有任何因子、组合或策略获准投入真实资金。** 一个冻结的 90 日
+低波动率关系在历史研究后获得了 Prospective shadow observation（前瞻影子观察）
+资格。它的含义只是“保持规则不变，继续收集未来证据”，不是“已经验证出 alpha
+（超额收益）”。
 
-**文献给方向，AI 给候选，程序做裁判，未来数据给最终证据。**
+完整结论账本见 [EVIDENCE_STATUS.md](./EVIDENCE_STATUS.md)。
 
-## 为什么做这个项目
+## 我们研究什么
 
-量化研究最常见的问题之一是虚假收益，也叫假 alpha（假超额收益）。当研究者反复尝试指标、参数和样本切分时，即使市场完全随机，也可能找到看起来优秀的历史结果。
+1. 已发表的加密资产因子关系，能否在事先声明的适配方法下被复现？
+2. 加入换手、手续费、滑点、资金费、流动性和容量后，哪些关系仍有经济意义？
+3. 在计入重复试验、市场状态变化和样本资产偏差后，有多少漂亮结果会消失？
+4. 冻结后的因子能否在不把未来结果反馈给候选生成的情况下，积累真正的前瞻证据？
 
-BTCLab 尝试通过以下制度降低这种风险：
+项目优先关注经济机制和扣除成本后的可实施性。测试数量和自动化用于保护证据，
+它们本身不等于研究成功。
 
-- Literature registry（文献注册表）：候选必须来自预先登记的经济机制和论文来源。
-- Preregistration（预注册）：公式在评估前冻结，看到结果后不能沿用同一候选编号修改。
-- Trial registry（试验登记）：成功、失败、语法拒绝和人工候选都计入试验次数。
-- Holdout isolation（保留集隔离）：Holdout 只用于最终审计，不反馈给 AI 调参。
-- Multiple-testing control（多重检验控制）：尝试越多，统计门槛越严格。
-- Economic audit（经济审计）：手续费、滑点、资金费、换手率、容量和回撤都必须进入判断。
-- Prospective evidence（前瞻证据）：通过历史检查只代表值得继续观察，不能直接进入实盘。
-
-## 研究流程
+## 证据流程
 
 ```mermaid
 flowchart TD
-    A["1. 论文与市场机制"] --> B["2. 文献假设注册"]
-    B --> C["3. AI 生成可证伪候选"]
-    C --> D["4. 校验、预注册与批次冻结"]
-    D --> E["5. 样本内与验证集评估"]
-    E --> F["6. 成本、基准与稳健性审计"]
-    F --> G{"7. 审计分类"}
-    G --> H["拒绝并记录失败原因"]
-    G --> I["观察名单"]
-    G --> J["历史证据合格"]
-    J --> K["8. 前瞻影子跟踪"]
-    K --> L["9. 组合研究"]
-    L --> M["10. 模拟交易"]
-    M --> N["11. 运营与风险审计"]
-    N --> O["12. 才可能讨论小规模资金"]
+    A["已发表证据与市场机制"] --> B["登记可证伪的研究假设"]
+    B --> C["冻结因子定义并记录试验"]
+    C --> D["历史复现与验证"]
+    D --> E["成本、基准、稳健性与红队审查"]
+    E --> F{"证据分类"}
+    F --> G["拒绝并保留负面结果"]
+    F --> H["仅允许前瞻观察"]
+    H --> I["在未来数据上冻结评估"]
+    I --> J["组合研究与模拟交易"]
+    J --> K["运行和风险审查"]
+    K --> L["最后才可能讨论真实资金"]
 ```
 
-Holdout（保留集）不会回到 AI 生成环节。没有通过的候选也不会被删除，因为失败本身是研究证据。
+历史结果不能直接授权组合或交易。Holdout（保留集）的细节不会反馈给候选修改；
+被拒绝的试验也不会删除，因为负面结果同样是研究证据。
 
-## AI 做什么，不做什么
+## 当前证据快照
 
-AI 可以：
-
-- 阅读已登记文献并提出可证伪假设；
-- 将经济机制翻译成标准化 panel formula（横截面公式）；
-- 生成候选元数据、测试和研究报告；
-- 根据样本内和验证集失败原因提出新的研究方向。
-
-AI 不可以：
-
-- 查看 Holdout 细节后反向修改候选；
-- 绕过文献来源、试验预算或批次冻结；
-- 自己宣布候选可以交易；
-- 把历史回测通过等同于未来盈利。
-
-## 当前公开基线
-
-截至 2026-07-19，这个公开快照包括：
-
-- 50 个已登记 OKX 永续资产，以及逐时点最多 40 个资产的流动性筛选；
-- 730 天历史 panel（面板）数据接口与缓存审计逻辑；
-- 价格、成交额、真实稀疏 funding（资金费）、basis（基差）、open interest（持仓量）、市值、上市年龄和资产标签支持；
-- 文献注册、候选冻结、trial registry、多重检验、基准和稳健性审计；
-- prospective shadow tracking（前瞻影子跟踪）和 promotion（晋级）政策；
-- 本地 Python 3.11 环境下 **294 项测试通过**。
-
-这不代表已经获得可部署策略。当前项目仍处于研究和前瞻证据积累阶段，没有任何收益保证，也不应据此投入资金。
-
-### 哪个测试数量才是当前基线？
-
-当前唯一依据是 `main` 分支最近一次成功的 `CI`，以及机器可读的
-`CURRENT_BASELINE.json`。当前基线声明 Python 3.11 下应收集 294 项测试。
-CI 会在每次提交中明确报告收集、通过、失败、错误和跳过数量；如果收集数量与声明不一致，CI 也会失败。
-
-`FACTORY_MASTER_ROADMAP.md` 中的 274、278 等数字作为开发历史里程碑保留，
-它们不是与当前基线并列的多个答案。
-
-## 代码地图
-
-| 文件 | 作用 |
+| 研究部分 | 公开证据状态 |
 | --- | --- |
-| `LITERATURE_HYPOTHESIS_REGISTRY.md` | 文献、经济机制、公式族和失败条件 |
-| `panel_ai_candidate_generator.py` | 在注册文献约束内生成候选 |
-| `panel_candidate_registry.py` | 候选 schema、批次冻结和登记 |
-| `panel_factor_research.py` | Panel 回测、成本和稳健性评估 |
-| `panel_gate_policy_v3.py` | 历史审计门槛与状态规则 |
-| `panel_run_registry.py` | 可审计运行记录和输入指纹 |
-| `prospective_factor_snapshot.py` | 冻结因子的未来影子快照 |
-| `strategy_*` | 组合、策略、怀疑者审计与导出层 |
-| `tests/` | 数据边界、审计逻辑和完整流程测试 |
-| `CURRENT_BASELINE.json` | 机器可读的当前 Python 与测试数量基线 |
-| `.github/workflows/ci.yml` | 每次提交的独立锁定依赖测试 |
-| `FACTORY_MASTER_ROADMAP.md` | 当前目标、完成项、阻塞项和长期路线 |
+| 数据基础 | 50 个已登记 OKX 资产、逐时点最多 40 个流动资产、730 日数据接口已审计；冻结日前历史仍有幸存者偏差 |
+| 经典动量复现 | 6 条冻结历史路径全部拒绝 |
+| 永续 basis 与 funding | 12 条双腿路径在成本后全部拒绝；当前样本内该家族已关闭 |
+| 月度低波动率 | 60 日路径拒绝；90 日路径只获准保持不变地做前瞻观察 |
+| 历史订单簿证据 | OKX 官方 L2 数据可以稳定重建；1 天、3 个资产不足以校准生产级成本曲面 |
+| Factor promotion（因子正式晋级） | 无 |
+| 组合、模拟交易或实盘 | 无 |
 
-## 快速验证
+这张表刻意把“工程能运行”和“经济证据成立”分开。评估器可以工作，不代表被评估
+的关系真实；历史线索存在，也不代表未来能赚钱。
 
-建议使用 Python 3.11：
+## 研究约束
+
+- **Literature grounding（文献约束）：** 候选必须引用已登记来源，并说明经济机制、
+  所需字段、预期方向、基准和失败条件。
+- **Preregistration（预注册）：** 在看到结果前冻结因子定义和评估批次。
+- **Trial accounting（完整试验计数）：** AI 生成、人工提出、运行失败和语法拒绝的
+  候选全部计入预算。
+- **Multiple-testing control（多重检验控制）：** 尝试越多、候选相关性越强，统计证据
+  需要承担的惩罚越大。
+- **Holdout isolation（保留集隔离）：** 保留集细节不能进入 AI 提示或修改反馈。
+- **Economic audit（经济审计）：** 换手、手续费、滑点、资金费、回撤、流动性和执行
+  假设必须明确报告。
+- **Prospective evaluation（前瞻评估）：** 历史线索最多只能获得“按原规则观察未来”
+  的资格。
+- **Red-team review（红队审查）：** 用独立重建和怀疑者视角检查泄漏、换方向、不当
+  适配和错误晋级。
+
+这些制度能降低自我欺骗的概率，但不能证明某个因子一定长期存在。
+
+## AI 在这里做什么
+
+AI-assisted hypothesis generation（AI 辅助假设生成）只是本项目的一种研究方法。
+AI 可以把已登记的经济机制翻译成标准、可证伪的候选，也可以帮助整理失败原因；
+但它不能自己制定证据标准、查看封存的 Holdout 细节、绕过试验预算，或者宣布一个
+信号可以交易。最终分类由确定性程序和冻结政策完成。
+
+## 可复现基线
+
+当前公开基线为 Python 3.11，**收集并通过 294 项测试**。机器可读的唯一基线是
+[`CURRENT_BASELINE.json`](./CURRENT_BASELINE.json)，GitHub Actions 会在每次提交到
+`main` 后独立验证。
+
+历史报告中的 274、278、288 等数字保留为开发记录，不是多个互相竞争的当前基线。
 
 ```bash
-git clone https://github.com/qniequn-boop/btclab-factor-factory-public.git
-cd btclab-factor-factory-public
+git clone https://github.com/qniequn-boop/open-crypto-factor-research.git
+cd open-crypto-factor-research
 python -m venv .venv
 python -m pip install --require-hashes -r requirements.txt
 python -m pytest -q
 ```
 
-仓库不包含行情缓存、运行日志、交易所密钥、云凭证或服务器配置值。部分完整研究流程需要自行获取公开市场数据。
+仓库不包含交易所密钥、云凭证、服务器配置、普通运行日志和行情缓存。完整实证复现
+需要研究者独立获取相应公开行情数据。具体边界见
+[REPRODUCIBILITY.md](./REPRODUCIBILITY.md)。
 
-## 依赖版本政策
+## 阅读入口
 
-- `requirements.in` 保存直接依赖允许使用的版本范围。
-- `requirements.txt` 是生成的锁文件，固定直接和间接依赖的精确版本及包哈希。
-- CI 只在 Python 3.11 下按照哈希锁文件安装依赖。
-- Dependabot 每周提出依赖和 GitHub Actions 更新请求。
-- 更新不会自动合并，只有通过完整 CI 基线后才允许接受。
+| 建议入口 | 作用 |
+| --- | --- |
+| [RESEARCH_SCOPE.md](./RESEARCH_SCOPE.md) | 研究问题、范围、结论边界和 AI 的角色 |
+| [EVIDENCE_STATUS.md](./EVIDENCE_STATUS.md) | 当前正面、负面、不完整和前瞻证据 |
+| [REPRODUCIBILITY.md](./REPRODUCIBILITY.md) | 环境、锁定依赖、CI、数据边界和验证方法 |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | 提交假设、复现、代码和研究结论的规范 |
+| [LITERATURE_HYPOTHESIS_REGISTRY.md](./LITERATURE_HYPOTHESIS_REGISTRY.md) | 已登记文献机制和证伪要求 |
+| [PANEL_DATA_SUBSTRATE_V2.md](./PANEL_DATA_SUBSTRATE_V2.md) | 资产池、缺失值和幸存者偏差边界 |
+| [RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md](./RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md) | 独立对齐和怀疑者审计 |
+| [FACTORY_MASTER_ROADMAP.md](./FACTORY_MASTER_ROADMAP.md) | 详细开发历史和长期研究门槛 |
 
-这样既保证普通运行可以复现，也不会让项目永远停留在旧依赖上。
-
-## 推荐阅读顺序
-
-1. `FACTORY_MASTER_ROADMAP.md`：先了解最终目标与当前进度。
-2. `LITERATURE_HYPOTHESIS_REGISTRY.md`：了解候选为什么必须有文献和经济机制。
-3. `PANEL_DATA_SUBSTRATE_V2.md`：了解时间点一致性、退市偏差和数据限制。
-4. `RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md`：查看独立怀疑者视角的自审。
-5. `PROSPECTIVE_FACTOR_PROMOTION_POLICY_V1.json`：了解为什么历史通过后仍需等待未来数据。
+部分内部模块和历史记录仍保留早期的 `BTCLab` 与 `factor factory` 名称。为了保证
+路径、哈希和带日期研究材料可复现，这些名称不会被事后改写；它们不代表公开项目
+现在的研究结论。
 
 ## 已知限制
 
-- 加密市场历史较短，制度和市场状态变化快。
-- 当前交易标的来自现存合约，冻结日前的历史研究仍受退市与幸存者偏差限制。
-- 日频或低频因子无法代表专业做市与低延迟策略能力。
-- Funding、basis 和流动性收益可能被费用、冲击成本和做空约束消耗。
-- 多重检验控制只能降低数据挖掘风险，不能证明未来一定有效。
-- 前瞻观察、模拟交易和真实执行是不同阶段，不能互相替代。
+- 加密市场历史较短，制度和市场状态变化很快。
+- 当前登记池从现存合约开始，因此冻结日前分析不能代表已退市或低流动性资产整体。
+- 50 个登记资产、最多 40 个资产的横截面，仍显著小于传统股票因子研究。
+- 日频和月频研究不能复制低延迟交易或专业做市能力。
+- Funding（资金费）、basis（基差）和流动性收益可能被融资、冲击成本、借币限制与
+  运行故障消耗。
+- 多重检验和前瞻跟踪只能降低特定风险，不能保证外部有效性或未来盈利。
 
-## 公开版与私人版
+## 贡献与引用
 
-这个仓库是面向公开复核的研究快照。完整研发仓库保持私有，并继续保存运行记录、未公开实验和服务器运维内容。公开版只会在经过筛选后主动更新，不会自动同步私人仓库。
+我们欢迎复现尝试、负面结果、数据审计和基于机制的假设，前提是遵守
+[CONTRIBUTING.md](./CONTRIBUTING.md) 中的预注册与证据边界。
+
+GitHub 会读取 [CITATION.cff](./CITATION.cff) 提供引用信息。代码依据
+[MIT License](./LICENSE) 开放。
 
 ## 研究声明
 
-本项目仅用于教育、研究和方法讨论，不构成投资建议。任何历史收益、统计关系或候选状态都不代表未来表现。使用者应独立验证数据、代码、交易成本、法律要求和风险承受能力。
-源代码依据 [MIT License](./LICENSE) 公开。
+本项目只用于研究、教育和方法讨论，不构成投资建议。历史收益、统计关系和内部状态
+都不代表未来表现。使用者必须独立核验数据、代码、成本、法律要求和风险。

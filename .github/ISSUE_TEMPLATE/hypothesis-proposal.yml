@@ -1,0 +1,69 @@
+name: Research hypothesis proposal
+description: Propose a literature-grounded, falsifiable factor hypothesis.
+title: "[Hypothesis]: "
+labels:
+  - research-hypothesis
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Positive historical returns are not required. A useful proposal states in advance what would falsify its mechanism.
+  - type: input
+    id: source
+    attributes:
+      label: Primary source
+      description: Provide a paper DOI, stable URL, or primary market source.
+      placeholder: https://doi.org/...
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Falsifiable hypothesis
+      description: State the expected cross-sectional relation and direction before evaluation.
+    validations:
+      required: true
+  - type: textarea
+    id: mechanism
+    attributes:
+      label: Economic mechanism
+      description: Explain why the information could affect expected returns and when it should fail.
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Data and timing
+      description: List required fields, timestamps, universe rules, missingness, and availability constraints.
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Frozen design
+      description: Specify formula family, direction, neutralization, weighting, rebalance, holding horizon, and maximum variant budget.
+    validations:
+      required: true
+  - type: textarea
+    id: baselines
+    attributes:
+      label: Baselines and costs
+      description: State relevant baseline models and fee, slippage, funding, borrow, impact, and capacity assumptions.
+    validations:
+      required: true
+  - type: textarea
+    id: failure
+    attributes:
+      label: Failure conditions
+      description: State the evidence that would reject, freeze, or narrow the claim.
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Research boundaries
+      options:
+        - label: I will not revise the sign, formula, or horizon under the same candidate ID after seeing results.
+          required: true
+        - label: I understand that historical evidence cannot authorize trading or deployment.
+          required: true

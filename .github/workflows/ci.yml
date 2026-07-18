@@ -1,4 +1,4 @@
-name: CI
+name: Reproducibility CI
 
 on:
   push:
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   tests:
-    name: Python 3.11 full suite (locked dependencies)
+    name: Python 3.11 reproducibility baseline
     runs-on: ubuntu-latest
     timeout-minutes: 20
 

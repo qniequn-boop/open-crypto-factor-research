@@ -1,198 +1,178 @@
-# BTCLab AI Panel Factor Factory
+# Open Crypto Factor Research
 
 **Language:** **English** | [简体中文](./README.zh-CN.md)
 
-[![CI](https://github.com/qniequn-boop/btclab-factor-factory-public/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qniequn-boop/btclab-factor-factory-public/actions/workflows/ci.yml)
+[![Reproducibility CI](https://github.com/qniequn-boop/open-crypto-factor-research/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qniequn-boop/open-crypto-factor-research/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![CITATION.cff](https://img.shields.io/badge/cite-CITATION.cff-2f6f5e.svg)](./CITATION.cff)
 
-> A literature-constrained, audit-first research project for crypto
-> cross-sectional factors.
+> A reproducible, literature-grounded framework for empirical research on
+> cryptocurrency cross-sectional factors.
 
-## In One Sentence
+Open Crypto Factor Research studies whether reported crypto return relations
+survive point-in-time data constraints, multiple testing, realistic costs,
+robustness checks, and genuinely future observations. The repository is a
+research instrument, not a catalogue of profitable trading signals.
 
-We are not asking AI to try formulas until one happens to produce an attractive
-backtest. We are building an auditable research pipeline:
+## Current Claim
 
-**Literature sets the direction, AI proposes candidates, deterministic code
-judges them, and future data provides the final evidence.**
+**No factor, portfolio, or strategy in this repository is approved for live
+capital.** One frozen 90-day low-volatility relation has earned prospective
+shadow observation after historical analysis. That status means "collect new
+evidence without changing the rule," not "validated alpha."
 
-## Why This Project Exists
+See [EVIDENCE_STATUS.md](./EVIDENCE_STATUS.md) for the complete claim ledger.
 
-False alpha is one of the most common problems in quantitative research. When
-researchers repeatedly try indicators, parameters, and sample splits, even a
-random market can produce impressive historical results by chance.
+## Research Questions
 
-BTCLab attempts to reduce that risk through the following controls:
+1. Which published cryptocurrency factor relations replicate in a
+   cross-sectional panel under a declared adaptation?
+2. Which relations remain economically meaningful after turnover, fees,
+   slippage, funding, liquidity, and capacity constraints?
+3. How much apparent evidence disappears after accounting for repeated trials,
+   unstable regimes, and data-universe bias?
+4. Can frozen factor definitions accumulate prospective evidence without
+   feeding future outcomes back into candidate selection?
 
-- **Literature registry:** every eligible candidate must cite a preregistered
-  economic mechanism and research source.
-- **Preregistration:** formulas are frozen before evaluation and cannot be
-  revised under the same candidate ID after results are observed.
-- **Trial registry:** successful, failed, manually created, and syntax-rejected
-  candidates all count as trials.
-- **Holdout isolation:** Holdout data is used only for final audit and is never
-  returned to AI for tuning.
-- **Multiple-testing control:** the statistical burden increases as more
-  hypotheses are tried.
-- **Economic audit:** fees, slippage, funding, turnover, capacity, and drawdown
-  are part of the decision.
-- **Prospective evidence:** passing historical checks permits continued
-  observation, not immediate deployment.
+The project prioritizes economic mechanisms and net implementability. Test
+counts and automation are controls that protect the evidence, not research
+success by themselves.
 
-## Research Workflow
+## Evidence Pipeline
 
 ```mermaid
 flowchart TD
-    A["1. Papers and market mechanisms"] --> B["2. Register literature hypotheses"]
-    B --> C["3. AI proposes falsifiable candidates"]
-    C --> D["4. Validate, preregister, and freeze batch"]
-    D --> E["5. In-sample and validation evaluation"]
-    E --> F["6. Cost, baseline, and robustness audits"]
-    F --> G{"7. Audit classification"}
-    G --> H["Reject and record failure"]
-    G --> I["Research watchlist"]
-    G --> J["Historical evidence accepted"]
-    J --> K["8. Prospective shadow tracking"]
-    K --> L["9. Combination research"]
-    L --> M["10. Paper trading"]
-    M --> N["11. Operational and risk audit"]
-    N --> O["12. Only then consider small capital"]
+    A["Published evidence and market mechanism"] --> B["Registered and falsifiable hypothesis"]
+    B --> C["Frozen factor definition and trial record"]
+    C --> D["Historical replication and validation"]
+    D --> E["Costs, baselines, robustness, and red-team review"]
+    E --> F{"Evidence classification"}
+    F --> G["Reject and preserve the negative result"]
+    F --> H["Prospective observation only"]
+    H --> I["Frozen future-data evaluation"]
+    I --> J["Portfolio and paper-trading research"]
+    J --> K["Operational and risk review"]
+    K --> L["Only then consider capital"]
 ```
 
-Holdout evidence never flows back into AI generation. Rejected candidates are
-not erased because failure is itself research evidence.
+Historical acceptance cannot directly authorize a combination or a trade.
+Holdout details are isolated from candidate revision, and rejected trials stay
+in the record because negative results are part of the evidence.
 
-## What AI Does and Does Not Do
+## Current Evidence Snapshot
 
-AI may:
-
-- read registered literature and propose falsifiable hypotheses;
-- translate economic mechanisms into standardized panel formulas;
-- generate candidate metadata, tests, and research reports;
-- use in-sample and validation failures to suggest new research directions.
-
-AI may not:
-
-- inspect Holdout details and reverse-engineer a revised candidate;
-- bypass source registration, trial budgets, or batch freezing;
-- declare a candidate ready for trading;
-- treat a successful historical backtest as proof of future profit.
-
-## Current Public Baseline
-
-As of 2026-07-19, this public snapshot includes:
-
-- 50 registered OKX perpetual assets and a point-in-time liquidity universe of
-  at most 40 assets;
-- interfaces and cache audits for a 730-day historical panel;
-- support for price, quote volume, sparse realized funding, basis, open
-  interest, market capitalization, listing age, and asset labels;
-- literature registration, candidate freezing, trial accounting,
-  multiple-testing controls, baselines, and robustness audits;
-- prospective shadow tracking and promotion policies;
-- **294 passing tests** under the local Python 3.11 environment.
-
-This does not mean the project has produced a deployable strategy. It remains
-in the research and prospective-evidence stage. There is no return guarantee,
-and the repository should not be used as a reason to deploy capital.
-
-### Which test count is current?
-
-The source of truth is the latest successful `CI` run on `main`, together with
-`CURRENT_BASELINE.json`. The current baseline declares 294 collected tests on
-Python 3.11. CI reports the collected, passed, failed, errored, and skipped
-counts for every commit and fails if the collected count does not match the
-declared baseline.
-
-Counts such as 274 and 278 in `FACTORY_MASTER_ROADMAP.md` are retained as
-historical development milestones. They are not competing current baselines.
-
-## Code Map
-
-| File | Purpose |
+| Research component | Public evidence status |
 | --- | --- |
-| `LITERATURE_HYPOTHESIS_REGISTRY.md` | Literature, mechanisms, formula families, and failure conditions |
-| `panel_ai_candidate_generator.py` | Candidate generation within registered-source constraints |
-| `panel_candidate_registry.py` | Candidate schema, frozen batches, and trial admission |
-| `panel_factor_research.py` | Panel evaluation, costs, baselines, and robustness checks |
-| `panel_gate_policy_v3.py` | Historical audit thresholds and status rules |
-| `panel_run_registry.py` | Auditable runs and input fingerprints |
-| `prospective_factor_snapshot.py` | Future shadow snapshots for frozen factors |
-| `strategy_*` | Combination, strategy, skeptic audit, and export layers |
-| `tests/` | Data boundaries, audit behavior, and end-to-end tests |
-| `CURRENT_BASELINE.json` | Machine-readable current Python and test-count baseline |
-| `.github/workflows/ci.yml` | Independent locked-dependency test run for every commit |
-| `FACTORY_MASTER_ROADMAP.md` | Goals, completed work, blockers, and long-term roadmap |
+| Data substrate | 50 registered OKX assets, point-in-time top-40 eligibility, and audited 730-day interfaces; pre-freeze history remains survivor-conditioned |
+| Canonical momentum replications | Six frozen historical paths rejected |
+| Perpetual basis and funding | Twelve frozen two-leg paths rejected after costs; family closed on the current sample |
+| Monthly low volatility | 60-day path rejected; 90-day path allowed only into unchanged prospective observation |
+| Historical order-book evidence | Official OKX L2 reconstruction is feasible; one day and three assets cannot calibrate a production cost surface |
+| Factor promotion | None |
+| Portfolio, paper trading, or deployment | None |
 
-## Quick Validation
+This table deliberately separates engineering readiness from economic
+evidence. A working evaluator does not imply that the evaluated relation is
+real, and a historical clue does not imply future profitability.
 
-Python 3.11 is recommended:
+## Methodological Safeguards
+
+- **Literature grounding:** an eligible candidate cites a registered source and
+  states its economic mechanism, required fields, expected sign, baselines, and
+  failure conditions.
+- **Preregistration:** the factor definition and evaluation batch are frozen
+  before outcomes are observed.
+- **Complete trial accounting:** generated, manual, failed, and syntax-rejected
+  candidates all contribute to the trial budget.
+- **Multiplicity control:** statistical burden increases with the number and
+  dependence of attempted hypotheses.
+- **Holdout isolation:** Holdout details cannot enter model prompts or revision
+  feedback.
+- **Economic auditing:** turnover, fees, slippage, funding, drawdown, liquidity,
+  and execution assumptions are explicit.
+- **Prospective evaluation:** historical clues may earn only the right to be
+  observed unchanged on future data.
+- **Red-team review:** independent reconstruction and skeptical audits look for
+  leakage, sign changes, unsupported adaptations, and false promotion.
+
+These controls reduce avoidable self-deception. They do not prove that a factor
+will persist.
+
+## Role of AI
+
+AI-assisted hypothesis generation is one optional research method in this
+repository. It can translate registered mechanisms into standardized,
+falsifiable candidates and help organize failure analysis. It cannot choose its
+own evidence standard, see sealed Holdout details, bypass trial budgets, or
+declare a signal tradeable. Deterministic code and frozen policies make the
+classification.
+
+## Reproducible Baseline
+
+The current public baseline is Python 3.11 with **294 collected and passing
+tests**. The machine-readable source of truth is
+[`CURRENT_BASELINE.json`](./CURRENT_BASELINE.json), checked independently by
+GitHub Actions on every commit to `main`.
+
+Historical counts such as 274, 278, and 288 remain in dated reports as
+development records. They are not alternative current baselines.
 
 ```bash
-git clone https://github.com/qniequn-boop/btclab-factor-factory-public.git
-cd btclab-factor-factory-public
+git clone https://github.com/qniequn-boop/open-crypto-factor-research.git
+cd open-crypto-factor-research
 python -m venv .venv
 python -m pip install --require-hashes -r requirements.txt
 python -m pytest -q
 ```
 
-The repository does not contain market-data caches, ordinary runtime logs,
-exchange keys, cloud credentials, or server configuration values. Some full
-research workflows require users to acquire public market data independently.
+The repository excludes exchange keys, cloud credentials, server settings,
+ordinary runtime logs, and market-data caches. Full empirical reruns require
+researchers to obtain the relevant public market data independently. See
+[REPRODUCIBILITY.md](./REPRODUCIBILITY.md) for exact boundaries and procedures.
 
-## Dependency Policy
+## Repository Guide
 
-- `requirements.in` contains bounded ranges for direct dependencies.
-- `requirements.txt` is a generated lock containing exact direct and transitive
-  versions plus package hashes.
-- CI installs only the hashed lock under Python 3.11.
-- Dependabot proposes dependency and GitHub Actions updates weekly.
-- Updates are not merged automatically. A proposed update must pass the full CI
-  baseline before it can be accepted.
+| Start here | Purpose |
+| --- | --- |
+| [RESEARCH_SCOPE.md](./RESEARCH_SCOPE.md) | Research questions, scope, claim boundaries, and the role of AI |
+| [EVIDENCE_STATUS.md](./EVIDENCE_STATUS.md) | Current positive, negative, incomplete, and prospective evidence |
+| [REPRODUCIBILITY.md](./REPRODUCIBILITY.md) | Environment, locked dependencies, CI, data boundaries, and verification |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | Standards for hypotheses, replications, code, and evidence language |
+| [LITERATURE_HYPOTHESIS_REGISTRY.md](./LITERATURE_HYPOTHESIS_REGISTRY.md) | Registered literature mechanisms and falsification requirements |
+| [PANEL_DATA_SUBSTRATE_V2.md](./PANEL_DATA_SUBSTRATE_V2.md) | Universe construction, missingness, and survivorship boundaries |
+| [RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md](./RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md) | Independent alignment and skeptic audit |
+| [FACTORY_MASTER_ROADMAP.md](./FACTORY_MASTER_ROADMAP.md) | Detailed development history and long-horizon research gates |
 
-This keeps normal runs reproducible without freezing the project permanently on
-old packages.
+Some internal modules and historical records retain the earlier `BTCLab` and
+`factor factory` names. They are preserved to keep paths, hashes, and dated
+research artifacts reproducible; they do not define the public research claim.
 
-## Suggested Reading Order
+## Known Limits
 
-1. `FACTORY_MASTER_ROADMAP.md`: understand the final objective and current
-   stage.
-2. `LITERATURE_HYPOTHESIS_REGISTRY.md`: see why candidates require literature
-   and an economic mechanism.
-3. `PANEL_DATA_SUBSTRATE_V2.md`: understand point-in-time eligibility,
-   delisting bias, and data limitations.
-4. `RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md`: read the independent
-   skeptic's review.
-5. `PROSPECTIVE_FACTOR_PROMOTION_POLICY_V1.json`: see why historical acceptance
-   is followed by future observation.
+- Crypto histories are short and market institutions change rapidly.
+- The current registered pool begins with surviving contracts, so pre-freeze
+  analysis cannot support claims about the delisted or illiquid majority.
+- A 50-asset registry and top-40 panel remain small relative to equity factor
+  studies.
+- Daily and monthly research does not reproduce low-latency execution or
+  market-making capabilities.
+- Funding, basis, and liquidity premia may be consumed by financing, impact,
+  borrow constraints, and operational failures.
+- Multiple-testing controls and prospective tracking reduce specific risks;
+  neither guarantees external validity or future profit.
 
-## Known Limitations
+## Contributing and Citation
 
-- Crypto history is short, and both market regimes and institutions change
-  quickly.
-- The registered universe begins with currently surviving contracts, so
-  pre-freeze history remains exposed to delisting and survivorship bias.
-- Daily or low-frequency factors do not reproduce the capabilities of
-  professional market-making or low-latency systems.
-- Funding, basis, and liquidity premia may be consumed by fees, market impact,
-  and shorting constraints.
-- Multiple-testing controls reduce data-mining risk but cannot prove future
-  effectiveness.
-- Prospective observation, paper trading, and real execution are separate
-  stages and cannot substitute for one another.
+Replication attempts, negative results, data audits, and mechanism-based
+hypotheses are welcome when they preserve the preregistration and evidence
+boundaries in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-## Public and Private Editions
-
-This repository is a curated public research snapshot. The full development
-repository remains private and continues to store operational records,
-unpublished experiments, and server-maintenance material. Public releases are
-selected deliberately and are not synchronized automatically from the private
-repository.
+GitHub exposes citation metadata from [CITATION.cff](./CITATION.cff). The code
+is available under the [MIT License](./LICENSE).
 
 ## Research Disclaimer
 
-This project is for education, research, and methodological discussion only.
-It is not investment advice. Historical returns, statistical relationships,
-and candidate statuses do not imply future performance. Users must
-independently verify data, code, trading costs, legal requirements, and their
-own risk tolerance. The source code is available under the [MIT License](./LICENSE).
+This project is for research, education, and methodological discussion. It is
+not investment advice. Historical returns, statistical relationships, and
+internal classifications do not imply future performance. Users must verify
+data, code, costs, legal requirements, and risk independently.

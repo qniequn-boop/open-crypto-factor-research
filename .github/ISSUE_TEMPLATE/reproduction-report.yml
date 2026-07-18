@@ -1,0 +1,59 @@
+name: Reproduction report
+description: Report a successful or unsuccessful independent reproduction.
+title: "[Reproduction]: "
+labels:
+  - reproduction
+body:
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Outcome
+      options:
+        - Exact reproduction
+        - Method reproduced with different empirical values
+        - Reproduction failed
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit SHA
+      placeholder: Full Git commit SHA
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Python version, and installation method.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Commands and test counts
+      description: Include exact commands and collected, passed, failed, errored, and skipped counts.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: External data boundary
+      description: Describe sources, acquisition timestamps, coverage, and artifact hashes. Do not include credentials.
+    validations:
+      required: true
+  - type: textarea
+    id: discrepancy
+    attributes:
+      label: Result or smallest discrepancy
+      description: State what reproduced and the smallest observable difference.
+    validations:
+      required: true
+  - type: checkboxes
+    id: secret
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed API keys, credentials, private server details, and non-public data from this report.
+          required: true
