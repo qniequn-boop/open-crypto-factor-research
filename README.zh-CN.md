@@ -2,6 +2,9 @@
 
 **语言：** [English](./README.md) | **简体中文**
 
+[![CI](https://github.com/qniequn-boop/btclab-factor-factory-public/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qniequn-boop/btclab-factor-factory-public/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 > 一个文献约束、审计优先的加密资产横截面因子研究项目。
 
 **English summary:** BTCLab is a literature-constrained, audit-first research
@@ -80,6 +83,15 @@ AI 不可以：
 
 这不代表已经获得可部署策略。当前项目仍处于研究和前瞻证据积累阶段，没有任何收益保证，也不应据此投入资金。
 
+### 哪个测试数量才是当前基线？
+
+当前唯一依据是 `main` 分支最近一次成功的 `CI`，以及机器可读的
+`CURRENT_BASELINE.json`。当前基线声明 Python 3.11 下应收集 294 项测试。
+CI 会在每次提交中明确报告收集、通过、失败、错误和跳过数量；如果收集数量与声明不一致，CI 也会失败。
+
+`FACTORY_MASTER_ROADMAP.md` 中的 274、278 等数字作为开发历史里程碑保留，
+它们不是与当前基线并列的多个答案。
+
 ## 代码地图
 
 | 文件 | 作用 |
@@ -93,6 +105,8 @@ AI 不可以：
 | `prospective_factor_snapshot.py` | 冻结因子的未来影子快照 |
 | `strategy_*` | 组合、策略、怀疑者审计与导出层 |
 | `tests/` | 数据边界、审计逻辑和完整流程测试 |
+| `CURRENT_BASELINE.json` | 机器可读的当前 Python 与测试数量基线 |
+| `.github/workflows/ci.yml` | 每次提交的独立锁定依赖测试 |
 | `FACTORY_MASTER_ROADMAP.md` | 当前目标、完成项、阻塞项和长期路线 |
 
 ## 快速验证
@@ -103,11 +117,21 @@ AI 不可以：
 git clone https://github.com/qniequn-boop/btclab-factor-factory-public.git
 cd btclab-factor-factory-public
 python -m venv .venv
-python -m pip install -r requirements.txt
+python -m pip install --require-hashes -r requirements.txt
 python -m pytest -q
 ```
 
 仓库不包含行情缓存、运行日志、交易所密钥、云凭证或服务器配置值。部分完整研究流程需要自行获取公开市场数据。
+
+## 依赖版本政策
+
+- `requirements.in` 保存直接依赖允许使用的版本范围。
+- `requirements.txt` 是生成的锁文件，固定直接和间接依赖的精确版本及包哈希。
+- CI 只在 Python 3.11 下按照哈希锁文件安装依赖。
+- Dependabot 每周提出依赖和 GitHub Actions 更新请求。
+- 更新不会自动合并，只有通过完整 CI 基线后才允许接受。
+
+这样既保证普通运行可以复现，也不会让项目永远停留在旧依赖上。
 
 ## 推荐阅读顺序
 
@@ -133,3 +157,4 @@ python -m pytest -q
 ## 研究声明
 
 本项目仅用于教育、研究和方法讨论，不构成投资建议。任何历史收益、统计关系或候选状态都不代表未来表现。使用者应独立验证数据、代码、交易成本、法律要求和风险承受能力。
+源代码依据 [MIT License](./LICENSE) 公开。

@@ -2,6 +2,9 @@
 
 **Language:** **English** | [简体中文](./README.zh-CN.md)
 
+[![CI](https://github.com/qniequn-boop/btclab-factor-factory-public/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/qniequn-boop/btclab-factor-factory-public/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 > A literature-constrained, audit-first research project for crypto
 > cross-sectional factors.
 
@@ -93,6 +96,17 @@ This does not mean the project has produced a deployable strategy. It remains
 in the research and prospective-evidence stage. There is no return guarantee,
 and the repository should not be used as a reason to deploy capital.
 
+### Which test count is current?
+
+The source of truth is the latest successful `CI` run on `main`, together with
+`CURRENT_BASELINE.json`. The current baseline declares 294 collected tests on
+Python 3.11. CI reports the collected, passed, failed, errored, and skipped
+counts for every commit and fails if the collected count does not match the
+declared baseline.
+
+Counts such as 274 and 278 in `FACTORY_MASTER_ROADMAP.md` are retained as
+historical development milestones. They are not competing current baselines.
+
 ## Code Map
 
 | File | Purpose |
@@ -106,6 +120,8 @@ and the repository should not be used as a reason to deploy capital.
 | `prospective_factor_snapshot.py` | Future shadow snapshots for frozen factors |
 | `strategy_*` | Combination, strategy, skeptic audit, and export layers |
 | `tests/` | Data boundaries, audit behavior, and end-to-end tests |
+| `CURRENT_BASELINE.json` | Machine-readable current Python and test-count baseline |
+| `.github/workflows/ci.yml` | Independent locked-dependency test run for every commit |
 | `FACTORY_MASTER_ROADMAP.md` | Goals, completed work, blockers, and long-term roadmap |
 
 ## Quick Validation
@@ -116,13 +132,26 @@ Python 3.11 is recommended:
 git clone https://github.com/qniequn-boop/btclab-factor-factory-public.git
 cd btclab-factor-factory-public
 python -m venv .venv
-python -m pip install -r requirements.txt
+python -m pip install --require-hashes -r requirements.txt
 python -m pytest -q
 ```
 
 The repository does not contain market-data caches, ordinary runtime logs,
 exchange keys, cloud credentials, or server configuration values. Some full
 research workflows require users to acquire public market data independently.
+
+## Dependency Policy
+
+- `requirements.in` contains bounded ranges for direct dependencies.
+- `requirements.txt` is a generated lock containing exact direct and transitive
+  versions plus package hashes.
+- CI installs only the hashed lock under Python 3.11.
+- Dependabot proposes dependency and GitHub Actions updates weekly.
+- Updates are not merged automatically. A proposed update must pass the full CI
+  baseline before it can be accepted.
+
+This keeps normal runs reproducible without freezing the project permanently on
+old packages.
 
 ## Suggested Reading Order
 
@@ -166,4 +195,4 @@ This project is for education, research, and methodological discussion only.
 It is not investment advice. Historical returns, statistical relationships,
 and candidate statuses do not imply future performance. Users must
 independently verify data, code, trading costs, legal requirements, and their
-own risk tolerance.
+own risk tolerance. The source code is available under the [MIT License](./LICENSE).
