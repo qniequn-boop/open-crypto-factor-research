@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "batch_id": "literature_replication_004_perp_pair_hysteresis",
+  "frozen_at_utc": "2026-07-15T16:54:37Z",
+  "status": "frozen_before_evaluation",
+  "evaluation_end_utc": "2026-07-11T23:00:00Z",
+  "replication_id": "GORNALL_PERP_BASIS_MECHANISM",
+  "source_ids": [
+    "PERP_FUNDING_BASIS",
+    "TRANSACTION_COST_MITIGATION"
+  ],
+  "claim_level": "cost_mitigation_followup_to_frozen_batch_003",
+  "parent_evidence": {
+    "batch_id": "literature_replication_003_perp_spot_carry_mechanism",
+    "report": "logs/panel_literature_replication_20260715T164620Z.json",
+    "result": "six_of_six_historical_mechanism_reject",
+    "failure_route": "gross_pair_payoff_positive_but_daily_two_leg_turnover_cost_dominant"
+  },
+  "claim_prohibited": [
+    "new_factor_direction",
+    "optimized_hysteresis_band",
+    "standalone_perpetual_return_factor",
+    "panel_factor_pass_from_historical_results",
+    "capital_deployment"
+  ],
+  "source_design": {
+    "economic_signal": "unchanged from Batch 003",
+    "execution_method": "Novy-Marx and Velikov sS buy-hold spread",
+    "entry_rule": "open only in the most extreme 10 percent of the positive signal cross-section",
+    "hold_rules": "retain an existing pair while it remains in the most extreme 20 percent or 50 percent",
+    "why_two_rules": "the source predeclares 10/20 for mid-turnover and 10/50 for high-turnover portfolios",
+    "outcome_optimized_parameters": false
+  },
+  "hypotheses": {
+    "positive_basis": "The frozen positive-basis pair mechanism may become net positive when an sS buy-hold spread reduces two-leg turnover without changing the signal sign.",
+    "positive_trailing_funding": "The frozen trailing-funding pair mechanism may become net positive when persistent positions amortize two-leg execution costs.",
+    "basis_funding_alignment": "The frozen aligned basis-funding pair mechanism may become net positive under literature-prescribed trading hysteresis."
+  },
+  "frozen_implementation": {
+    "bar": "1H",
+    "bars_per_day": 24,
+    "formation_hour_utc": 0,
+    "execution_lag_bars": 1,
+    "holding_hours": 24,
+    "funding_lookback_hours": 24,
+    "funding_information_lag_bars": 1,
+    "minimum_signal_assets": 5,
+    "pair_gross_exposure": 1.0,
+    "spot_leg_gross_exposure": 0.5,
+    "perp_leg_gross_exposure": 0.5,
+    "perp_direction": "short",
+    "spot_direction": "long",
+    "cost_bps_one_way_per_leg": 5,
+    "slippage_bps_one_way_per_leg": 2,
+    "real_sparse_funding_payments": true,
+    "fixed_funding_schedule_assumed": false,
+    "missing_returns_while_held_are_failures": true,
+    "minimum_ic_assets": 5,
+    "minimum_is_valid_formations": 120,
+    "minimum_val_valid_formations": 40,
+    "newey_west_max_lag_days": 7,
+    "rolling_window_days": 90,
+    "minimum_positive_rolling_fraction": 0.5,
+    "maximum_mean_hourly_two_leg_turnover": 0.1,
+    "holdout_daily_sharpe_floor": -0.25,
+    "holdout_max_drawdown": 0.2
+  },
+  "paths": [
+    {
+      "path_id": "perp_pair_positive_basis__ss10_20_v1",
+      "signal": "positive_basis",
+      "weighting_policy": "hysteresis_ss",
+      "entry_fraction": 0.1,
+      "hold_fraction": 0.2
+    },
+    {
+      "path_id": "perp_pair_positive_basis__ss10_50_v1",
+      "signal": "positive_basis",
+      "weighting_policy": "hysteresis_ss",
+      "entry_fraction": 0.1,
+      "hold_fraction": 0.5
+    },
+    {
+      "path_id": "perp_pair_positive_trailing_funding__ss10_20_v1",
+      "signal": "positive_trailing_funding",
+      "weighting_policy": "hysteresis_ss",
+      "entry_fraction": 0.1,
+      "hold_fraction": 0.2
+    },
+    {
+      "path_id": "perp_pair_positive_trailing_funding__ss10_50_v1",
+      "signal": "positive_trailing_funding",
+      "weighting_policy": "hysteresis_ss",
+      "entry_fraction": 0.1,
+      "hold_fraction": 0.5
+    },
+    {
+      "path_id": "perp_pair_basis_funding_alignment__ss10_20_v1",
+      "signal": "basis_funding_alignment",
+      "weighting_policy": "hysteresis_ss",
+      "entry_fraction": 0.1,
+      "hold_fraction": 0.2
+    },
+    {
+      "path_id": "perp_pair_basis_funding_alignment__ss10_50_v1",
+      "signal": "basis_funding_alignment",
+      "weighting_policy": "hysteresis_ss",
+      "entry_fraction": 0.1,
+      "hold_fraction": 0.5
+    }
+  ],
+  "primary_endpoint": "net IS and Validation pair return after actual turnover, both-leg costs, and sparse realized funding",
+  "secondary_endpoints": [
+    "turnover reduction versus the corresponding Batch 003 path",
+    "preservation of gross price convergence and funding receipts",
+    "daily net return Newey-West inference",
+    "rolling 90-day stability",
+    "missing return evidence while held"
+  ],
+  "selection_policy": {
+    "is_and_validation_select": true,
+    "family_fdr_covers_all_six_new_paths": true,
+    "prior_batch_trials_remain_in_global_trial_registry": true,
+    "weak_positive_clue_authorizes": "prospective_shadow_clue_only",
+    "holdout_access": "only_after_positive_is_validation_economics_hac_fdr_and_rolling_checks",
+    "holdout_feedback_to_ai": false,
+    "family_freeze_rule": "freeze_perp_basis_funding_after_this_batch_if_no_net_clue"
+  },
+  "locked_inputs": {
+    "universe_registry_sha256": "4f13f56903e4f8c9b32a868cb86f167ccf671e5b5f94d54a2dc20eb8494ffb9c",
+    "literature_registry_sha256": "559cae232d3f42ef92a3474c7774a30fe90fba6c50315acd1b7b2a21bcd4db99",
+    "market_cap_audit_sha256": "f25631895c248db1a0284791dc6942bbe361d65b67dafde2c7fff7f72b33bb38"
+  },
+  "locked_code": {
+    "panel_literature_replication_sha256": "20e054c3c4fc9d57c6f186271f9e538cc4e68e8ab58f2060fe7a2a065badd094",
+    "panel_factor_research_sha256": "028fb361261041c01d3b5b2d51ffbbb5f2c44bb64b52bcbf233851fafb5bc586",
+    "panel_gate_calibration_sha256": "64211a3fa5d8727863522e5c5fc14314e155eeb76f6ae2dddbbf8156abc7bfd7",
+    "panel_gate_policy_v3_sha256": "7eb24737ff0812d87ce5032068b95672839fbb18a6c64d643221e3b4d9bc3ba6"
+  },
+  "known_deviations_and_claim_limits": [
+    "The sS percentages come from equity portfolios and are a crypto-pair execution adaptation.",
+    "No band was selected using our IS, Validation, or audit-split performance.",
+    "The current-live registered pool remains survivorship conditioned.",
+    "Borrowing rates, exchange counterparty risk, liquidation paths, and market impact remain incomplete."
+  ]
+}

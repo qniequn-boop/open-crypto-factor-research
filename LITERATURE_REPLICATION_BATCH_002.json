@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "batch_id": "literature_replication_002_zaremba_daily_liquid_momentum",
+  "frozen_at_utc": "2026-07-15T11:50:00Z",
+  "status": "frozen_before_evaluation",
+  "evaluation_end_utc": "2026-07-14T23:00:00Z",
+  "replication_id": "ZAREMBA_DAILY_LIQUIDITY_CONDITIONAL",
+  "claim_level": "source_constrained_large_liquid_perpetual_universe_adaptation",
+  "claim_prohibited": [
+    "exact_replication_of_original_broad_spot_universe",
+    "evidence_about_the_source_papers_illiquid_majority_reversal",
+    "panel_factor_pass_from_historical_results"
+  ],
+  "source_design": {
+    "signal": "previous-day log return",
+    "formation": "daily",
+    "conditioning": "largest 2 percent by market cap and most liquid 2 percent by trailing 20-week Amihud illiquidity are examined separately",
+    "within_segment_sort": "five portfolios by previous-day return",
+    "weighting": "equal-weighted and market-cap value-weighted reported separately",
+    "forward_horizon": "one day",
+    "direction": "long highest prior-day return and short lowest prior-day return in the large or liquid segment"
+  },
+  "frozen_implementation": {
+    "bar": "1H",
+    "bars_per_day": 24,
+    "formation_hour_utc": 0,
+    "signal_lookback_hours": 24,
+    "execution_lag_bars": 1,
+    "holding_hours": 24,
+    "segment_asset_count": 20,
+    "segment_adaptation": "match the source large-group absolute breadth of about 23 assets; the source 2 percent cutoff is infeasible in a 40-asset eligible panel",
+    "amihud_lookback_days": 140,
+    "liquidity_information_lag_days": 1,
+    "market_cap_information_lag_days": 1,
+    "side_fraction": 0.2,
+    "side_gross_exposure": 0.5,
+    "factor_layer_leverage": 1.0,
+    "cost_bps_one_way": 5,
+    "slippage_bps_one_way": 2,
+    "real_sparse_funding_payments": true,
+    "missing_returns_while_held_are_failures": true,
+    "newey_west_max_lag_days": 7,
+    "minimum_valid_formations": 365,
+    "maximum_mean_hourly_turnover": 0.1
+  },
+  "paths": [
+    {
+      "path_id": "zaremba_daily_momentum__largest20__equal_weighted",
+      "segment": "largest_by_point_in_time_market_cap",
+      "weighting_mode": "equal_weighted",
+      "minimum_assets": 20
+    },
+    {
+      "path_id": "zaremba_daily_momentum__largest20__value_weighted",
+      "segment": "largest_by_point_in_time_market_cap",
+      "weighting_mode": "point_in_time_market_cap_value_weighted",
+      "minimum_assets": 20
+    },
+    {
+      "path_id": "zaremba_daily_momentum__most_liquid20__equal_weighted",
+      "segment": "most_liquid_by_lagged_20_week_amihud",
+      "weighting_mode": "equal_weighted",
+      "minimum_assets": 20
+    },
+    {
+      "path_id": "zaremba_daily_momentum__most_liquid20__value_weighted",
+      "segment": "most_liquid_by_lagged_20_week_amihud",
+      "weighting_mode": "point_in_time_market_cap_value_weighted",
+      "minimum_assets": 20
+    }
+  ],
+  "primary_endpoint": "daily conditional rank IC with Newey-West mean inference at seven lags",
+  "secondary_endpoints": [
+    "net daily quintile-high-minus-low return with Newey-West mean inference",
+    "daily_sharpe",
+    "turnover",
+    "funding_paid",
+    "rolling_90d_stability",
+    "frozen_holdout_noncollapse"
+  ],
+  "selection_policy": {
+    "validation_selects": false,
+    "all_four_paths_are_preregistered": true,
+    "family_fdr_covers_all_four_paths": true,
+    "holdout_feedback_to_ai": false,
+    "historical_result_can_only_authorize": "prospective_eligible",
+    "historical_result_cannot_authorize": "panel_factor_pass"
+  },
+  "locked_inputs": {
+    "universe_registry_sha256": "4f13f56903e4f8c9b32a868cb86f167ccf671e5b5f94d54a2dc20eb8494ffb9c",
+    "literature_registry_sha256": "ac014fb2939b8b0dd3b7601cf82c5fcc471adb3e72f71302eddf594a2803a23d",
+    "market_cap_audit_sha256": "f25631895c248db1a0284791dc6942bbe361d65b67dafde2c7fff7f72b33bb38"
+  },
+  "locked_code": {
+    "panel_literature_replication_sha256": "af71d6e800ed26d4f6e487b9df696f3fe7b68c1886a18cd4d51ab0ad15cd0ada",
+    "panel_factor_research_sha256": "c60c953b6857de53a3be42bc0f6b7bff834ab988e7462bf25bf79c20185f656c",
+    "panel_gate_calibration_sha256": "64211a3fa5d8727863522e5c5fc14314e155eeb76f6ae2dddbbf8156abc7bfd7",
+    "panel_gate_policy_v3_sha256": "d532d85ff027c4a3e94b6b991bdaf9e07ff097c40bf6b8ae5bf0ebad391c8288"
+  },
+  "known_deviations_from_source": [
+    "survivor-conditioned top-40 perpetual universe instead of more than 3,600 spot cryptocurrencies including the illiquid majority",
+    "top 20 assets match the source large-group absolute breadth rather than its infeasible 2 percent universe fraction",
+    "hourly execution with a one-bar lag replaces an assumed frictionless daily rebalance",
+    "real perpetual funding payments, transaction cost, and slippage are included",
+    "market cap and the 20-week Amihud conditioning variable are delayed before use"
+  ]
+}

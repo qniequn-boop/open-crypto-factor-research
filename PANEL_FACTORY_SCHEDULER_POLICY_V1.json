@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "policy_id": "panel_factory_scheduler_v1_20260716",
+  "max_generation_cycles_per_utc_day": 1,
+  "cooldown_hours": 24,
+  "max_candidates_proposed_per_cycle": 5,
+  "max_candidates_accepted_per_cycle": 3,
+  "max_active_jobs": 1,
+  "one_source_per_cycle": true,
+  "source_selection": "lowest_lifetime_variant_count_then_source_id",
+  "holdout_feedback_to_ai": false,
+  "automatic_admission_changes": false,
+  "run_job_after_freeze": true,
+  "incomplete_intent_requires_manual_review": true,
+  "idle_when_no_source_is_admitted": true
+}

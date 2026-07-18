@@ -1,0 +1,44 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "smoke_basis_carry_001",
+      "source_ids": ["PERP_FUNDING_BASIS"],
+      "hypothesis": "Perpetual contracts with richer spot-perp basis should underperform after costs because the premium reflects crowded leveraged demand.",
+      "family": "carry",
+      "required_fields": ["close", "spot_close", "basis", "funding_cost"],
+      "panel_formula": "basis_carry",
+      "direction": "short",
+      "neutralization": "none",
+      "bucket_policy": "none",
+      "weighting_modes": ["rank_linear"],
+      "generated_by": "manual_smoke"
+    },
+    {
+      "candidate_id": "smoke_vol_managed_momentum_001",
+      "source_ids": ["CRYPTO_MARKET_SIZE_MOMENTUM", "VOL_MANAGED_CRYPTO_MOMENTUM_CARRY"],
+      "hypothesis": "Seven-day momentum should be more useful when scaled by realized volatility because unstable trends carry higher crash risk.",
+      "family": "momentum",
+      "required_fields": ["close", "realized_vol"],
+      "panel_formula": "vol_managed_momentum",
+      "direction": "long",
+      "neutralization": "none",
+      "bucket_policy": "none",
+      "weighting_modes": ["rank_linear"]
+      ,
+      "generated_by": "manual_smoke"
+    },
+    {
+      "candidate_id": "smoke_liquidity_bucket_reversal_001",
+      "source_ids": ["CRYPTO_LIQUIDITY_ILLIQUIDITY"],
+      "hypothesis": "One-day reversal should be evaluated inside liquidity buckets because pooled reversal can be an artifact of liquidity segmentation.",
+      "family": "reversal",
+      "required_fields": ["close", "liquidity_size", "vol_quote"],
+      "panel_formula": "liquidity_bucket_reversal",
+      "direction": "short",
+      "neutralization": "liquidity_bucket",
+      "bucket_policy": "liquidity_tercile",
+      "weighting_modes": ["top_bottom_30"],
+      "generated_by": "manual_smoke"
+    }
+  ]
+}

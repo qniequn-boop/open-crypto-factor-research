@@ -1,0 +1,45 @@
+# Python caches and test output
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local Python environments
+venv/
+.venv/
+
+# Runtime data and generated output
+data_cache/
+logs/
+tmp/
+incoming_sync/
+backups/
+*.parquet
+*.feather
+*.arrow
+*.sqlite
+*.sqlite3
+*.db
+*.zip
+*.tar
+*.tar.gz
+
+# Local credentials and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.csv
+*accessKeys.csv
+*access_keys.csv
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini

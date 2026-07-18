@@ -1,0 +1,22 @@
+[Unit]
+Description=BTCLab bounded panel factor factory scheduler
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/btclab
+EnvironmentFile=-/home/ubuntu/btclab/.env
+ExecStart=/home/ubuntu/btclab/run_panel_factory_scheduler.sh
+Nice=10
+TimeoutStartSec=6h
+KillMode=control-group
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+MemoryHigh=1500M
+MemoryMax=2500M
+
+[Install]
+WantedBy=multi-user.target

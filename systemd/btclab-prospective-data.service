@@ -1,0 +1,16 @@
+[Unit]
+Description=BTCLab prospective daily data update
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/btclab
+ExecStart=/home/ubuntu/btclab/run_prospective_data_update.sh
+Nice=10
+MemoryHigh=600M
+MemoryMax=1200M
+
+[Install]
+WantedBy=multi-user.target

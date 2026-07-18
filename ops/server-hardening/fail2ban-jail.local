@@ -1,0 +1,13 @@
+[DEFAULT]
+backend = systemd
+bantime = 1h
+findtime = 10m
+maxretry = 8
+bantime.increment = true
+bantime.factor = 2
+bantime.maxtime = 1d
+
+[sshd]
+enabled = true
+port = ssh
+mode = normal

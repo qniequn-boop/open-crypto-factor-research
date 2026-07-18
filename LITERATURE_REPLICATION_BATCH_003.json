@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "batch_id": "literature_replication_003_perp_spot_carry_mechanism",
+  "frozen_at_utc": "2026-07-15T16:40:41Z",
+  "status": "frozen_before_evaluation",
+  "evaluation_end_utc": "2026-07-11T23:00:00Z",
+  "replication_id": "GORNALL_PERP_BASIS_MECHANISM",
+  "claim_level": "source_constrained_spot_perp_mechanism_adaptation",
+  "claim_prohibited": [
+    "dated_futures_basis_replication",
+    "standalone_perpetual_return_factor",
+    "risk_free_arbitrage",
+    "panel_factor_pass_from_historical_results",
+    "capital_deployment"
+  ],
+  "source_design": {
+    "mechanism": "positive perpetual basis creates convergence pressure through funding transfers from perpetual longs to shorts",
+    "tradable_construction": "long spot and short the matching USDT perpetual",
+    "funding_cashflow": "positive realized funding is received by the short perpetual leg only while held at settlement",
+    "primary_risk": "perpetuals have no maturity, so convergence time is uncertain and temporary basis widening can lose money",
+    "outright_return_sign": "not identified"
+  },
+  "hypotheses": {
+    "positive_basis": "Among positive-basis assets, richer lagged observable perp premiums should offer more two-leg convergence value after costs.",
+    "positive_trailing_funding": "Positive realized funding over the previous 24 hours should persist enough to support net long-spot/short-perp carry after costs.",
+    "basis_funding_alignment": "Assets with both positive basis and positive trailing realized funding should produce cleaner pair returns than either state alone."
+  },
+  "frozen_implementation": {
+    "bar": "1H",
+    "bars_per_day": 24,
+    "formation_hour_utc": 0,
+    "execution_lag_bars": 1,
+    "holding_hours": 24,
+    "funding_lookback_hours": 24,
+    "funding_information_lag_bars": 1,
+    "pair_gross_exposure": 1.0,
+    "spot_leg_gross_exposure": 0.5,
+    "perp_leg_gross_exposure": 0.5,
+    "perp_direction": "short",
+    "spot_direction": "long",
+    "weighting": "equal_weighted_selected_pairs",
+    "cost_bps_one_way_per_leg": 5,
+    "slippage_bps_one_way_per_leg": 2,
+    "real_sparse_funding_payments": true,
+    "fixed_funding_schedule_assumed": false,
+    "missing_returns_while_held_are_failures": true,
+    "minimum_ic_assets": 5,
+    "minimum_is_valid_formations": 120,
+    "minimum_val_valid_formations": 40,
+    "newey_west_max_lag_days": 7,
+    "rolling_window_days": 90,
+    "minimum_positive_rolling_fraction": 0.5,
+    "maximum_mean_hourly_two_leg_turnover": 0.1,
+    "holdout_daily_sharpe_floor": -0.25,
+    "holdout_max_drawdown": 0.2
+  },
+  "paths": [
+    {
+      "path_id": "perp_pair_positive_basis__top5_v1",
+      "signal": "positive_basis",
+      "top_n": 5
+    },
+    {
+      "path_id": "perp_pair_positive_basis__top10_v1",
+      "signal": "positive_basis",
+      "top_n": 10
+    },
+    {
+      "path_id": "perp_pair_positive_trailing_funding__top5_v1",
+      "signal": "positive_trailing_funding",
+      "top_n": 5
+    },
+    {
+      "path_id": "perp_pair_positive_trailing_funding__top10_v1",
+      "signal": "positive_trailing_funding",
+      "top_n": 10
+    },
+    {
+      "path_id": "perp_pair_basis_funding_alignment__top5_v1",
+      "signal": "basis_funding_alignment",
+      "top_n": 5
+    },
+    {
+      "path_id": "perp_pair_basis_funding_alignment__top10_v1",
+      "signal": "basis_funding_alignment",
+      "top_n": 10
+    }
+  ],
+  "primary_endpoint": "IS and Validation net two-leg daily return with Newey-West mean inference after both-leg costs and realized funding",
+  "secondary_endpoints": [
+    "daily cross-sectional rank IC against future pair return",
+    "funding received",
+    "basis-convergence price return",
+    "two-leg turnover and cost",
+    "rolling 90-day stability",
+    "missing return evidence while held"
+  ],
+  "selection_policy": {
+    "is_and_validation_select": true,
+    "family_fdr_covers_all_six_paths": true,
+    "weak_positive_clue_authorizes": "prospective_shadow_clue_only",
+    "holdout_access": "only_after_positive_is_validation_economics_hac_fdr_and_rolling_checks",
+    "holdout_feedback_to_ai": false,
+    "historical_result_cannot_authorize": "capital_or_panel_factor_pass"
+  },
+  "locked_inputs": {
+    "universe_registry_sha256": "4f13f56903e4f8c9b32a868cb86f167ccf671e5b5f94d54a2dc20eb8494ffb9c",
+    "literature_registry_sha256": "939aa7fa10d62a0d9d05a2fb56cec9242e7143947e4cd8d485449270fe5886a8",
+    "market_cap_audit_sha256": "f25631895c248db1a0284791dc6942bbe361d65b67dafde2c7fff7f72b33bb38"
+  },
+  "locked_code": {
+    "panel_literature_replication_sha256": "6add19457a660994f2df16a4a3d996578a5b7b0e6b5b075434116efa43354dff",
+    "panel_factor_research_sha256": "028fb361261041c01d3b5b2d51ffbbb5f2c44bb64b52bcbf233851fafb5bc586",
+    "panel_gate_calibration_sha256": "64211a3fa5d8727863522e5c5fc14314e155eeb76f6ae2dddbbf8156abc7bfd7",
+    "panel_gate_policy_v3_sha256": "7eb24737ff0812d87ce5032068b95672839fbb18a6c64d643221e3b4d9bc3ba6"
+  },
+  "data_evidence": {
+    "panel_data_audit": "logs/panel_data_audit_20260712T115651Z.json",
+    "registered_assets": 50,
+    "median_point_in_time_eligible_assets": 40,
+    "basis_coverage": 0.9999364837398373,
+    "realized_funding_event_count": 111881
+  },
+  "known_deviations_and_claim_limits": [
+    "The current-live registered pool is survivorship conditioned, so historical results cannot be formally promoted.",
+    "The Chi et al. dated-futures basis sign is not transferred to the perpetual outright-return problem.",
+    "Borrowing rates, exchange counterparty risk, liquidation paths, and capital opportunity cost are not fully modeled.",
+    "The test uses lagged realized funding rather than a perfectly known next funding rate.",
+    "Funding interval changes are handled through observed sparse events rather than a fixed eight-hour schedule."
+  ]
+}

@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the bounded BTCLab panel factory scheduler daily
+
+[Timer]
+OnCalendar=*-*-* 01:15:00 UTC
+Persistent=true
+RandomizedDelaySec=10m
+Unit=btclab-panel-factory-scheduler.service
+
+[Install]
+WantedBy=timers.target

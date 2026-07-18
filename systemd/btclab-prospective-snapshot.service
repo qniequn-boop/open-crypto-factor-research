@@ -1,0 +1,16 @@
+[Unit]
+Description=BTCLab prospective universe snapshot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/btclab
+ExecStart=/home/ubuntu/btclab/run_prospective_snapshot.sh
+Nice=10
+MemoryHigh=750M
+MemoryMax=1500M
+
+[Install]
+WantedBy=multi-user.target

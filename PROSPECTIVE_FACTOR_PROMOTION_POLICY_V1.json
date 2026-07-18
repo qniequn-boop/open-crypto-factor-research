@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "policy_id": "prospective_factor_promotion_v1_20260716",
+  "frozen_at_utc": "2026-07-16T13:20:00Z",
+  "applies_to": "frozen_factor_relation_only",
+  "readiness_stages": {
+    "operational_observation": {
+      "min_days": 30,
+      "min_coverage": 0.95
+    },
+    "non_promotional_reaudit": {
+      "min_days": 90,
+      "min_coverage": 0.98
+    },
+    "formal_promotion_audit": {
+      "min_days": 365,
+      "min_coverage": 0.99
+    }
+  },
+  "formal_promotion_gate": {
+    "primary_endpoint": "daily_net_low_minus_high_spot_return_under_the_frozen_contract",
+    "required_checks": {
+      "cumulative_net_return_min": 0.0,
+      "one_sided_newey_west_pvalue_max": 0.1,
+      "newey_west_max_lag_days": 31,
+      "max_drawdown_max": 0.25,
+      "positive_calendar_quarter_fraction_min": 0.5,
+      "positive_rolling_90d_fraction_min": 0.5,
+      "cost_stress_multiplier": 1.5,
+      "cost_stressed_cumulative_net_return_min": 0.0,
+      "snapshot_integrity_required": true,
+      "same_day_formal_universe_snapshot_required": true,
+      "formula_or_direction_change_allowed": false,
+      "selection_feedback_allowed": false
+    },
+    "multiplicity_policy": "one_frozen_preregistered_path; any additional eligible path requires a new policy-bound track and family correction",
+    "failed_check_policy": "any_required_check_failure_blocks_factor_promotion",
+    "allowed_outcome": "panel_factor_promoted_for_combo_research_only",
+    "prohibited_outcomes": [
+      "strategy_pass",
+      "paper_trading_pass",
+      "capital_deployment",
+      "perpetual_execution_profitability"
+    ]
+  },
+  "change_control": {
+    "retroactive_policy_change_allowed": false,
+    "future_policy_versions_must_use_new_track_ids": true,
+    "missing_or_incomplete_days_may_be_backfilled": false
+  },
+  "rationale": "The factor gate is deliberately moderate because promotion only permits combo research. Strategy, paper-trading, execution, and capital gates remain separate and stricter."
+}

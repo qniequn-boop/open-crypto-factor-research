@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BTCLab AI 因子研究工厂：底层原理</title>
+  <style>
+    :root {
+      --ink: #18212b;
+      --muted: #647181;
+      --paper: #f4f6f9;
+      --card: #ffffff;
+      --line: #dce2e9;
+      --input: #147d82;
+      --input-soft: #e7f5f4;
+      --ai: #6f55a4;
+      --ai-soft: #f0ebf8;
+      --freeze: #3569b6;
+      --freeze-soft: #eaf1fb;
+      --audit: #d06b32;
+      --audit-soft: #fbefe7;
+      --gate: #be4657;
+      --gate-soft: #f9e9ec;
+      --future: #27845b;
+      --future-soft: #e9f5ee;
+      --current: #495666;
+      --current-soft: #eef1f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #e8ecf1;
+      font-family: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+
+    #stage {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: center center;
+      background: var(--paper);
+      overflow: hidden;
+    }
+
+    #stage::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border: 1px solid #e0e5eb;
+      pointer-events: none;
+    }
+
+    .masthead {
+      position: absolute;
+      left: 52px;
+      top: 34px;
+      right: 52px;
+      height: 78px;
+      border-bottom: 1px solid #d9dfe6;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      z-index: 5;
+    }
+
+    .masthead h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    .masthead p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .legend {
+      display: none;
+      gap: 10px;
+      align-items: center;
+      margin-top: 7px;
+      color: #44515e;
+      font-size: 12px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+    }
+
+    .legend-dot.green { background: #27845b; }
+    .legend-dot.amber { background: #d06b32; }
+    .legend-dot.red { background: #be4657; }
+    .legend-dot.gray { background: #7d8895; }
+
+    .north-star {
+      position: absolute;
+      left: 710px;
+      top: 33px;
+      width: 1158px;
+      height: 72px;
+      z-index: 4;
+      background: #202b36;
+      color: #ffffff;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 1fr 34px 1fr 34px 1fr 34px 1fr;
+      align-items: center;
+      padding: 0 28px;
+      box-shadow: 0 8px 18px rgba(24, 33, 43, 0.10);
+    }
+
+    .north-star .step {
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .north-star .step small {
+      display: block;
+      font-size: 11px;
+      color: #c9d2dc;
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    .north-star .arrow {
+      text-align: center;
+      color: #9da9b5;
+      font-size: 21px;
+      font-weight: 400;
+    }
+
+    .connectors {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .branch-path {
+      fill: none;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.85;
+      transition: opacity 160ms ease, stroke-width 160ms ease;
+    }
+
+    .branch-path.input { stroke: var(--input); }
+    .branch-path.ai { stroke: var(--ai); }
+    .branch-path.freeze { stroke: var(--freeze); }
+    .branch-path.audit { stroke: var(--audit); }
+    .branch-path.gate { stroke: var(--gate); }
+    .branch-path.future { stroke: var(--future); }
+    .branch-path.current { stroke: var(--current); }
+
+    .connector-dot { stroke: #ffffff; stroke-width: 4; }
+
+    .center-node {
+      position: absolute;
+      left: 720px;
+      top: 340px;
+      width: 480px;
+      height: 304px;
+      z-index: 4;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 2px solid #222e39;
+      box-shadow: 0 16px 36px rgba(29, 40, 52, 0.14);
+      padding: 24px 28px;
+      text-align: center;
+    }
+
+    .center-kicker {
+      display: inline-block;
+      color: #ffffff;
+      background: #26323e;
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .center-node h2 {
+      margin: 13px 0 6px;
+      font-size: 28px;
+      line-height: 1.22;
+      font-weight: 850;
+    }
+
+    .center-node .definition {
+      color: #5a6673;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0 auto 16px;
+      max-width: 390px;
+    }
+
+    .logic-chain {
+      height: 64px;
+      display: grid;
+      grid-template-columns: 1fr 20px 1fr 20px 1fr 20px 1fr;
+      align-items: stretch;
+      gap: 2px;
+      margin-top: 10px;
+    }
+
+    .logic-box {
+      border: 1px solid #d6dde4;
+      background: #f7f9fb;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .logic-box small {
+      display: block;
+      color: #6c7884;
+      font-weight: 500;
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .logic-arrow {
+      color: #8b96a1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .center-rule {
+      margin-top: 15px;
+      border-top: 1px solid #e0e5ea;
+      padding-top: 11px;
+      color: #26323e;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .branch-card {
+      position: absolute;
+      z-index: 3;
+      width: 520px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-top: 6px solid var(--accent);
+      border-radius: 8px;
+      box-shadow: 0 8px 22px rgba(24, 33, 43, 0.08);
+      padding: 18px 20px 17px;
+      transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+    }
+
+    .branch-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 13px 28px rgba(24, 33, 43, 0.13);
+    }
+
+    .branch-card.input { --accent: var(--input); --soft: var(--input-soft); left: 52px; top: 126px; height: 258px; }
+    .branch-card.ai { --accent: var(--ai); --soft: var(--ai-soft); left: 52px; top: 409px; height: 280px; }
+    .branch-card.freeze { --accent: var(--freeze); --soft: var(--freeze-soft); left: 52px; top: 714px; height: 310px; }
+    .branch-card.audit { --accent: var(--audit); --soft: var(--audit-soft); right: 52px; top: 126px; height: 306px; }
+    .branch-card.gate { --accent: var(--gate); --soft: var(--gate-soft); right: 52px; top: 457px; height: 232px; }
+    .branch-card.future { --accent: var(--future); --soft: var(--future-soft); right: 52px; top: 714px; height: 310px; }
+
+    .branch-head {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 13px;
+    }
+
+    .branch-number {
+      flex: 0 0 auto;
+      width: 33px;
+      height: 33px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .branch-title {
+      font-size: 20px;
+      line-height: 1.2;
+      font-weight: 850;
+    }
+
+    .branch-title small {
+      display: block;
+      color: #6a7581;
+      font-size: 10px;
+      font-weight: 600;
+      margin: 3px 0 0;
+    }
+
+    .leaf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .leaf {
+      background: var(--soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      min-height: 67px;
+      padding: 9px 11px 8px;
+    }
+
+    .leaf.wide { grid-column: 1 / -1; }
+
+    .leaf b {
+      display: block;
+      font-size: 13px;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .leaf span {
+      color: #53606e;
+      display: block;
+      font-size: 11px;
+      line-height: 1.42;
+    }
+
+    .plain-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .plain-row {
+      display: grid;
+      grid-template-columns: 128px 1fr;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+      border-bottom: 1px solid #e7ebef;
+      padding-bottom: 7px;
+    }
+
+    .plain-row:last-child { border-bottom: 0; padding-bottom: 0; }
+
+    .plain-row b {
+      color: var(--accent);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .plain-row span {
+      color: #4f5d6b;
+      font-size: 11px;
+      line-height: 1.42;
+    }
+
+    .gate-stack {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 9px;
+    }
+
+    .gate-box {
+      border: 1px solid #e4c8ce;
+      border-radius: 6px;
+      padding: 10px 9px;
+      min-height: 85px;
+      text-align: center;
+      background: #fffafb;
+    }
+
+    .gate-box b {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .gate-box span {
+      display: block;
+      color: #67727d;
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .gate-footer {
+      margin-top: 10px;
+      background: var(--gate-soft);
+      border-radius: 6px;
+      padding: 8px 11px;
+      color: #7f2f3c;
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .future-track {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: start;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .branch-card.audit { height: 320px; }
+    .branch-card.future .branch-title { font-size: 18px; }
+
+    .future-step {
+      position: relative;
+      min-height: 102px;
+      text-align: center;
+      padding: 9px 5px;
+      border-radius: 6px;
+      border: 1px solid #cfe4d8;
+      background: #f8fcfa;
+    }
+
+    .future-step:not(:last-child)::after {
+      content: ">";
+      position: absolute;
+      right: -8px;
+      top: 39px;
+      color: var(--future);
+      font-size: 14px;
+      font-weight: 900;
+      z-index: 2;
+    }
+
+    .future-step b {
+      display: block;
+      color: #1f6b49;
+      font-size: 11px;
+      line-height: 1.25;
+      margin-bottom: 5px;
+    }
+
+    .future-step span {
+      display: block;
+      color: #647267;
+      font-size: 9.5px;
+      line-height: 1.35;
+    }
+
+    .future-note {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .future-note div {
+      padding: 9px 10px;
+      border-radius: 6px;
+      background: var(--future-soft);
+      color: #365d49;
+      font-size: 10.5px;
+      line-height: 1.4;
+    }
+
+    .current-panel {
+      position: absolute;
+      z-index: 4;
+      left: 610px;
+      top: 704px;
+      width: 700px;
+      height: 320px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid #cfd6de;
+      border-top: 6px solid var(--current);
+      box-shadow: 0 10px 25px rgba(24, 33, 43, 0.09);
+      padding: 17px 20px;
+    }
+
+    .current-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 11px;
+    }
+
+    .current-head h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .status-pill {
+      border: 1px solid #2e805a;
+      color: #216343;
+      background: #edf8f1;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .current-summary {
+      color: #4c5967;
+      font-size: 11px;
+      line-height: 1.45;
+      margin-bottom: 11px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 11px;
+    }
+
+    .metric {
+      border: 1px solid #dce2e8;
+      background: #f8fafb;
+      border-radius: 6px;
+      text-align: center;
+      padding: 8px 4px;
+    }
+
+    .metric b {
+      display: block;
+      font-size: 16px;
+      line-height: 1.15;
+      color: #26323e;
+    }
+
+    .metric span {
+      display: block;
+      font-size: 9.5px;
+      color: #6a7682;
+      margin-top: 4px;
+    }
+
+    .truth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .truth {
+      border-radius: 6px;
+      padding: 10px 11px;
+      min-height: 80px;
+    }
+
+    .truth.good { background: #eaf6ef; border-left: 4px solid #27845b; }
+    .truth.risk { background: #faecee; border-left: 4px solid #be4657; }
+
+    .truth b {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .truth span {
+      color: #52606d;
+      font-size: 10px;
+      line-height: 1.42;
+      display: block;
+    }
+
+    .footer-rule {
+      position: absolute;
+      z-index: 5;
+      left: 641px;
+      bottom: 26px;
+      width: 638px;
+      text-align: center;
+      color: #6b7681;
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    body.focus .branch-card,
+    body.focus .current-panel,
+    body.focus .branch-path { opacity: 0.23; }
+
+    body.focus .branch-card.active,
+    body.focus .current-panel.active,
+    body.focus .branch-path.active { opacity: 1; }
+
+    body.focus .branch-path.active { stroke-width: 11; }
+
+    @media print {
+      html, body { width: 1920px; height: 1080px; background: #ffffff; }
+      #stage { left: 0; top: 0; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main id="stage" aria-label="BTCLab AI 因子研究工厂思维导图">
+    <header class="masthead">
+      <div>
+        <h1>BTCLab AI 因子研究工厂：底层原理</h1>
+        <p>目标不是制造漂亮回测，而是建立一套不容易被假 Alpha（虚假超额收益）欺骗的研究制度</p>
+      </div>
+      <div class="legend" aria-label="状态图例">
+        <span class="legend-item"><i class="legend-dot green"></i>证据正在积累</span>
+        <span class="legend-item"><i class="legend-dot amber"></i>历史审计</span>
+        <span class="legend-item"><i class="legend-dot red"></i>淘汰与禁区</span>
+        <span class="legend-item"><i class="legend-dot gray"></i>尚未解锁</span>
+      </div>
+    </header>
+
+    <section class="north-star" aria-label="工厂总原则">
+      <div class="step">Literature（文献）<small>告诉我们为什么可能有效</small></div>
+      <div class="arrow">&gt;</div>
+      <div class="step">AI Candidate（AI 候选）<small>把机制变成可证伪公式</small></div>
+      <div class="arrow">&gt;</div>
+      <div class="step">Audit（审计）<small>系统决定留下还是淘汰</small></div>
+      <div class="arrow">&gt;</div>
+      <div class="step">Future Evidence（未来证据）<small>市场最终决定真假</small></div>
+    </section>
+
+    <svg class="connectors" viewBox="0 0 1920 1080" aria-hidden="true">
+      <path class="branch-path input" data-branch="input" d="M 735 420 C 650 385, 640 275, 572 255" />
+      <path class="branch-path ai" data-branch="ai" d="M 720 485 C 645 485, 635 535, 572 548" />
+      <path class="branch-path freeze" data-branch="freeze" d="M 738 590 C 650 650, 645 810, 572 850" />
+      <path class="branch-path audit" data-branch="audit" d="M 1185 420 C 1275 370, 1285 280, 1348 275" />
+      <path class="branch-path gate" data-branch="gate" d="M 1200 488 C 1270 490, 1287 560, 1348 570" />
+      <path class="branch-path future" data-branch="future" d="M 1182 590 C 1270 655, 1280 815, 1348 850" />
+      <path class="branch-path current" data-branch="current" d="M 960 644 C 960 665, 960 680, 960 704" />
+      <circle class="connector-dot" cx="572" cy="255" r="8" fill="#147d82" />
+      <circle class="connector-dot" cx="572" cy="548" r="8" fill="#6f55a4" />
+      <circle class="connector-dot" cx="572" cy="850" r="8" fill="#3569b6" />
+      <circle class="connector-dot" cx="1348" cy="275" r="8" fill="#d06b32" />
+      <circle class="connector-dot" cx="1348" cy="570" r="8" fill="#be4657" />
+      <circle class="connector-dot" cx="1348" cy="850" r="8" fill="#27845b" />
+      <circle class="connector-dot" cx="960" cy="704" r="8" fill="#495666" />
+    </svg>
+
+    <section class="center-node" aria-label="中心目标">
+      <span class="center-kicker">核心问题</span>
+      <h2>一个规律，凭什么能赚钱？</h2>
+      <p class="definition">Alpha（超额收益）必须从可解释的市场机制出发，经过可测信号、跨资产因子和真实执行，最后在未来数据中继续存在。</p>
+      <div class="logic-chain">
+        <div class="logic-box">Mechanism<small>市场机制</small></div>
+        <div class="logic-arrow">&gt;</div>
+        <div class="logic-box">Signal<small>可测信号</small></div>
+        <div class="logic-arrow">&gt;</div>
+        <div class="logic-box">Factor<small>资产打分</small></div>
+        <div class="logic-arrow">&gt;</div>
+        <div class="logic-box">Strategy<small>可执行策略</small></div>
+      </div>
+      <div class="center-rule">工厂负责减少自欺，市场负责给出最终答案</div>
+    </section>
+
+    <section class="branch-card input" data-branch="input">
+      <div class="branch-head">
+        <span class="branch-number">1</span>
+        <div class="branch-title">Input（研究原料）<small>先保证问题值得研究</small></div>
+      </div>
+      <div class="leaf-grid">
+        <div class="leaf">
+          <b>Literature（文献证据）</b>
+          <span>站在前人肩膀上：来源、机制、预期方向和失败条件都要登记。</span>
+        </div>
+        <div class="leaf">
+          <b>Panel Data（面板数据）</b>
+          <span>资产 × 时间的统一数据表，让同一天的多个币可以公平比较。</span>
+        </div>
+        <div class="leaf">
+          <b>Point-in-Time（当时可见）</b>
+          <span>只使用那个时点已经知道的信息，禁止未来数据穿越。</span>
+        </div>
+        <div class="leaf">
+          <b>Friction（交易摩擦）</b>
+          <span>手续费、滑点、Funding（资金费率）、借币和换手都算进结果。</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="branch-card ai" data-branch="ai">
+      <div class="branch-head">
+        <span class="branch-number">2</span>
+        <div class="branch-title">AI Research Assistant（AI 研究助理）<small>提出候选，不当裁判</small></div>
+      </div>
+      <div class="plain-list">
+        <div class="plain-row"><b>Hypothesis Registry<br>（假设注册表）</b><span>AI 只能从已登记文献机制出发，不能凭空编一个“看起来会涨”的指标。</span></div>
+        <div class="plain-row"><b>Candidate Schema<br>（候选格式）</b><span>每个候选必须写清公式、字段、方向、中性化、权重和来源。</span></div>
+        <div class="plain-row"><b>Research Budget<br>（研究预算）</b><span>每轮候选数量和同族变体有限，防止无限试参数直到碰巧成功。</span></div>
+        <div class="plain-row"><b>Critic / Red Team<br>（批评者 / 红队）</b><span>独立角色专门寻找泄漏、重复、错误方向和不成立的经济解释。</span></div>
+      </div>
+    </section>
+
+    <section class="branch-card freeze" data-branch="freeze">
+      <div class="branch-head">
+        <span class="branch-number">3</span>
+        <div class="branch-title">Pre-registration（预注册与冻结）<small>先立规则，再看答案</small></div>
+      </div>
+      <div class="leaf-grid">
+        <div class="leaf">
+          <b>Frozen Batch（冻结批次）</b>
+          <span>公式、样本边界、成本和阈值先写入文件，评估后不能原地修改。</span>
+        </div>
+        <div class="leaf">
+          <b>Hash（内容指纹）</b>
+          <span>代码、数据、报告和政策都有 SHA-256 指纹，改一个字都会被发现。</span>
+        </div>
+        <div class="leaf">
+          <b>Trial Registry（试验总账）</b>
+          <span>成功、失败、语法拒绝都记账；试得越多，多重检验惩罚越重。</span>
+        </div>
+        <div class="leaf">
+          <b>Holdout Firewall（封存防火墙）</b>
+          <span>Holdout（封存审计集）不给 AI 调参，也不能倒推公式。</span>
+        </div>
+        <div class="leaf wide">
+          <b>底层意义：把“灵感”变成一张不可抵赖的实验合同</b>
+          <span>没有冻结，就无法区分真正发现与看完答案以后重新讲故事。</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="branch-card audit" data-branch="audit">
+      <div class="branch-head">
+        <span class="branch-number">4</span>
+        <div class="branch-title">Historical Audit（历史审计）<small>尽可能证伪，而不是帮它通过</small></div>
+      </div>
+      <div class="leaf-grid">
+        <div class="leaf">
+          <b>IS / In-Sample（样本内）</b>
+          <span>确认机制在较早时期至少有基本经济方向，不是从一开始就失效。</span>
+        </div>
+        <div class="leaf">
+          <b>Validation（验证集）</b>
+          <span>用于选择是否继续；收益、RankIC（排序相关性）和稳定性都要过关。</span>
+        </div>
+        <div class="leaf">
+          <b>Holdout（封存审计集）</b>
+          <span>只在前面足够强时打开，用于检查崩塌，不用于重新调参。</span>
+        </div>
+        <div class="leaf">
+          <b>Baseline / Random（基准 / 随机）</b>
+          <span>必须打败朴素动量、反转、随机信号和相反方向等对照。</span>
+        </div>
+        <div class="leaf wide">
+          <b>Robustness（稳健性）</b>
+          <span>滚动窗口、高流动性币、流动性分桶、崩盘期、成本压力和 Multiple Testing（多重检验）共同检查。</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="branch-card gate" data-branch="gate">
+      <div class="branch-head">
+        <span class="branch-number">5</span>
+        <div class="branch-title">Decision Gate（结论闸门）<small>历史只能决定下一步</small></div>
+      </div>
+      <div class="gate-stack">
+        <div class="gate-box">
+          <b>Reject（淘汰）</b>
+          <span>失败即归档；禁止改名、反向或无限变体重试。</span>
+        </div>
+        <div class="gate-box">
+          <b>Clue（研究线索）</b>
+          <span>有方向但证据不足，只能帮助理解，不能进入组合。</span>
+        </div>
+        <div class="gate-box">
+          <b>Prospective Eligible<br>（允许未来观察）</b>
+          <span>历史足够强，只获得“向前走”的资格。</span>
+        </div>
+      </div>
+      <div class="gate-footer">Historical Backtest（历史回测）永远不能直接授权资金</div>
+    </section>
+
+    <section class="branch-card future" data-branch="future">
+      <div class="branch-head">
+        <span class="branch-number">6</span>
+        <div class="branch-title">From Factor to Capital（从因子到资金）<small>每一步只解锁下一步</small></div>
+      </div>
+      <div class="future-track">
+        <div class="future-step"><b>Prospective<br>（未来跟踪）</b><span>30 天看运行<br>90 天再审计<br>365 天才晋级</span></div>
+        <div class="future-step"><b>Promotion<br>（因子晋级）</b><span>只证明因子关系<br>仍不是策略</span></div>
+        <div class="future-step"><b>Combo<br>（多因子组合）</b><span>只组合已晋级<br>且逻辑不同的因子</span></div>
+        <div class="future-step"><b>Paper Trading<br>（纸上交易）</b><span>真实时钟、仓位<br>风控与执行模拟</span></div>
+        <div class="future-step"><b>Tiny Live<br>（极小实盘）</b><span>先验证成交与偏差<br>再谈扩大资金</span></div>
+      </div>
+      <div class="future-note">
+        <div><b>Strategy Layer（策略层）</b><br>把因子分数变成仓位、杠杆、风控、止损、容量和执行规则。</div>
+        <div><b>不可跨级</b><br>因子有效 ≠ 组合有效 ≠ 能成交 ≠ 能长期赚钱。</div>
+      </div>
+    </section>
+
+    <section class="current-panel" data-branch="current">
+      <div class="current-head">
+        <h3>我们当前所在位置：90 日月度低波动因子</h3>
+        <span class="status-pill">Prospective Shadow Strong（强未来观察线索）</span>
+      </div>
+      <div class="current-summary">机制：每月做多过去 90 天波动较低的币，做空波动较高的币。它通过了冻结的历史筛选，因此获得 365 天真实未来跟踪资格，但尚未成为正式因子，更不是策略。</div>
+      <div class="metric-row">
+        <div class="metric"><b>+24.33%</b><span>IS（样本内）净收益</span></div>
+        <div class="metric"><b>+50.71%</b><span>Validation（验证集）净收益</span></div>
+        <div class="metric"><b>+9.53%</b><span>短 Holdout（封存段）净收益</span></div>
+        <div class="metric"><b>0 / 365</b><span>真正未来证据日</span></div>
+      </div>
+      <div class="truth-grid">
+        <div class="truth good">
+          <b>对我们有利的证据</b>
+          <span>冻结后在 223 天短审计段没有崩塌；随机对照、多重检验、高流动性子集和滚动稳定性均给出正面线索。</span>
+        </div>
+        <div class="truth risk">
+          <b>仍然不能忽略的风险</b>
+          <span>IS 最大回撤 45.08%；只有约 40 次月度形成；存在幸存者偏差；真实借币、Funding 和永续执行尚未证明。</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-rule">永久原则：不因没有因子通过而放宽标准；不看 Holdout 调参；不让失败候选改名复活；不让因子结果直接接触资金。</div>
+  </main>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const fitStage = () => {
+      const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    };
+    fitStage();
+    window.addEventListener('resize', fitStage);
+
+    const branchElements = [...document.querySelectorAll('[data-branch]')];
+    const focusBranch = (name) => {
+      document.body.classList.add('focus');
+      branchElements.forEach((item) => item.classList.toggle('active', item.dataset.branch === name));
+    };
+    const clearFocus = () => {
+      document.body.classList.remove('focus');
+      branchElements.forEach((item) => item.classList.remove('active'));
+    };
+    document.querySelectorAll('.branch-card, .current-panel').forEach((card) => {
+      card.addEventListener('mouseenter', () => focusBranch(card.dataset.branch));
+      card.addEventListener('mouseleave', clearFocus);
+    });
+  </script>
+</body>
+</html>

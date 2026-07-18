@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "tracking_registry_id": "panel_factor_tracking_v1_20260713",
+  "created_at_utc": "2026-07-13T16:00:00Z",
+  "policy": {
+    "method": "prequential_frozen_path_observation",
+    "selection_feedback_allowed": false,
+    "candidate_generation_from_shadow_results_allowed": false,
+    "promotion_requires_plan_frozen_before_activation": true,
+    "references": [
+      "Dawid (1984), Statistical Theory: The Prequential Approach",
+      "White (2000), A Reality Check for Data Snooping",
+      "Hansen (2005), A Test for Superior Predictive Ability"
+    ]
+  },
+  "plans": [
+    {
+      "track_id": "oi_crowding_operational_shadow_v1",
+      "status": "deprecated",
+      "purpose": "operational_shadow_only",
+      "activation_date_utc": "2026-07-14",
+      "promotion_eligible": false,
+      "selection_feedback_allowed": false,
+      "candidate_batch_id": "20260713T150601Z",
+      "candidate_batch_path": "logs/panel_candidate_batch_20260713T150601Z.json",
+      "candidate_batch_sha256": "b3125e42addd3738fca73f26d4079fc5adac1f72f91e9a9a5b60d5773d3b700c",
+      "track_contract_sha256": "b0c495402eb3c48e225e77bc4ab9f2196251f76cbc27cbd0e3404a5b57109c28",
+      "baseline_factor_names": [
+        "amihud_illiquidity_7d",
+        "basis_carry",
+        "funding_carry",
+        "liquidity_size",
+        "momentum_7d",
+        "short_reversal_24h"
+      ],
+      "rebalance_hours": 24,
+      "deprecated_at_utc": "2026-07-14T14:05:00Z",
+      "deprecation_reason": "factor exposure accounting changed from leverage-scaled funding only to internally consistent 1x notional accounting",
+      "note": "This batch was operational-only, had zero eligible factor days, and can never supply promotion evidence. It must not be silently migrated to the new accounting contract."
+    },
+    {
+      "track_id": "monthly_low_vol_90d_prospective_v1",
+      "status": "invalidated",
+      "purpose": "promotion_eligible_factor_shadow",
+      "evaluator_type": "monthly_spot_low_vol_v1",
+      "activation_date_utc": "2026-07-17",
+      "end_date_utc": "2026-07-17",
+      "promotion_eligible": false,
+      "promotion_policy_id": "prospective_factor_promotion_v1_20260716",
+      "promotion_policy_path": "PROSPECTIVE_FACTOR_PROMOTION_POLICY_V1.json",
+      "promotion_policy_sha256": "a0daade1b868ccd196fee34b4caa00841cd9061b6ffd13a617c7add525a1bd0c",
+      "selection_feedback_allowed": false,
+      "candidate_batch_id": "literature_replication_005_monthly_low_volatility",
+      "candidate_batch_path": "LITERATURE_REPLICATION_BATCH_005.json",
+      "candidate_batch_sha256": "2cd4eab388bb6fea0baed2882943fdaf5a7317785b13356564a8d6d7dc1f4a4b",
+      "historical_report_path": "logs/panel_literature_replication_batch005_20260716.json",
+      "historical_report_sha256": "a349a667e12e190d8640f566a607ec0b671509def4cab72d4116b672383606e3",
+      "candidate_path_id": "monthly_low_vol_90d__equal_quintile_v1",
+      "track_contract_sha256": "e691001c6bb8e705cdcadc37d7cbbbb714648b227d7d07d24aa9014938428417",
+      "invalidated_at_utc": "2026-07-18T09:17:46Z",
+      "invalidation_reason": "The first eligible snapshot failed closed because the v1 contract fingerprint coupled this factor to unrelated shared-module edits. It produced zero formal factor days and can never be backfilled or reused.",
+      "note": "This failed track remains an immutable audit record. Its 2026-07-17 return is excluded from prospective evidence."
+    },
+    {
+      "track_id": "monthly_low_vol_90d_prospective_v2",
+      "status": "active",
+      "purpose": "promotion_eligible_factor_shadow",
+      "evaluator_type": "monthly_spot_low_vol_v2",
+      "activation_date_utc": "2026-07-18",
+      "promotion_eligible": true,
+      "promotion_policy_id": "prospective_factor_promotion_v1_20260716",
+      "promotion_policy_path": "PROSPECTIVE_FACTOR_PROMOTION_POLICY_V1.json",
+      "promotion_policy_sha256": "a0daade1b868ccd196fee34b4caa00841cd9061b6ffd13a617c7add525a1bd0c",
+      "selection_feedback_allowed": false,
+      "candidate_batch_id": "literature_replication_005_monthly_low_volatility",
+      "candidate_batch_path": "LITERATURE_REPLICATION_BATCH_005.json",
+      "candidate_batch_sha256": "2cd4eab388bb6fea0baed2882943fdaf5a7317785b13356564a8d6d7dc1f4a4b",
+      "historical_report_path": "logs/panel_literature_replication_batch005_20260716.json",
+      "historical_report_sha256": "a349a667e12e190d8640f566a607ec0b671509def4cab72d4116b672383606e3",
+      "candidate_path_id": "monthly_low_vol_90d__equal_quintile_v1",
+      "track_contract_sha256": "6a9dc45e6d6b6e0fe2f141be19ff3c7ec41152f8f0b0b4f18d30d46d5e7aa309",
+      "supersedes_track_id": "monthly_low_vol_90d_prospective_v1",
+      "restart_reason": "Same frozen factor and promotion policy; new track ID is required because v1 recorded zero valid days and its over-broad evaluator contract cannot be changed retroactively.",
+      "note": "Promotion eligibility applies only to future observations from 2026-07-18 under the semantic evaluator contract. No v1 day is carried forward."
+    }
+  ]
+}

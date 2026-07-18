@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "runtime_id": "panel_factory_runtime_20260716",
+  "substrate": {
+    "asset_count": 50,
+    "days": 730,
+    "explicit_as_of_utc": "2026-07-15T23:00:00+00:00",
+    "failure_count": 0,
+    "manifest_file_sha256": "f908c5ca5e707c3aed839a9d26150a80aafdfa6ffe1616f3b889f7cd26940b41",
+    "manifest_payload_sha256": "c7c254a63750eb5ca9765f565f5ff837e3f5d9a5e3eeb798eea2e62b3876b137",
+    "relative_manifest_path": "data_cache/panel_substrates/v1/objects/46e45efdf2579cd3817210dbb06dc5613aed9811aeb9146f7fc0b4e8c6a53d53/manifest.json",
+    "substrate_id": "46e45efdf2579cd3817210dbb06dc5613aed9811aeb9146f7fc0b4e8c6a53d53"
+  }
+}

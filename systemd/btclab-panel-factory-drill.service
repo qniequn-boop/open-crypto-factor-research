@@ -1,0 +1,18 @@
+[Unit]
+Description=BTCLab isolated panel factory unattended drill
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/btclab
+ExecStart=/home/ubuntu/btclab/run_panel_factory_unattended_drill.sh
+Nice=10
+TimeoutStartSec=6h
+KillMode=control-group
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+MemoryHigh=1800M
+MemoryMax=2800M

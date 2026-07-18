@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "batch_id": "literature_replication_001_ltw_cmom",
+  "frozen_at_utc": "2026-07-14T14:10:00Z",
+  "status": "frozen_before_evaluation",
+  "replication_id": "LTW_CMOM_3W_WEEKLY",
+  "claim_level": "method_faithful_perpetual_universe_adaptation",
+  "claim_prohibited": "exact_replication_of_original_spot_universe",
+  "source_design": {
+    "signal": "past three-week return",
+    "formation": "weekly",
+    "sort": "bottom_30_middle_40_top_30",
+    "weighting": "point_in_time_market_cap_value_weighted_within_sides",
+    "forward_horizon": "one_week",
+    "direction": "long_top_short_bottom"
+  },
+  "frozen_implementation": {
+    "bar": "1H",
+    "signal_lookback_hours": 504,
+    "formation_schedule": "Monday 00:00 UTC",
+    "execution_lag_bars": 1,
+    "holding_hours": 168,
+    "market_cap_information_lag_days": 1,
+    "side_fraction": 0.3,
+    "side_gross_exposure": 0.5,
+    "factor_layer_leverage": 1.0,
+    "cost_bps_one_way": 5,
+    "slippage_bps_one_way": 2,
+    "real_sparse_funding_payments": true,
+    "missing_returns_while_held_are_failures": true
+  },
+  "paths": [
+    {
+      "path_id": "ltw_cmom_3w_weekly__registered_panel",
+      "scope": "registered_point_in_time_eligible_panel",
+      "minimum_assets": 20
+    },
+    {
+      "path_id": "ltw_cmom_3w_weekly__above_median_market_cap",
+      "scope": "above_median_point_in_time_market_cap_within_registered_panel",
+      "minimum_assets": 10
+    }
+  ],
+  "primary_endpoint": "weekly_formation_rank_ic_with_nonoverlapping_weekly_mean_tstat",
+  "secondary_endpoints": [
+    "net_long_short_return",
+    "daily_sharpe",
+    "turnover",
+    "funding_paid",
+    "rolling_90d_stability",
+    "frozen_holdout_noncollapse"
+  ],
+  "selection_policy": {
+    "validation_selects": false,
+    "both_paths_are_preregistered": true,
+    "holdout_feedback_to_ai": false,
+    "historical_result_can_only_authorize": "prospective_eligible",
+    "historical_result_cannot_authorize": "panel_factor_pass"
+  },
+  "locked_inputs": {
+    "universe_registry_sha256": "4f13f56903e4f8c9b32a868cb86f167ccf671e5b5f94d54a2dc20eb8494ffb9c",
+    "literature_registry_sha256": "ac014fb2939b8b0dd3b7601cf82c5fcc471adb3e72f71302eddf594a2803a23d",
+    "market_cap_audit_sha256": "f25631895c248db1a0284791dc6942bbe361d65b67dafde2c7fff7f72b33bb38"
+  },
+  "known_deviations_from_source": [
+    "survivor-conditioned perpetual universe instead of broad spot universe including defunct coins",
+    "real perpetual funding payments are included",
+    "explicit transaction cost and slippage are included",
+    "the market-cap observation is delayed one day before use"
+  ]
+}

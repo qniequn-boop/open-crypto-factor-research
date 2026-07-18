@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "contract_id": "okx_l2_regime_sample_v1_20260717",
+  "frozen_at_utc": "2026-07-17T12:15:00Z",
+  "purpose": "validate the frozen OHLC spread proxy ordering and estimate asset-and-notional execution heterogeneity without selecting dates from factor returns",
+  "economic_scope": {
+    "policy_id": "factory_wide_economic_cost_and_horizon_v1_20260718",
+    "system_wide_cost_calibration": true,
+    "factor_specific_calibration": false,
+    "frozen_90_day_low_volatility_is_calibration_target": false,
+    "horizon_reporting_buckets": [
+      "daily",
+      "weekly",
+      "monthly"
+    ],
+    "cost_surface_consumers": [
+      "all_future_factor_batches",
+      "prospective_factor_reaudits",
+      "combo_research",
+      "paper_trading"
+    ]
+  },
+  "selection_source": {
+    "instrument": "BTC-USDT-SWAP",
+    "bar": "1H",
+    "path": "data_cache/BTC-USDT-SWAP_1H_1095d.parquet",
+    "sha256": "ce7e52a5d78a3fb65b1425971a146f9f570a7c76cb1095b4d4ff4d1b32ed4197",
+    "closed_selection_start_utc": "2023-07-01T00:00:00Z",
+    "closed_selection_end_utc": "2026-06-30T23:59:59Z",
+    "complete_daily_observations": 1095,
+    "daily_completeness_rule": "exactly or at least 24 valid hourly close observations per UTC day",
+    "metrics": {
+      "close_to_close_return": "close_t / close_t_minus_1 - 1",
+      "intraday_log_range": "ln(high_t / low_t)",
+      "daily_quote_volume": "sum of hourly OKX vol_quote"
+    },
+    "tie_break": "earliest UTC date"
+  },
+  "unseen_regime_dates": [
+    {
+      "label": "largest_negative_return",
+      "date": "2026-02-05",
+      "btc_return": -0.14025475007008026,
+      "btc_log_range": 0.1638407447661255,
+      "btc_quote_volume_usdt": 22684562757.95184
+    },
+    {
+      "label": "largest_positive_return",
+      "date": "2026-02-06",
+      "btc_return": 0.12175698544381097,
+      "btc_log_range": 0.1796640033532721,
+      "btc_quote_volume_usdt": 18329991146.93785
+    },
+    {
+      "label": "largest_intraday_range_excluding_selected_dates",
+      "date": "2025-10-10",
+      "btc_return": -0.07260004966917366,
+      "btc_log_range": 0.18794101706082728,
+      "btc_quote_volume_usdt": 23378333704.32529
+    },
+    {
+      "label": "largest_quote_volume_excluding_selected_dates",
+      "date": "2024-08-05",
+      "btc_return": -0.07152140278494068,
+      "btc_log_range": 0.175943233906733,
+      "btc_quote_volume_usdt": 27018529690.9912
+    },
+    {
+      "label": "lowest_joint_absolute_return_and_range_rank_inside_40_to_60_percent_volume_band",
+      "date": "2025-06-27",
+      "btc_return": 0.0008146635701344884,
+      "btc_log_range": 0.012955329733224087,
+      "btc_quote_volume_usdt": 6222495721.41155,
+      "volume_band_lower_usdt": 5840477017.421384,
+      "volume_band_upper_usdt": 7487180881.6514
+    }
+  ],
+  "seen_pilot_date": {
+    "date": "2026-07-10",
+    "use": "descriptive engineering pilot only; excluded from unseen validation counts"
+  },
+  "asset_sample": [
+    "XRP-USDT-SWAP",
+    "LDO-USDT-SWAP",
+    "TRX-USDT-SWAP",
+    "LTC-USDT-SWAP",
+    "SOL-USDT-SWAP"
+  ],
+  "asset_selection_reason": "five registered perpetuals spanning visibly different pilot liquidity and expected archive sizes; the first three preserve the pilot bridge while LTC and SOL add unseen cross-sectional breadth",
+  "download_budget": {
+    "maximum_compressed_l2_bytes": 2000000000,
+    "stop_before_exceeding": true,
+    "date_or_asset_substitution_after_l2_results": false
+  },
+  "sampling_contract": {
+    "book_levels": 400,
+    "sample_interval_seconds": 10,
+    "depth_bands_bps": [5, 10, 25, 50],
+    "market_order_notionals_usdt": [100, 1000, 10000],
+    "fee_bps_one_way": 5.0,
+    "measurements": [
+      "quoted_spread",
+      "effective_spread",
+      "visible_depth",
+      "midpoint_to_vwap_impact",
+      "quote_age",
+      "book_message_gaps"
+    ]
+  },
+  "admission_checks": {
+    "minimum_unseen_dates_with_data": 4,
+    "minimum_assets_with_four_unseen_dates": 4,
+    "minimum_complete_sample_fraction": 0.95,
+    "minimum_dates_with_positive_cross_sectional_proxy_rank_correlation": 4,
+    "minimum_median_cross_sectional_spearman": 0.5,
+    "ohlc_proxy_may_calibrate_execution_cost": false,
+    "direct_l2_cost_required_for_factor_evaluation": true,
+    "passing_effect": "authorizes at most one canonical bidask path and one canonical turnover-volatility path for a frozen historical batch; it does not pass either factor",
+    "system_wide_cost_effect": "freezes reusable asset-notional-regime cost evidence independently of whether the bidask or turnover-volatility factor is admitted"
+  },
+  "forbidden_actions": [
+    "replace a weak date or asset after viewing its L2 result",
+    "use factor IS, Validation, or Holdout returns to select the L2 sample",
+    "choose assets, dates, notionals, or regimes to improve the frozen 90-day low-volatility result",
+    "treat the seen pilot date as unseen validation",
+    "use the OHLC proxy level as a transaction-cost estimate",
+    "create parameter variants before the admission checks are evaluated"
+  ]
+}

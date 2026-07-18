@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "registry_id": "panel_source_admission_v1_20260716",
+  "as_of_utc": "2026-07-16T16:00:00Z",
+  "policy": {
+    "default_admission": false,
+    "human_review_required_to_change": true,
+    "evaluation_outcomes_cannot_change_admission": true,
+    "holdout_cannot_change_admission": true,
+    "admission_requires_new_literature_data_or_preregistered_mechanism": true
+  },
+  "sources": [
+    {
+      "source_id": "CRYPTO_FACTOR_ZOO_MICROSTRUCTURE",
+      "status": "blocked_pending_multiregime_l2_validation",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "The exact method is frozen, but direct L2 proxy and cost validation must pass before any candidate or variant is admitted."
+    },
+    {
+      "source_id": "CRYPTO_MARKET_SIZE_MOMENTUM",
+      "status": "canonical_closed",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "Canonical benchmark work is closed; new variants require a new preregistered mechanism."
+    },
+    {
+      "source_id": "CRYPTO_LIQUIDITY_ILLIQUIDITY",
+      "status": "needs_specific_canonical_source",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "The hypothesis entry is too broad to authorize a bounded canonical replication."
+    },
+    {
+      "source_id": "PERP_FUNDING_BASIS",
+      "status": "frozen_after_evaluation",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "The preregistered basis and funding batches are closed economic rejects."
+    },
+    {
+      "source_id": "TRANSACTION_COST_MITIGATION",
+      "status": "audit_method_only",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "Execution research may alter turnover policy but cannot authorize alpha candidates."
+    },
+    {
+      "source_id": "CRYPTO_LOW_VOLATILITY_MONTHLY",
+      "status": "prospective_frozen",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "The 90-day track is frozen for prospective evidence; the 60-day variant is closed."
+    },
+    {
+      "source_id": "VOL_MANAGED_CRYPTO_MOMENTUM_CARRY",
+      "status": "needs_method_preregistration",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "A specific source, canonical formula, horizon, and endpoint must be frozen first."
+    },
+    {
+      "source_id": "AI_FACTOR_ENGINEERING_PATTERNS",
+      "status": "engineering_only",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "Engineering evidence can improve the factory but cannot authorize a factor direction."
+    },
+    {
+      "source_id": "PERP_OPEN_INTEREST_CROWDING",
+      "status": "deprecated_frozen",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "The historical OI track is deprecated and may not spawn variants without new data evidence."
+    },
+    {
+      "source_id": "BACKTEST_OVERFITTING_DSR_PBO",
+      "status": "audit_method_only",
+      "allowed_for_generation": false,
+      "allowed_panel_formulas": [],
+      "max_lifetime_variants": 0,
+      "reason": "DSR and PBO constrain evaluation; they are not economic factor hypotheses."
+    }
+  ]
+}

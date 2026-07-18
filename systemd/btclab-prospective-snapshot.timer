@@ -1,0 +1,11 @@
+[Unit]
+Description=Run BTCLab prospective universe snapshot daily
+
+[Timer]
+OnCalendar=*-*-* 00:20:00 UTC
+Persistent=true
+RandomizedDelaySec=5m
+Unit=btclab-prospective-snapshot.service
+
+[Install]
+WantedBy=timers.target

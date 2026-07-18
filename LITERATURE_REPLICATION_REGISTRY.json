@@ -1,0 +1,390 @@
+{
+  "schema_version": 1,
+  "registry_id": "panel_literature_replication_registry_20260714",
+  "policy": {
+    "canonical_before_extension": true,
+    "preprint_results_are_not_strategy_evidence": true,
+    "engineering_sources_cannot_authorize_factor_direction": true,
+    "adaptations_must_not_be_labelled_replications": true
+  },
+  "entries": [
+    {
+      "replication_id": "MERCIK_FACTOR_ZOO_MICROSTRUCTURE_WEEKLY",
+      "source_id": "CRYPTO_FACTOR_ZOO_MICROSTRUCTURE",
+      "citation": "Mercik, Zaremba, and Demir (2026), Crypto Factor Zoo; spread estimators from Corwin and Schultz (2012) and Abdi and Ranaldo (2017)",
+      "url": "https://doi.org/10.1016/j.irfa.2026.105137",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "audit_method",
+      "market_in_source": "broad spot cryptocurrency cross-section using exchange-aggregated market data",
+      "source_sample": "565 active and inactive cryptocurrencies, January 2018 to July 2024; CryptoCompare OHLC and volume across more than 250 exchanges; CoinMarketCap market value",
+      "signal": "30-day turnover volatility or the simple average of 30-day Corwin-Schultz and two-day-corrected Abdi-Ranaldo OHLC spread estimates",
+      "formation_frequency": "weekly",
+      "forward_horizon": "one week",
+      "portfolio_rule": "quartile sort; long low characteristic and short high characteristic",
+      "weighting": "report equal-weighted and point-in-time market-cap value-weighted portfolios separately",
+      "expected_direction": "low turnover volatility minus high turnover volatility; low estimated spread minus high estimated spread",
+      "primary_endpoint": "net weekly low-minus-high return with dependence-aware inference and direct L2 proxy validation",
+      "required_fields": [
+        "daily_high",
+        "daily_low",
+        "daily_close",
+        "daily_dollar_volume",
+        "point_in_time_market_cap",
+        "point_in_time_eligibility",
+        "transaction_cost",
+        "predeclared_l2_spread_and_depth"
+      ],
+      "target_scope": "current registered OKX perpetual pool under lagged large/liquid point-in-time eligibility",
+      "replication_status": "blocked_missing_data",
+      "blockers": [
+        "current-live OKX universe is survivor conditioned and much narrower than the source universe",
+        "OKX-only volume is not the source paper's exchange-aggregated volume",
+        "one L2 day cannot validate the OHLC proxy across regimes",
+        "point-in-time contract and market-cap alignment must remain lagged"
+      ],
+      "permitted_next_action": "validate the frozen 30-day estimators on predeclared multi-regime L2 dates; only then freeze one canonical path and at most two mechanism-based adaptations"
+    },
+    {
+      "replication_id": "LTW_CMOM_3W_WEEKLY",
+      "source_id": "CRYPTO_MARKET_SIZE_MOMENTUM",
+      "citation": "Liu, Tsyvinski, and Wu (2022), Common Risk Factors in Cryptocurrency",
+      "url": "https://www.nber.org/papers/w25882",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "factor_direction",
+      "market_in_source": "broad spot cryptocurrency cross-section",
+      "source_sample": "2014-2018; coins with price, volume, and market capitalization; market cap at least USD 1 million; active and defunct coins",
+      "signal": "past three-week return",
+      "formation_frequency": "weekly",
+      "forward_horizon": "one week",
+      "portfolio_rule": "bottom 30 percent, middle 40 percent, top 30 percent",
+      "weighting": "point-in-time market-cap value weighted within each portfolio",
+      "expected_direction": "long top momentum, short bottom momentum",
+      "primary_endpoint": "weekly value-weighted top-minus-bottom net return with dependence-aware mean inference",
+      "required_fields": [
+        "close",
+        "volume",
+        "market_cap",
+        "point_in_time_eligibility"
+      ],
+      "target_scope": "full panel and above-median point-in-time market-cap subpool",
+      "replication_status": "adaptation_only",
+      "blockers": [
+        "current survivor-conditioned perpetual universe cannot reproduce the original broad spot universe"
+      ],
+      "permitted_next_action": "run one frozen method-faithful perpetual-universe adaptation before any AI extension; do not call it an exact universe replication"
+    },
+    {
+      "replication_id": "ZAREMBA_DAILY_LIQUIDITY_CONDITIONAL",
+      "source_id": "CRYPTO_LIQUIDITY_ILLIQUIDITY",
+      "citation": "Zaremba et al. (2022), Up or down? Short-term reversal, momentum, and liquidity effects in cryptocurrency markets",
+      "url": "https://doi.org/10.1016/j.irfa.2021.101908",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "factor_direction",
+      "market_in_source": "broad spot cryptocurrency cross-section",
+      "source_sample": "more than 3,600 cryptocurrencies",
+      "signal": "last-day return conditioned on contemporaneously measurable size and liquidity",
+      "formation_frequency": "daily",
+      "forward_horizon": "one day",
+      "portfolio_rule": "predeclared liquidity/size segments; do not pool opposite regimes",
+      "weighting": "report equal- and tradeability-aware implementations separately",
+      "expected_direction": "reversal in illiquid assets; momentum in the largest and most tradeable assets",
+      "primary_endpoint": "conditional next-day rank IC within the preregistered liquidity segment",
+      "required_fields": [
+        "close",
+        "dollar_volume",
+        "market_cap",
+        "point_in_time_eligibility"
+      ],
+      "target_scope": "separate large/liquid and illiquid estimands",
+      "replication_status": "adaptation_only",
+      "blockers": [
+        "top-40 liquid perpetual universe cannot identify the source paper's illiquid majority"
+      ],
+      "permitted_next_action": "test large/liquid daily momentum only; do not claim a full reversal replication without a broad point-in-time universe"
+    },
+    {
+      "replication_id": "CHI_FUTURES_BASIS_DAILY",
+      "source_id": "PERP_FUNDING_BASIS",
+      "citation": "Chi et al. (2023), An Empirical Investigation on Risk Factors in Cryptocurrency Futures",
+      "url": "https://doi.org/10.1002/fut.22425",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "mechanism_constraint",
+      "market_in_source": "dated cryptocurrency futures and spot",
+      "source_sample": "OKEx major cryptocurrencies, November 2017 to March 2021",
+      "signal": "futures basis using 1, 3, 5, and 7 period lookbacks; five-day lookback is the main displayed specification",
+      "formation_frequency": "daily",
+      "forward_horizon": "one day primary, one week robustness",
+      "portfolio_rule": "high, middle, and low signal portfolios; high minus low",
+      "weighting": "source-specific portfolio construction; preserve separately from our generic rank weights",
+      "expected_direction": "higher basis predicts higher dated-futures return premium in the source design",
+      "primary_endpoint": "net high-minus-low return and alpha conditional on market and competing factor returns",
+      "required_fields": [
+        "dated_futures_price",
+        "spot_close",
+        "contract_maturity",
+        "transaction_cost"
+      ],
+      "target_scope": "dated futures",
+      "replication_status": "adaptation_only",
+      "blockers": [
+        "our instrument is a perpetual swap with funding payments and no maturity",
+        "perp-minus-spot basis is not the paper's dated-futures basis"
+      ],
+      "permitted_next_action": "use the paper to prioritize basis, but label a perp basis test as a mechanism adaptation rather than a replication"
+    },
+    {
+      "replication_id": "GORNALL_PERP_BASIS_MECHANISM",
+      "source_id": "PERP_FUNDING_BASIS",
+      "citation": "Gornall, Rinaldi, and Xiao (2025), Perpetual Futures and Basis Risk: Evidence from Cryptocurrency",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5036933",
+      "evidence_tier": "working_paper",
+      "allowed_use": "mechanism_constraint",
+      "market_in_source": "cryptocurrency perpetual futures",
+      "source_sample": "cross-market perpetual futures evidence",
+      "signal": "basis dislocation under constrained arbitrage and speculative demand",
+      "formation_frequency": "not a standalone factor recipe",
+      "forward_horizon": "mechanism dependent",
+      "portfolio_rule": "not specified as a canonical cross-sectional alpha replication",
+      "weighting": "not applicable",
+      "expected_direction": "positive basis and positive funding identify long-spot/short-perp convergence pressure and funding receipts; they do not identify a standalone future perp-return direction",
+      "primary_endpoint": "net two-leg basis convergence plus realized funding after spot and perpetual execution costs",
+      "required_fields": [
+        "perp_close",
+        "spot_close",
+        "funding_events",
+        "two_leg_transaction_cost"
+      ],
+      "target_scope": "perpetual futures",
+      "replication_status": "ready_mechanism_only",
+      "blockers": [],
+      "permitted_next_action": "run one bounded long-spot/short-perp mechanism batch; do not infer a free-standing funding direction from this source"
+    },
+    {
+      "replication_id": "ACKERER_PERP_PRICING_MECHANISM",
+      "source_id": "PERP_FUNDING_BASIS",
+      "citation": "Ackerer, Hugonnier, and Jermann (2026), Perpetual Futures Pricing",
+      "url": "https://doi.org/10.1111/mafi.70018",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "mechanism_constraint",
+      "market_in_source": "linear, inverse, and quanto perpetual futures",
+      "source_sample": "no-arbitrage theory with cryptocurrency contract examples",
+      "signal": "perpetual-spot deviation interpreted jointly with the funding specification",
+      "formation_frequency": "contract-mechanism dependent",
+      "forward_horizon": "funding interval and holding-period dependent",
+      "portfolio_rule": "replication and convergence arguments use both primitive spot assets and the perpetual contract",
+      "weighting": "delta-neutral pair exposure",
+      "expected_direction": "a positive perpetual premium makes the short perpetual side attractive through the premium-linked funding transfer; this is a pair mechanism, not an outright return forecast",
+      "primary_endpoint": "two-leg replication or convergence cash flow including funding",
+      "required_fields": [
+        "perp_close",
+        "spot_close",
+        "funding_events"
+      ],
+      "target_scope": "perpetual futures pricing mechanism",
+      "replication_status": "ready_mechanism_only",
+      "blockers": [
+        "borrowing rates and margin liquidation paths are unavailable for a full no-arbitrage replication"
+      ],
+      "permitted_next_action": "use a conservative unlevered two-leg historical mechanism adaptation and retain a claim ceiling below deployable arbitrage"
+    },
+    {
+      "replication_id": "OKX_PERP_FUNDING_RULES",
+      "source_id": "PERP_FUNDING_BASIS",
+      "citation": "OKX (2026), Perpetual funding fee mechanism",
+      "url": "https://www.okx.com/en-gb/help/perps-funding-fee-mechanism",
+      "evidence_tier": "documentation",
+      "allowed_use": "mechanism_constraint",
+      "market_in_source": "OKX perpetual futures",
+      "source_sample": "current product specification; historical realized-rate events retain the actual cash-flow record",
+      "signal": "realized funding is a sparse settlement event; positive rates transfer cash from long perpetual positions to short positions",
+      "formation_frequency": "1, 2, 4, or 8 hour settlement interval depending on contract",
+      "forward_horizon": "must span actual settlement timestamps",
+      "portfolio_rule": "funding is earned or paid only while the perpetual position is open at settlement",
+      "weighting": "funding fee equals position value times realized funding rate",
+      "expected_direction": "positive funding is received by the short perpetual leg and negative funding is paid by it",
+      "primary_endpoint": "realized sparse funding cash flow with no forward fill in PnL",
+      "required_fields": [
+        "funding_time",
+        "realized_funding_rate",
+        "perpetual_position_value"
+      ],
+      "target_scope": "OKX USDT-margined perpetual futures",
+      "replication_status": "ready_mechanism_only",
+      "blockers": [
+        "historical funding formula regimes differ, so a fixed formula must not be imposed retrospectively"
+      ],
+      "permitted_next_action": "sum observed realized events over each held interval and infer neither missing settlements nor a fixed eight-hour schedule"
+    },
+    {
+      "replication_id": "NOVY_MARX_VELIKOV_BUY_HOLD_SPREAD",
+      "source_id": "TRANSACTION_COST_MITIGATION",
+      "citation": "Novy-Marx and Velikov (2016), A Taxonomy of Anomalies and Their Trading Costs",
+      "url": "https://doi.org/10.1093/rfs/hhv063",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "audit_method",
+      "market_in_source": "cross-sectional equity anomaly portfolios",
+      "source_sample": "23 equity anomalies grouped by turnover",
+      "signal": "same frozen economic signal with a wider hold region than entry region",
+      "formation_frequency": "strategy dependent",
+      "forward_horizon": "strategy dependent",
+      "portfolio_rule": "10/20 sS for mid-turnover and 10/50 sS for high-turnover strategies: enter in the most extreme 10 percent and retain while inside the most extreme 20 or 50 percent",
+      "weighting": "buy/hold spread applied to existing portfolio construction",
+      "expected_direction": "none; hysteresis changes execution and turnover, not the economic signal sign",
+      "primary_endpoint": "net return improvement attributable to lower turnover after preserving gross signal exposure",
+      "required_fields": [
+        "signal_rank",
+        "current_position",
+        "transaction_cost"
+      ],
+      "target_scope": "transaction-cost mitigation",
+      "replication_status": "ready_audit_method",
+      "blockers": [
+        "equity percentiles are an execution-method adaptation when applied to crypto perpetual pairs"
+      ],
+      "permitted_next_action": "allow one frozen 10/20 and 10/50 execution-rescue comparison per already-frozen mechanism; do not optimize the bands from our outcomes"
+    },
+    {
+      "replication_id": "GARLEANU_PEDERSEN_DYNAMIC_TRADING",
+      "source_id": "TRANSACTION_COST_MITIGATION",
+      "citation": "Garleanu and Pedersen (2013), Dynamic Trading with Predictable Returns and Transaction Costs",
+      "url": "https://doi.org/10.1111/jofi.12080",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "audit_method",
+      "market_in_source": "general dynamic portfolio choice with predictable returns",
+      "source_sample": "closed-form theoretical model with signals of different mean-reversion speeds",
+      "signal": "trade partially toward a forward-looking aim portfolio",
+      "formation_frequency": "signal and cost dependent",
+      "forward_horizon": "signal-decay dependent",
+      "portfolio_rule": "combine the existing position with the current aim rather than jumping fully to the frictionless target",
+      "weighting": "partial adjustment",
+      "expected_direction": "none; the method constrains execution speed only",
+      "primary_endpoint": "net utility after transaction costs",
+      "required_fields": [
+        "signal_persistence",
+        "current_position",
+        "transaction_cost"
+      ],
+      "target_scope": "transaction-cost-aware portfolio dynamics",
+      "replication_status": "ready_audit_method",
+      "blockers": [
+        "the current pilot does not estimate a structural signal-decay model"
+      ],
+      "permitted_next_action": "use the paper as support for hysteresis and partial adjustment; do not estimate a bespoke optimal speed after viewing the frozen audit split"
+    },
+    {
+      "replication_id": "PYO_JANG_LOW_VOL_MONTHLY",
+      "source_id": "CRYPTO_LOW_VOLATILITY_MONTHLY",
+      "citation": "Pyo and Jang (2026), Revisiting the Low-Volatility Anomaly in Cryptocurrency Markets; adversarial prior from Burggraf and Rudolf (2021)",
+      "url": "https://doi.org/10.1016/j.frl.2026.109851",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "factor_direction",
+      "market_in_source": "Binance USDT spot cryptocurrency cross-section",
+      "source_sample": "432 spot cryptocurrencies, January 2018 to November 2025; earlier contrary evidence covers more than 1,000 cryptocurrencies from 2013 to 2019",
+      "signal": "standard deviation of daily log returns over the preceding two or three months",
+      "formation_frequency": "month end",
+      "forward_horizon": "one month",
+      "portfolio_rule": "equal-weighted long lowest-volatility quintile and short highest-volatility quintile",
+      "weighting": "equal weighted within each extreme quintile",
+      "expected_direction": "low volatility minus high volatility, while treating the earlier opposite result as an adversarial prior",
+      "primary_endpoint": "net monthly-rebalanced low-minus-high spot return and monthly rank IC on IS and Validation",
+      "required_fields": [
+        "spot_close",
+        "spot_quote_volume",
+        "listing_time",
+        "point_in_time_eligibility",
+        "transaction_cost"
+      ],
+      "target_scope": "current registered OKX pool under lagged point-in-time large/liquid eligibility",
+      "replication_status": "adaptation_only",
+      "blockers": [
+        "the registered pool is current-live and therefore survivor conditioned",
+        "the source universe is much broader than the approximately 40 eligible OKX assets",
+        "historical observations through November 2025 overlap the source paper's sample",
+        "a short leg implemented with perpetuals would require a separate funding and execution audit"
+      ],
+      "permitted_next_action": "run exactly two frozen 60-day and 90-day month-end spot-return adaptations; seal the post-November-2025 audit unless selection evidence is positive; do not generate intramonth or extra-window variants"
+    },
+    {
+      "replication_id": "HARVEY_MULTIPLE_TESTING",
+      "source_id": "BACKTEST_OVERFITTING_DSR_PBO",
+      "citation": "Harvey, Liu, and Saretto (2020), An Evaluation of Alternative Multiple Testing Methods for Finance Applications",
+      "url": "https://doi.org/10.1093/rapstu/raaa003",
+      "evidence_tier": "peer_reviewed",
+      "allowed_use": "audit_method",
+      "market_in_source": "general empirical finance",
+      "source_sample": "simulation and finance applications",
+      "signal": "not a tradable signal",
+      "formation_frequency": "not applicable",
+      "forward_horizon": "not applicable",
+      "portfolio_rule": "not applicable",
+      "weighting": "not applicable",
+      "expected_direction": "more outcome-seen hypotheses require stronger evidence",
+      "primary_endpoint": "predeclared family-level false discovery control for screening and stricter final promotion inference",
+      "required_fields": [
+        "raw_p_values",
+        "hypothesis_family",
+        "outcome_seen_trial_ledger"
+      ],
+      "target_scope": "research process",
+      "replication_status": "ready_audit_method",
+      "blockers": [],
+      "permitted_next_action": "use FDR for a low-stakes discovery screen and retain strict multiplicity controls for final promotion"
+    },
+    {
+      "replication_id": "RD_AGENT_RESEARCH_DEVELOPMENT_SPLIT",
+      "source_id": "AI_FACTOR_FACTORY_ENGINEERING",
+      "citation": "Li et al. (2025), R&D-Agent-Quant",
+      "url": "https://arxiv.org/abs/2505.15155",
+      "evidence_tier": "peer_reviewed_conference",
+      "allowed_use": "engineering_pattern",
+      "market_in_source": "automated quantitative research",
+      "source_sample": "author-reported experimental markets",
+      "signal": "not a factor direction",
+      "formation_frequency": "not applicable",
+      "forward_horizon": "not applicable",
+      "portfolio_rule": "not applicable",
+      "weighting": "not applicable",
+      "expected_direction": "separate hypothesis research from deterministic implementation and evaluation",
+      "primary_endpoint": "reproducible research/development handoff",
+      "required_fields": [
+        "append_only_trace",
+        "frozen_task_spec",
+        "deterministic_evaluator"
+      ],
+      "target_scope": "factory architecture",
+      "replication_status": "engineering_only",
+      "blockers": [],
+      "permitted_next_action": "borrow modular agent roles; do not treat reported returns as evidence for our crypto factors"
+    },
+    {
+      "replication_id": "CONSTRAINED_LLM_CRYPTO_FACTORY",
+      "source_id": "AI_FACTOR_FACTORY_ENGINEERING",
+      "citation": "Huang et al. (2026), From Hypotheses to Factors: Constrained LLM Agents in Cryptocurrency Markets",
+      "url": "https://arxiv.org/abs/2604.26747",
+      "evidence_tier": "preprint",
+      "allowed_use": "engineering_pattern",
+      "market_in_source": "cryptocurrency factor discovery",
+      "source_sample": "author-reported cryptocurrency experiment",
+      "signal": "not an authorized factor direction",
+      "formation_frequency": "not applicable",
+      "forward_horizon": "not applicable",
+      "portfolio_rule": "not applicable",
+      "weighting": "not applicable",
+      "expected_direction": "append-only experiments, point-in-time DSL, and deterministic evaluation reduce uncontrolled agent search",
+      "primary_endpoint": "auditability of both successful and failed hypotheses",
+      "required_fields": [
+        "append_only_trace",
+        "point_in_time_dsl",
+        "fixed_splits",
+        "transaction_costs"
+      ],
+      "target_scope": "factory architecture",
+      "replication_status": "engineering_only",
+      "blockers": [
+        "single recent preprint",
+        "author-reported performance is not independent evidence"
+      ],
+      "permitted_next_action": "borrow constraints only; keep frozen audit-split feedback more restrictive than the paper"
+    }
+  ]
+}

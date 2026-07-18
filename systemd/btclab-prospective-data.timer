@@ -1,0 +1,11 @@
+[Unit]
+Description=Run BTCLab prospective data update daily
+
+[Timer]
+OnCalendar=*-*-* 23:30:00 UTC
+Persistent=true
+RandomizedDelaySec=5m
+Unit=btclab-prospective-data.service
+
+[Install]
+WantedBy=timers.target

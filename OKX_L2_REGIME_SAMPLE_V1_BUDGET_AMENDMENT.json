@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "amendment_id": "okx_l2_regime_sample_v1_metadata_budget_amendment_20260718",
+  "frozen_at_utc": "2026-07-18T09:42:56Z",
+  "base_contract_path": "OKX_L2_REGIME_SAMPLE_V1.json",
+  "base_contract_sha256": "1feececcc103eaec8233c5cbe51498fa74e984983c48d8b54b37f82ddf07b462",
+  "information_used": "official OKX archive filenames, coverage rows, and declared compressed sizes only",
+  "outcome_data_accessed": false,
+  "factor_return_data_accessed": false,
+  "order_book_content_accessed": false,
+  "metadata_feasibility": {
+    "declared_l2_files": 25,
+    "declared_l2_size_mb": 5706.55,
+    "declared_trade_size_mb": 580.3,
+    "original_maximum_compressed_l2_bytes": 2000000000,
+    "minimum_four_asset_four_date_l2_size_mb": 2445.13,
+    "original_budget_can_satisfy_admission_coverage": false
+  },
+  "amended_download_budget": {
+    "maximum_compressed_l2_bytes": 6500000000,
+    "maximum_compressed_trade_bytes": 750000000,
+    "stop_before_exceeding": true
+  },
+  "unchanged_contract_fields": [
+    "all_five_unseen_regime_dates",
+    "all_five_asset_sample_members",
+    "sample_interval_seconds",
+    "book_levels",
+    "depth_bands_bps",
+    "market_order_notionals_usdt",
+    "fee_bps_one_way",
+    "admission_checks",
+    "forbidden_actions"
+  ],
+  "selection_rule": "process all 25 frozen asset-date cells; no cell may be selected or omitted from outcome data",
+  "reason": "The original operational budget made its own minimum coverage checks impossible. Raising only the byte ceiling before any order-book content is viewed preserves the frozen scientific sample and avoids size-based sample selection."
+}

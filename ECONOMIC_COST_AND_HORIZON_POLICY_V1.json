@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "policy_id": "factory_wide_economic_cost_and_horizon_v1_20260718",
+  "effective_date": "2026-07-18",
+  "scope": {
+    "system_wide": true,
+    "factor_specific_calibration": false,
+    "applies_to": [
+      "historical_factor_evaluation",
+      "prospective_factor_tracking",
+      "combo_research",
+      "paper_trading",
+      "limited_live_shadow"
+    ],
+    "principle": "cost and time assumptions are independent economic inputs, not parameters chosen to rescue or reject a named factor"
+  },
+  "cost_model": {
+    "required_components": [
+      "venue_and_fee_tier",
+      "asset",
+      "order_notional_usdt",
+      "quoted_and_effective_spread",
+      "visible_book_impact",
+      "turnover",
+      "sparse_real_funding_when_applicable",
+      "market_regime",
+      "latency_and_rejection_stress_buffer"
+    ],
+    "calibration_inputs_must_exclude": [
+      "factor_return",
+      "factor_identity",
+      "IS_performance",
+      "Validation_performance",
+      "Holdout_performance"
+    ],
+    "required_outputs": [
+      "median_one_way_cost_bps",
+      "p95_one_way_cost_bps",
+      "round_trip_cost_bps",
+      "notional_capacity_curve",
+      "gross_to_net_break_even_turnover",
+      "stress_cost_scenario"
+    ],
+    "freeze_rule": "a versioned cost surface is frozen before it is applied to factor returns; changing it creates a new audit version rather than rewriting the old result"
+  },
+  "horizon_model": {
+    "required_dimensions": [
+      "signal_measurement_window",
+      "formation_frequency",
+      "rebalance_frequency",
+      "expected_holding_period",
+      "realized_turnover",
+      "signal_decay_by_forward_horizon",
+      "net_return_by_forward_horizon"
+    ],
+    "reference_reporting_buckets": [
+      "daily",
+      "weekly",
+      "monthly"
+    ],
+    "candidate_rule": "start with the source canonical horizon; allow at most one slower or lower-turnover horizon only when justified by decay and cost, never by a return grid search",
+    "selection_rule": "IS may estimate decay; Validation decides whether the frozen horizon is useful; Holdout cannot choose a horizon",
+    "failure_rule": "a signal whose economic half-life is shorter than executable turnover and cost is rejected even when gross backtest return is positive"
+  },
+  "factor_neutrality": {
+    "all_factors_use_same_cost_surface_for_same_asset_notional_regime_and_order_type": true,
+    "asset_or_date_selection_may_depend_on_named_factor": false,
+    "cost_assumptions_may_be_tuned_to_make_a_factor_pass": false,
+    "horizon_assumptions_may_be_tuned_to_make_a_factor_pass": false
+  },
+  "frozen_90_day_low_volatility_track": {
+    "is_calibration_target": false,
+    "has_priority_over_other_factors": false,
+    "may_change_signal_or_prospective_contract": false,
+    "current_action": "continue unchanged prospective collection",
+    "future_use": "after a factory-wide cost model is independently frozen, report a separately versioned re-audit without overwriting prior evidence"
+  },
+  "current_work": {
+    "l2_contract": "OKX_L2_REGIME_SAMPLE_V1.json",
+    "goal": "freeze a reusable asset-notional-regime execution-cost surface and validate data proxies",
+    "not_a_goal": "optimize the frozen 90-day low-volatility factor"
+  }
+}

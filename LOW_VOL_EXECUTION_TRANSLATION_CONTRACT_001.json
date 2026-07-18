@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "audit_id": "monthly_low_vol_90d_execution_translation_001",
+  "frozen_at_utc": "2026-07-16T14:28:57Z",
+  "status": "frozen_before_evaluation",
+  "source_candidate_id": "monthly_low_vol_90d__equal_quintile_v1",
+  "source_factor_track_id": "monthly_low_vol_90d_prospective_v1",
+  "evaluation_start_utc": "2024-07-11T00:00:00Z",
+  "evaluation_end_utc": "2026-07-11T00:00:00Z",
+  "purpose": "Test whether the already-frozen spot low-minus-high factor retains economic value when the same weights are translated to executable OKX USDT perpetual positions.",
+  "signal_contract": {
+    "lookback_days": 90,
+    "formation_frequency": "calendar_month_end",
+    "minimum_assets": 20,
+    "minimum_lookback_coverage_fraction": 0.8,
+    "side_fraction": 0.2,
+    "weighting": "equal_weighted_lowest_minus_highest_quintile",
+    "gross_exposure": 1.0,
+    "execution_lag_days": 1,
+    "formula_changes_allowed": false,
+    "asset_selection_changes_allowed": false,
+    "feedback_to_factor_or_ai_allowed": false
+  },
+  "perpetual_contract": {
+    "venue": "OKX",
+    "instrument_type": "USDT_margined_perpetual_swap",
+    "bar": "1H",
+    "history_days": 730,
+    "position_rule": "apply_the_frozen_spot_target_weights_to_matching_perpetual_returns",
+    "funding_rule": "subtract_realized_sparse_funding_events_at_their_actual_timestamps_without_forward_fill",
+    "positive_funding_sign": "long_pays_short_receives",
+    "cost_scenarios_bps_one_way": {
+      "standard": 7.0,
+      "double_cost_stress": 14.0
+    },
+    "maximum_funding_event_gap_hours": 8.0,
+    "leverage": 1.0,
+    "liquidation_modelled": false
+  },
+  "spot_margin_contract": {
+    "status": "diagnostic_only_until_point_in_time_borrow_evidence_exists",
+    "required_evidence": [
+      "historical_asset_specific_borrow_rate",
+      "historical_asset_specific_available_borrow_quantity",
+      "forced_repayment_and_recall_events"
+    ],
+    "fabricated_constant_borrow_cost_allowed": false
+  },
+  "current_order_diagnostic": {
+    "capital_usdt": 100.0,
+    "instrument_spec_endpoint": "GET /api/v5/public/instruments?instType=SWAP",
+    "fields": [
+      "state",
+      "minSz",
+      "lotSz",
+      "ctVal",
+      "ctValCcy"
+    ],
+    "maximum_notional_error_fraction": 0.25,
+    "historical_claim_allowed": false
+  },
+  "classification_thresholds": {
+    "post_source_return_floor": -0.03,
+    "maximum_drawdown": 0.35,
+    "minimum_spot_perpetual_daily_correlation": 0.9,
+    "minimum_current_order_feasible_fraction": 0.8
+  },
+  "classification_policy": {
+    "execution_translation_reject": "missing held-return or funding evidence, or nonpositive full-period perpetual net return",
+    "execution_translation_watchlist": "positive complete economics with at least one robustness or current-order-readiness failure",
+    "execution_translation_pass_for_paper_design": "all frozen checks pass; permits only later no-order paper execution design",
+    "factor_promotion_effect": "none"
+  },
+  "locked_files": {
+    "batch005": {
+      "path": "LITERATURE_REPLICATION_BATCH_005.json",
+      "sha256": "2cd4eab388bb6fea0baed2882943fdaf5a7317785b13356564a8d6d7dc1f4a4b"
+    },
+    "batch005_report": {
+      "path": "logs/panel_literature_replication_batch005_20260716.json",
+      "sha256": "a349a667e12e190d8640f566a607ec0b671509def4cab72d4116b672383606e3"
+    },
+    "universe_registry": {
+      "path": "PANEL_UNIVERSE_REGISTRY.json",
+      "sha256": "4f13f56903e4f8c9b32a868cb86f167ccf671e5b5f94d54a2dc20eb8494ffb9c"
+    },
+    "historical_evaluator": {
+      "path": "panel_literature_replication.py",
+      "sha256": "897a2fb19e602db44bf64322de61a8d61edd3178e19b9deae5dcbcb5b232d85a"
+    },
+    "panel_evaluator": {
+      "path": "panel_factor_research.py",
+      "sha256": "028fb361261041c01d3b5b2d51ffbbb5f2c44bb64b52bcbf233851fafb5bc586"
+    },
+    "execution_auditor": {
+      "path": "low_vol_execution_translation_audit.py",
+      "sha256": "77963b583104c161c393c33cb1032bed7c5a41599602690febcc64c9bcafc095"
+    }
+  },
+  "official_evidence": [
+    {
+      "source": "OKX public instruments API",
+      "url": "https://www.okx.com/docs-v5/en/#public-data-rest-api-get-instruments",
+      "use": "current contract value, lot size, and minimum order diagnostic"
+    },
+    {
+      "source": "OKX perpetual funding fee mechanism",
+      "url": "https://www.okx.com/en-gb/help/perps-funding-fee-mechanism",
+      "use": "funding sign and settlement timing"
+    },
+    {
+      "source": "OKX trading account API",
+      "url": "https://www.okx.com/docs-v5/en/",
+      "use": "authenticated account-specific borrow rates, limits, and accrued-interest scope"
+    }
+  ],
+  "claim_limits": [
+    "This audit cannot change the frozen factor formula, status, prospective policy, or trial count.",
+    "A perpetual proxy is not proof of historical spot-margin borrowability.",
+    "Current order specifications are not point-in-time historical specifications.",
+    "Liquidation, maintenance margin, spread, depth, partial fills, latency, and outages are not fully modelled.",
+    "A pass permits only design of a later no-order live shadow executor, never capital deployment."
+  ]
+}
