@@ -3,7 +3,7 @@
   "as_of": "2026-07-19",
   "python_version": "3.11",
   "test_command": "python -m pytest -q",
-  "expected_collected_tests": 294,
+  "expected_collected_tests": 296,
   "expected_skipped_tests": 0,
   "dependency_input": "requirements.in",
   "dependency_lock": "requirements.txt",

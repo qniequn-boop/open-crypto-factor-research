@@ -75,6 +75,25 @@ This table deliberately separates engineering readiness from economic
 evidence. A working evaluator does not imply that the evaluated relation is
 real, and a historical clue does not imply future profitability.
 
+## One-Minute Synthetic Demo
+
+Run a complete evidence-boundary demonstration without downloading market
+data:
+
+```bash
+python examples/run_synthetic_evidence_demo.py
+```
+
+The deterministic example uses the repository's production leakage audit,
+multiple-testing adjustment, and historical discovery classifier. It shows a
+future-leaking candidate being rejected, a nominally significant candidate
+being blocked by family multiplicity, and a stronger clue receiving only
+`prospective_eligible`. The final result is zero formal factor passes and no
+permission for combination, paper trading, or capital.
+
+Use `--json` for a machine-readable report. The demo validates research logic;
+it is not an empirical cryptocurrency result.
+
 ## Methodological Safeguards
 
 - **Literature grounding:** an eligible candidate cites a registered source and
@@ -109,7 +128,7 @@ classification.
 
 ## Reproducible Baseline
 
-The current public baseline is Python 3.11 with **294 collected and passing
+The current public baseline is Python 3.11 with **296 collected and passing
 tests**. The machine-readable source of truth is
 [`CURRENT_BASELINE.json`](./CURRENT_BASELINE.json), checked independently by
 GitHub Actions on every commit to `main`.
@@ -138,6 +157,7 @@ researchers to obtain the relevant public market data independently. See
 | [EVIDENCE_STATUS.md](./EVIDENCE_STATUS.md) | Current positive, negative, incomplete, and prospective evidence |
 | [REPRODUCIBILITY.md](./REPRODUCIBILITY.md) | Environment, locked dependencies, CI, data boundaries, and verification |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Standards for hypotheses, replications, code, and evidence language |
+| [examples/run_synthetic_evidence_demo.py](./examples/run_synthetic_evidence_demo.py) | Data-free demonstration of leakage, multiplicity, and promotion boundaries |
 | [LITERATURE_HYPOTHESIS_REGISTRY.md](./LITERATURE_HYPOTHESIS_REGISTRY.md) | Registered literature mechanisms and falsification requirements |
 | [PANEL_DATA_SUBSTRATE_V2.md](./PANEL_DATA_SUBSTRATE_V2.md) | Universe construction, missingness, and survivorship boundaries |
 | [RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md](./RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md) | Independent alignment and skeptic audit |

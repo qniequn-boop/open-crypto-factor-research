@@ -3,7 +3,7 @@ message: "If you use this research software, please cite it using the metadata b
 title: "Open Crypto Factor Research"
 type: software
 authors:
-  - name: "Open Crypto Factor Research contributors"
+  - family-names: "qniequn-boop"
 version: 0.1.0
 date-released: 2026-07-19
 repository-code: "https://github.com/qniequn-boop/open-crypto-factor-research"

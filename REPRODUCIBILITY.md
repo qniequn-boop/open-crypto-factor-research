@@ -33,6 +33,18 @@ The final command verifies the collected, passed, failed, errored, and skipped
 counts against the declared baseline. A lower collected count fails the build
 even if every collected test passed.
 
+## Data-Free Research Logic Demo
+
+```bash
+python examples/run_synthetic_evidence_demo.py
+python examples/run_synthetic_evidence_demo.py --json
+```
+
+This deterministic example needs no external market data. It exercises the
+production point-in-time leakage audit, family multiple-testing adjustment,
+and historical discovery classifier. It proves that these declared software
+boundaries execute; it does not reproduce an empirical factor return.
+
 ## Continuous Integration
 
 The workflow in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml):
@@ -48,7 +60,7 @@ merged automatically and must pass the full baseline.
 
 ## Test Count Semantics
 
-The current baseline is 294 collected tests with zero expected skips. Counts
+The current baseline is 296 collected tests with zero expected skips. Counts
 such as 274, 278, 284, 286, and 288 in dated research reports document earlier
 development states. They remain visible for provenance but do not describe the
 current commit.
