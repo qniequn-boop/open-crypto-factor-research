@@ -1,0 +1,863 @@
+{
+  "created_at_utc": "20260716T130344Z",
+  "audit_type": "frozen_monthly_low_volatility_spot_adaptation",
+  "batch": {
+    "schema_version": 1,
+    "batch_id": "literature_replication_005_monthly_low_volatility",
+    "frozen_at_utc": "2026-07-16T13:02:35Z",
+    "status": "frozen_before_evaluation",
+    "evaluation_end_utc": "2026-07-11T00:00:00Z",
+    "replication_id": "PYO_JANG_LOW_VOL_MONTHLY",
+    "source_ids": [
+      "CRYPTO_LOW_VOLATILITY_MONTHLY"
+    ],
+    "claim_level": "survivor_conditioned_cross_venue_adaptation",
+    "claim_prohibited": [
+      "exact_replication_of_the_432_asset_binance_universe",
+      "formal_panel_factor_pass_from_historical_results",
+      "perpetual_execution_profitability_without_a_separate_funding_audit",
+      "capital_deployment"
+    ],
+    "source_design": {
+      "supporting_source": "Pyo and Jang (2026), Finance Research Letters 97, 109851",
+      "adversarial_source": "Burggraf and Rudolf (2021), Finance Research Letters 40, 101683",
+      "economic_signal": "realized volatility from daily spot log returns",
+      "formation_frequency": "calendar month end",
+      "source_formation_windows": [
+        "two months",
+        "three months"
+      ],
+      "holding_horizon": "one month",
+      "portfolio": "equal-weighted lowest-volatility quintile minus highest-volatility quintile",
+      "direction_conflict_disclosed": true,
+      "outcome_optimized_parameters": false
+    },
+    "hypothesis": "In the mature-market period, lower-volatility cryptocurrencies outperform higher-volatility cryptocurrencies over the next month, but the sign may fail in a current large/liquid OKX universe because earlier peer-reviewed evidence found no low-volatility premium.",
+    "frozen_implementation": {
+      "bar": "1Dutc",
+      "history_days": 1460,
+      "source_sample_end_utc": "2025-11-30T00:00:00Z",
+      "selection_is_fraction": 0.67,
+      "minimum_assets": 20,
+      "minimum_lookback_coverage_fraction": 0.8,
+      "side_fraction": 0.2,
+      "execution_lag_days": 1,
+      "cost_bps_one_way": 5,
+      "slippage_bps_one_way": 2,
+      "minimum_is_valid_formations": 20,
+      "minimum_val_valid_formations": 10,
+      "newey_west_max_lag_months": 1,
+      "rolling_window_months": 12,
+      "minimum_rolling_windows": 12,
+      "minimum_positive_rolling_fraction": 0.5,
+      "liquid_robustness_assets": 20,
+      "liquid_robustness_minimum_assets": 15,
+      "random_control_permutations": 500,
+      "random_seed": 42,
+      "crash_day_quantile": 0.1,
+      "selection_alpha": 0.1,
+      "holdout_total_return_floor": -0.03,
+      "holdout_max_drawdown": 0.2,
+      "missing_returns_while_held_are_failures": true
+    },
+    "paths": [
+      {
+        "path_id": "monthly_low_vol_60d__equal_quintile_v1",
+        "lookback_days": 60
+      },
+      {
+        "path_id": "monthly_low_vol_90d__equal_quintile_v1",
+        "lookback_days": 90
+      }
+    ],
+    "primary_endpoint": "net IS and Validation low-minus-high spot return after actual monthly turnover and conservative execution costs",
+    "secondary_endpoints": [
+      "monthly cross-sectional rank IC",
+      "monthly Newey-West mean inference",
+      "family FDR across both paths",
+      "deterministic permutation random control",
+      "top-20 liquid-only robustness",
+      "rolling 12-month net-return stability",
+      "Validation crash-day behavior"
+    ],
+    "selection_policy": {
+      "is_and_validation_select": true,
+      "family_fdr_covers_both_paths": true,
+      "source_overlap_period_ends": "2025-11-30T00:00:00Z",
+      "post_source_holdout_access": "only_after_positive_IS_and_Validation_economics_plus_HAC_FDR_random_and_liquidity_robustness",
+      "holdout_feedback_to_ai": false,
+      "weak_positive_clue_authorizes": "frozen_prospective_shadow_only",
+      "family_freeze_rule": "freeze_monthly_low_volatility_on_this_sample_if_neither_path_has_a_net_IS_and_Validation_clue"
+    },
+    "locked_inputs": {
+      "universe_registry_sha256": "4f13f56903e4f8c9b32a868cb86f167ccf671e5b5f94d54a2dc20eb8494ffb9c",
+      "literature_registry_sha256": "2267c7a239279d5c204fb23efce9d886a389b39f7859c615bb1265fa024ece11",
+      "market_cap_audit_sha256": "f25631895c248db1a0284791dc6942bbe361d65b67dafde2c7fff7f72b33bb38"
+    },
+    "locked_code": {
+      "panel_literature_replication_sha256": "897a2fb19e602db44bf64322de61a8d61edd3178e19b9deae5dcbcb5b232d85a",
+      "panel_factor_research_sha256": "028fb361261041c01d3b5b2d51ffbbb5f2c44bb64b52bcbf233851fafb5bc586",
+      "panel_gate_calibration_sha256": "64211a3fa5d8727863522e5c5fc14314e155eeb76f6ae2dddbbf8156abc7bfd7",
+      "panel_gate_policy_v3_sha256": "7eb24737ff0812d87ce5032068b95672839fbb18a6c64d643221e3b4d9bc3ba6"
+    },
+    "known_deviations_and_claim_limits": [
+      "The current registered pool contains only current-live contracts and is survivor conditioned.",
+      "The median eligible cross-section is about 39 assets rather than the source paper's 432 assets.",
+      "The local history provides 48 monthly formations rather than the source paper's roughly 95 months.",
+      "Observations through November 2025 overlap the newer paper's source sample and test transportability, not temporal novelty.",
+      "The post-source audit has only about seven months and cannot authorize formal promotion.",
+      "Spot-return evidence does not include perpetual funding or short-leg implementation costs beyond the frozen generic execution charge."
+    ]
+  },
+  "batch_sha256": "2cd4eab388bb6fea0baed2882943fdaf5a7317785b13356564a8d6d7dc1f4a4b",
+  "actual_locked_input_hashes": {
+    "universe_registry_sha256": "4f13f56903e4f8c9b32a868cb86f167ccf671e5b5f94d54a2dc20eb8494ffb9c",
+    "literature_registry_sha256": "2267c7a239279d5c204fb23efce9d886a389b39f7859c615bb1265fa024ece11",
+    "market_cap_audit_sha256": "f25631895c248db1a0284791dc6942bbe361d65b67dafde2c7fff7f72b33bb38"
+  },
+  "actual_locked_code_hashes": {
+    "panel_literature_replication_sha256": "897a2fb19e602db44bf64322de61a8d61edd3178e19b9deae5dcbcb5b232d85a",
+    "panel_factor_research_sha256": "028fb361261041c01d3b5b2d51ffbbb5f2c44bb64b52bcbf233851fafb5bc586",
+    "panel_gate_calibration_sha256": "64211a3fa5d8727863522e5c5fc14314e155eeb76f6ae2dddbbf8156abc7bfd7",
+    "panel_gate_policy_v3_sha256": "7eb24737ff0812d87ce5032068b95672839fbb18a6c64d643221e3b4d9bc3ba6"
+  },
+  "daily_spot_input_fingerprint": "9fc7225e6300647bc563fc7c3aac7d96519507aa83f92df38634c525c53d3286",
+  "loaded_fields": [
+    "daily_spot_ohlcv",
+    "swap_listing_metadata"
+  ],
+  "selection_scope": {
+    "splits": [
+      "IS",
+      "Val"
+    ],
+    "selection_end": "2025-11-30 00:00:00+00:00",
+    "source_sample_end": "2025-11-30T00:00:00Z",
+    "holdout_is_source_out_of_sample": true,
+    "holdout_isolated_until_strong_selection_evidence": true
+  },
+  "universe_summary": {
+    "registered_assets": 50,
+    "common_start": "2022-08-27 00:00:00+00:00",
+    "common_end": "2026-07-11 00:00:00+00:00",
+    "median_eligible_assets": 39.0,
+    "monthly_formations": 47,
+    "survivorship_complete": false
+  },
+  "time_ranges": {
+    "IS": {
+      "start": "2022-08-27 00:00:00+00:00",
+      "end": "2024-09-30 00:00:00+00:00",
+      "bars": 766
+    },
+    "Val": {
+      "start": "2024-10-01 00:00:00+00:00",
+      "end": "2025-11-30 00:00:00+00:00",
+      "bars": 426
+    },
+    "Holdout": {
+      "start": "2025-12-01 00:00:00+00:00",
+      "end": "2026-07-11 00:00:00+00:00",
+      "bars": 223
+    }
+  },
+  "family_fdr": {
+    "monthly_low_vol_90d__equal_quintile_v1": {
+      "raw_p": 0.0007127816354063239,
+      "adjusted_p": 0.0014255632708126478,
+      "passed": true,
+      "q": 0.1,
+      "method": "benjamini_hochberg",
+      "family_hypothesis_count": 2
+    },
+    "monthly_low_vol_60d__equal_quintile_v1": {
+      "raw_p": 0.0021130265992413667,
+      "adjusted_p": 0.0021130265992413667,
+      "passed": true,
+      "q": 0.1,
+      "method": "benjamini_hochberg",
+      "family_hypothesis_count": 2
+    }
+  },
+  "family_fdr_by_sensitivity": {
+    "monthly_low_vol_90d__equal_quintile_v1": {
+      "raw_p": 0.0007127816354063239,
+      "adjusted_p": 0.0021383449062189717,
+      "passed": true,
+      "q": 0.1,
+      "method": "benjamini_yekutieli",
+      "family_hypothesis_count": 2
+    },
+    "monthly_low_vol_60d__equal_quintile_v1": {
+      "raw_p": 0.0021130265992413667,
+      "adjusted_p": 0.0031695398988620498,
+      "passed": true,
+      "q": 0.1,
+      "method": "benjamini_yekutieli",
+      "family_hypothesis_count": 2
+    }
+  },
+  "paths": [
+    {
+      "path_id": "monthly_low_vol_60d__equal_quintile_v1",
+      "lookback_days": 60,
+      "candidate": {
+        "candidate_id": "monthly_low_vol_60d__equal_quintile_v1",
+        "source_ids": [
+          "CRYPTO_LOW_VOLATILITY_MONTHLY"
+        ],
+        "hypothesis": "Lower realized spot volatility over the source-specified formation window predicts higher next-month cross-sectional return in the mature cryptocurrency market.",
+        "family": "literature_monthly_low_volatility",
+        "required_fields": [
+          "spot_close",
+          "spot_vol_quote",
+          "listing_time",
+          "point_in_time_eligibility"
+        ],
+        "panel_formula": "monthly_low_vol_60d",
+        "direction": "long",
+        "neutralization": "none",
+        "bucket_policy": "lowest_minus_highest_volatility_quintile",
+        "weighting_modes": [
+          "monthly_equal_weighted_quintiles"
+        ],
+        "generated_by": "human_frozen_literature_adaptation"
+      },
+      "coverage": {
+        "formation_count": 40,
+        "valid_formation_count": 40,
+        "median_formation_breadth": 40.0,
+        "minimum_formation_breadth": 23,
+        "median_assets_per_side": 8.0
+      },
+      "split_coverage": {
+        "IS": {
+          "formation_count": 26,
+          "valid_formation_count": 26,
+          "median_formation_breadth": 30.0,
+          "minimum_formation_breadth": 23,
+          "median_selected_pairs": 6.0
+        },
+        "Val": {
+          "formation_count": 14,
+          "valid_formation_count": 14,
+          "median_formation_breadth": 40.0,
+          "minimum_formation_breadth": 40,
+          "median_selected_pairs": 8.0
+        }
+      },
+      "rank_ic": {
+        "IS": {
+          "observations": 26,
+          "mean_rank_ic": 0.18627001444048324,
+          "positive_ic_frac": 0.7307692307692307,
+          "monthly_hac_mean_tstat": 3.4416845327480248,
+          "raw_one_sided_p": 0.00028905200681286606,
+          "newey_west": {
+            "valid": true,
+            "observations": 26,
+            "max_lag": 1,
+            "mean": 0.18627001444048324,
+            "standard_error": 0.05412175714191774,
+            "tstat": 3.4416845327480248,
+            "reason": null
+          }
+        },
+        "Val": {
+          "observations": 13,
+          "mean_rank_ic": 0.25501515370183286,
+          "positive_ic_frac": 0.8461538461538461,
+          "monthly_hac_mean_tstat": 3.8892797452977725,
+          "raw_one_sided_p": 5.027108514370391e-05,
+          "newey_west": {
+            "valid": true,
+            "observations": 13,
+            "max_lag": 1,
+            "mean": 0.25501515370183286,
+            "standard_error": 0.06556873519066145,
+            "tstat": 3.8892797452977725,
+            "reason": null
+          }
+        }
+      },
+      "portfolio": {
+        "IS": {
+          "bars": 766,
+          "sharpe": -1.1764998708420515,
+          "daily_sharpe": -0.24015203050111156,
+          "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+          "hourly_sharpe_status": "legacy_v1_diagnostic",
+          "gross_sharpe": -1.076001955983374,
+          "total_return": -0.13886176083936702,
+          "gross_return": -0.12698009417270045,
+          "max_drawdown": 0.5675817123070166,
+          "turnover": 0.022159020266069872,
+          "cost_paid": 0.011881666666666667,
+          "funding_paid": 0.0,
+          "funding_abs_paid": 0.0,
+          "avg_gross_exposure": 0.9934725848563969,
+          "active_bars": 761,
+          "missing_return_asset_bars_while_held": 0,
+          "missing_return_hours_while_held": 0,
+          "weighted_missing_return_exposure_sum": 0.0,
+          "weighted_missing_return_exposure_max": 0.0,
+          "return_evidence_complete_while_held": true,
+          "exposure_accounting": "factor_1x_notional_v2",
+          "monthly_observations": 26,
+          "monthly_net_return_hac": {
+            "valid": true,
+            "observations": 26,
+            "max_lag": 1,
+            "mean": -0.0053408369553602725,
+            "standard_error": 0.01962645124869968,
+            "tstat": -0.2721244349109787,
+            "reason": null,
+            "raw_one_sided_p": 0.6072368290457621
+          }
+        },
+        "Val": {
+          "bars": 426,
+          "sharpe": 5.591138805922839,
+          "daily_sharpe": 1.1412864296320815,
+          "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+          "hourly_sharpe_status": "legacy_v1_diagnostic",
+          "gross_sharpe": 5.68987126548245,
+          "total_return": 0.38655032368170583,
+          "gross_return": 0.3934628236817058,
+          "max_drawdown": 0.16850542928045437,
+          "turnover": 0.02318075117370892,
+          "cost_paid": 0.0069125,
+          "funding_paid": 0.0,
+          "funding_abs_paid": 0.0,
+          "avg_gross_exposure": 1.0,
+          "active_bars": 426,
+          "missing_return_asset_bars_while_held": 0,
+          "missing_return_hours_while_held": 0,
+          "weighted_missing_return_exposure_sum": 0.0,
+          "weighted_missing_return_exposure_max": 0.0,
+          "return_evidence_complete_while_held": true,
+          "exposure_accounting": "factor_1x_notional_v2",
+          "monthly_observations": 14,
+          "monthly_net_return_hac": {
+            "valid": true,
+            "observations": 14,
+            "max_lag": 1,
+            "mean": 0.027610737405836135,
+            "standard_error": 0.009651484740022072,
+            "tstat": 2.8607761551279203,
+            "reason": null,
+            "raw_one_sided_p": 0.0021130265992413667
+          }
+        }
+      },
+      "rolling_monthly": {
+        "window_months": 12,
+        "window_count": 29,
+        "positive_window_count": 15,
+        "positive_window_fraction": 0.5172413793103449,
+        "minimum_window_return": -0.41917365725570344
+      },
+      "large_liquid_only": {
+        "asset_count": 20,
+        "coverage": {
+          "formation_count": 40,
+          "valid_formation_count": 40,
+          "median_formation_breadth": 20.0,
+          "minimum_formation_breadth": 20,
+          "median_assets_per_side": 4.0
+        },
+        "portfolio": {
+          "IS": {
+            "bars": 766,
+            "sharpe": -2.7014015081576246,
+            "daily_sharpe": -0.5514212737809258,
+            "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+            "hourly_sharpe_status": "legacy_v1_diagnostic",
+            "gross_sharpe": -2.6126505198474588,
+            "total_return": -0.36577423094514555,
+            "gross_return": -0.3536992309451456,
+            "max_drawdown": 0.7365018325889863,
+            "turnover": 0.02251958224543081,
+            "cost_paid": 0.012074999999999999,
+            "funding_paid": 0.0,
+            "funding_abs_paid": 0.0,
+            "avg_gross_exposure": 0.9934725848563969,
+            "active_bars": 761,
+            "missing_return_asset_bars_while_held": 0,
+            "missing_return_hours_while_held": 0,
+            "weighted_missing_return_exposure_sum": 0.0,
+            "weighted_missing_return_exposure_max": 0.0,
+            "return_evidence_complete_while_held": true,
+            "exposure_accounting": "factor_1x_notional_v2",
+            "monthly_observations": 26,
+            "monthly_net_return_hac": {
+              "valid": true,
+              "observations": 26,
+              "max_lag": 1,
+              "mean": -0.014068239651736373,
+              "standard_error": 0.022205473229861952,
+              "tstat": -0.6335482926262245,
+              "reason": null,
+              "raw_one_sided_p": 0.736812172549481
+            }
+          },
+          "Val": {
+            "bars": 426,
+            "sharpe": 8.473902970120543,
+            "daily_sharpe": 1.7297282005541814,
+            "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+            "hourly_sharpe_status": "legacy_v1_diagnostic",
+            "gross_sharpe": 8.58883615597761,
+            "total_return": 0.6908685898918298,
+            "gross_return": 0.7003185898918297,
+            "max_drawdown": 0.21840499311775072,
+            "turnover": 0.03169014084507042,
+            "cost_paid": 0.00945,
+            "funding_paid": 0.0,
+            "funding_abs_paid": 0.0,
+            "avg_gross_exposure": 1.0,
+            "active_bars": 426,
+            "missing_return_asset_bars_while_held": 0,
+            "missing_return_hours_while_held": 0,
+            "weighted_missing_return_exposure_sum": 0.0,
+            "weighted_missing_return_exposure_max": 0.0,
+            "return_evidence_complete_while_held": true,
+            "exposure_accounting": "factor_1x_notional_v2",
+            "monthly_observations": 14,
+            "monthly_net_return_hac": {
+              "valid": true,
+              "observations": 14,
+              "max_lag": 1,
+              "mean": 0.04934775642084498,
+              "standard_error": 0.014269401687035617,
+              "tstat": 3.4582919104225374,
+              "reason": null,
+              "raw_one_sided_p": 0.0002718060159904013
+            }
+          }
+        }
+      },
+      "crash_day_audit": {
+        "quantile": 0.1,
+        "threshold": -0.047368105391145846,
+        "days": 43,
+        "factor_net_return": 0.946755287430301,
+        "eligible_market_return": -3.482532283493797
+      },
+      "random_control": {
+        "observed_mean_rank_ic": 0.25501515370183286,
+        "permutations": 500,
+        "seed": 102,
+        "null_median_mean_rank_ic": 0.0028286910088035763,
+        "null_p95_mean_rank_ic": 0.068913263097128,
+        "empirical_one_sided_p": 0.001996007984031936
+      },
+      "baseline_comparison": {
+        "zero_return_val_gap": 0.38655032368170583,
+        "opposite_high_minus_low_val_return": -0.38655032368170583,
+        "legacy_7d_perpetual_low_vol_status": "panel_factor_reject",
+        "legacy_report": "logs/panel_factor_report_20260704T170249Z.json"
+      },
+      "checks": {
+        "is_coverage_ok": true,
+        "val_coverage_ok": true,
+        "return_evidence_complete_while_held": true,
+        "is_net_positive": false,
+        "val_net_positive": true,
+        "val_ic_positive": true,
+        "val_monthly_hac_clue": true,
+        "large_liquid_val_nonnegative": true,
+        "rolling_not_single_window": true,
+        "rolling_positive_fraction": true,
+        "beats_random_ic_control": true
+      },
+      "holdout_accessed": false,
+      "holdout": {
+        "executed": false,
+        "reason": "awaiting_strong_is_validation_evidence"
+      },
+      "family_fdr": {
+        "raw_p": 0.0021130265992413667,
+        "adjusted_p": 0.0021130265992413667,
+        "passed": true,
+        "q": 0.1,
+        "method": "benjamini_hochberg",
+        "family_hypothesis_count": 2
+      },
+      "family_fdr_by_sensitivity": {
+        "raw_p": 0.0021130265992413667,
+        "adjusted_p": 0.0031695398988620498,
+        "passed": true,
+        "q": 0.1,
+        "method": "benjamini_yekutieli",
+        "family_hypothesis_count": 2
+      },
+      "classification": {
+        "status": "historical_factor_reject",
+        "reason": "failed_is_or_validation_low_volatility_clue_gate",
+        "formal_promotion": false,
+        "capital_deployment_allowed": false
+      }
+    },
+    {
+      "path_id": "monthly_low_vol_90d__equal_quintile_v1",
+      "lookback_days": 90,
+      "candidate": {
+        "candidate_id": "monthly_low_vol_90d__equal_quintile_v1",
+        "source_ids": [
+          "CRYPTO_LOW_VOLATILITY_MONTHLY"
+        ],
+        "hypothesis": "Lower realized spot volatility over the source-specified formation window predicts higher next-month cross-sectional return in the mature cryptocurrency market.",
+        "family": "literature_monthly_low_volatility",
+        "required_fields": [
+          "spot_close",
+          "spot_vol_quote",
+          "listing_time",
+          "point_in_time_eligibility"
+        ],
+        "panel_formula": "monthly_low_vol_90d",
+        "direction": "long",
+        "neutralization": "none",
+        "bucket_policy": "lowest_minus_highest_volatility_quintile",
+        "weighting_modes": [
+          "monthly_equal_weighted_quintiles"
+        ],
+        "generated_by": "human_frozen_literature_adaptation"
+      },
+      "coverage": {
+        "formation_count": 40,
+        "valid_formation_count": 40,
+        "median_formation_breadth": 40.0,
+        "minimum_formation_breadth": 23,
+        "median_assets_per_side": 8.0
+      },
+      "split_coverage": {
+        "IS": {
+          "formation_count": 26,
+          "valid_formation_count": 26,
+          "median_formation_breadth": 30.0,
+          "minimum_formation_breadth": 23,
+          "median_selected_pairs": 6.0
+        },
+        "Val": {
+          "formation_count": 14,
+          "valid_formation_count": 14,
+          "median_formation_breadth": 40.0,
+          "minimum_formation_breadth": 40,
+          "median_selected_pairs": 8.0
+        }
+      },
+      "rank_ic": {
+        "IS": {
+          "observations": 26,
+          "mean_rank_ic": 0.20516601861490244,
+          "positive_ic_frac": 0.7692307692307693,
+          "monthly_hac_mean_tstat": 3.4353979150126523,
+          "raw_one_sided_p": 0.0002958421694938173,
+          "newey_west": {
+            "valid": true,
+            "observations": 26,
+            "max_lag": 1,
+            "mean": 0.20516601861490244,
+            "standard_error": 0.05972118039611339,
+            "tstat": 3.4353979150126523,
+            "reason": null
+          }
+        },
+        "Val": {
+          "observations": 13,
+          "mean_rank_ic": 0.25324000577283884,
+          "positive_ic_frac": 0.8461538461538461,
+          "monthly_hac_mean_tstat": 4.117253011449036,
+          "raw_one_sided_p": 1.9170753947039987e-05,
+          "newey_west": {
+            "valid": true,
+            "observations": 13,
+            "max_lag": 1,
+            "mean": 0.25324000577283884,
+            "standard_error": 0.06150703031089968,
+            "tstat": 4.117253011449036,
+            "reason": null
+          }
+        }
+      },
+      "portfolio": {
+        "IS": {
+          "bars": 766,
+          "sharpe": 2.156877144243125,
+          "daily_sharpe": 0.44027070343891733,
+          "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+          "hourly_sharpe_status": "legacy_v1_diagnostic",
+          "gross_sharpe": 2.2510993905541477,
+          "total_return": 0.24334855875182204,
+          "gross_return": 0.25392772541848885,
+          "max_drawdown": 0.4507944782448789,
+          "turnover": 0.01972988934477185,
+          "cost_paid": 0.010579166666666667,
+          "funding_paid": 0.0,
+          "funding_abs_paid": 0.0,
+          "avg_gross_exposure": 0.9934725848563969,
+          "active_bars": 761,
+          "missing_return_asset_bars_while_held": 0,
+          "missing_return_hours_while_held": 0,
+          "weighted_missing_return_exposure_sum": 0.0,
+          "weighted_missing_return_exposure_max": 0.0,
+          "return_evidence_complete_while_held": true,
+          "exposure_accounting": "factor_1x_notional_v2",
+          "monthly_observations": 26,
+          "monthly_net_return_hac": {
+            "valid": true,
+            "observations": 26,
+            "max_lag": 1,
+            "mean": 0.009359559951993153,
+            "standard_error": 0.017374825105326563,
+            "tstat": 0.538685131807388,
+            "reason": null,
+            "raw_one_sided_p": 0.2950520673054837
+          }
+        },
+        "Val": {
+          "bars": 426,
+          "sharpe": 7.3340776719709835,
+          "daily_sharpe": 1.497062335855671,
+          "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+          "hourly_sharpe_status": "legacy_v1_diagnostic",
+          "gross_sharpe": 7.418272774418273,
+          "total_return": 0.5070808754914431,
+          "gross_return": 0.5129433754914432,
+          "max_drawdown": 0.18857415895202367,
+          "turnover": 0.01965962441314554,
+          "cost_paid": 0.0058625,
+          "funding_paid": 0.0,
+          "funding_abs_paid": 0.0,
+          "avg_gross_exposure": 1.0,
+          "active_bars": 426,
+          "missing_return_asset_bars_while_held": 0,
+          "missing_return_hours_while_held": 0,
+          "weighted_missing_return_exposure_sum": 0.0,
+          "weighted_missing_return_exposure_max": 0.0,
+          "return_evidence_complete_while_held": true,
+          "exposure_accounting": "factor_1x_notional_v2",
+          "monthly_observations": 14,
+          "monthly_net_return_hac": {
+            "valid": true,
+            "observations": 14,
+            "max_lag": 1,
+            "mean": 0.036220062535103084,
+            "standard_error": 0.011356300020444849,
+            "tstat": 3.189424589866046,
+            "reason": null,
+            "raw_one_sided_p": 0.0007127816354063239
+          }
+        }
+      },
+      "rolling_monthly": {
+        "window_months": 12,
+        "window_count": 29,
+        "positive_window_count": 19,
+        "positive_window_fraction": 0.6551724137931034,
+        "minimum_window_return": -0.25515955767303367
+      },
+      "large_liquid_only": {
+        "asset_count": 20,
+        "coverage": {
+          "formation_count": 40,
+          "valid_formation_count": 40,
+          "median_formation_breadth": 20.0,
+          "minimum_formation_breadth": 20,
+          "median_assets_per_side": 4.0
+        },
+        "portfolio": {
+          "IS": {
+            "bars": 766,
+            "sharpe": 0.2886823619896976,
+            "daily_sharpe": 0.05892704038468205,
+            "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+            "hourly_sharpe_status": "legacy_v1_diagnostic",
+            "gross_sharpe": 0.37164325672815063,
+            "total_return": 0.038401080430893964,
+            "gross_return": 0.049426080430893915,
+            "max_drawdown": 0.612219729012185,
+            "turnover": 0.020561357702349868,
+            "cost_paid": 0.011025,
+            "funding_paid": 0.0,
+            "funding_abs_paid": 0.0,
+            "avg_gross_exposure": 0.9934725848563969,
+            "active_bars": 761,
+            "missing_return_asset_bars_while_held": 0,
+            "missing_return_hours_while_held": 0,
+            "weighted_missing_return_exposure_sum": 0.0,
+            "weighted_missing_return_exposure_max": 0.0,
+            "return_evidence_complete_while_held": true,
+            "exposure_accounting": "factor_1x_notional_v2",
+            "monthly_observations": 26,
+            "monthly_net_return_hac": {
+              "valid": true,
+              "observations": 26,
+              "max_lag": 1,
+              "mean": 0.001476964631957458,
+              "standard_error": 0.02064744116598354,
+              "tstat": 0.07153257491251473,
+              "reason": null,
+              "raw_one_sided_p": 0.4714869499607481
+            }
+          },
+          "Val": {
+            "bars": 426,
+            "sharpe": 7.593292254017464,
+            "daily_sharpe": 1.5499742908475613,
+            "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+            "hourly_sharpe_status": "legacy_v1_diagnostic",
+            "gross_sharpe": 7.70139755961815,
+            "total_return": 0.5952741378429949,
+            "gross_return": 0.6036741378429948,
+            "max_drawdown": 0.21840499311775047,
+            "turnover": 0.028169014084507043,
+            "cost_paid": 0.008400000000000001,
+            "funding_paid": 0.0,
+            "funding_abs_paid": 0.0,
+            "avg_gross_exposure": 1.0,
+            "active_bars": 426,
+            "missing_return_asset_bars_while_held": 0,
+            "missing_return_hours_while_held": 0,
+            "weighted_missing_return_exposure_sum": 0.0,
+            "weighted_missing_return_exposure_max": 0.0,
+            "return_evidence_complete_while_held": true,
+            "exposure_accounting": "factor_1x_notional_v2",
+            "monthly_observations": 14,
+            "monthly_net_return_hac": {
+              "valid": true,
+              "observations": 14,
+              "max_lag": 1,
+              "mean": 0.04251958127449962,
+              "standard_error": 0.014488716470496089,
+              "tstat": 2.9346685996018915,
+              "reason": null,
+              "raw_one_sided_p": 0.0016695204866699915
+            }
+          }
+        }
+      },
+      "crash_day_audit": {
+        "quantile": 0.1,
+        "threshold": -0.047368105391145846,
+        "days": 43,
+        "factor_net_return": 0.8758670887372757,
+        "eligible_market_return": -3.482532283493797
+      },
+      "random_control": {
+        "observed_mean_rank_ic": 0.25324000577283884,
+        "permutations": 500,
+        "seed": 132,
+        "null_median_mean_rank_ic": 0.0034997835185452434,
+        "null_p95_mean_rank_ic": 0.08670948188771828,
+        "empirical_one_sided_p": 0.001996007984031936
+      },
+      "baseline_comparison": {
+        "zero_return_val_gap": 0.5070808754914431,
+        "opposite_high_minus_low_val_return": -0.5070808754914431,
+        "legacy_7d_perpetual_low_vol_status": "panel_factor_reject",
+        "legacy_report": "logs/panel_factor_report_20260704T170249Z.json"
+      },
+      "checks": {
+        "is_coverage_ok": true,
+        "val_coverage_ok": true,
+        "return_evidence_complete_while_held": true,
+        "is_net_positive": true,
+        "val_net_positive": true,
+        "val_ic_positive": true,
+        "val_monthly_hac_clue": true,
+        "large_liquid_val_nonnegative": true,
+        "rolling_not_single_window": true,
+        "rolling_positive_fraction": true,
+        "beats_random_ic_control": true
+      },
+      "holdout_accessed": true,
+      "holdout": {
+        "executed": true,
+        "portfolio": {
+          "bars": 223,
+          "sharpe": 3.1407006269197955,
+          "daily_sharpe": 0.6410928308993946,
+          "sharpe_primary_candidate_for_gate_v2": "daily_sharpe",
+          "hourly_sharpe_status": "legacy_v1_diagnostic",
+          "gross_sharpe": 3.283758027361289,
+          "total_return": 0.09532506256648826,
+          "gross_return": 0.09961256256648829,
+          "max_drawdown": 0.15714082031197796,
+          "turnover": 0.027466367713004484,
+          "cost_paid": 0.0042875,
+          "funding_paid": 0.0,
+          "funding_abs_paid": 0.0,
+          "avg_gross_exposure": 1.0,
+          "active_bars": 223,
+          "missing_return_asset_bars_while_held": 0,
+          "missing_return_hours_while_held": 0,
+          "weighted_missing_return_exposure_sum": 0.0,
+          "weighted_missing_return_exposure_max": 0.0,
+          "return_evidence_complete_while_held": true,
+          "exposure_accounting": "factor_1x_notional_v2",
+          "monthly_observations": 8,
+          "monthly_net_return_hac": {
+            "valid": true,
+            "observations": 8,
+            "max_lag": 1,
+            "mean": 0.011915632820811036,
+            "standard_error": 0.018872138409106867,
+            "tstat": 0.6313875281383626,
+            "reason": null,
+            "raw_one_sided_p": 0.2638935843822434
+          }
+        },
+        "rank_ic": {
+          "observations": 6,
+          "mean_rank_ic": 0.138873792324672,
+          "positive_ic_frac": 0.6666666666666666,
+          "monthly_hac_mean_tstat": 0.0,
+          "raw_one_sided_p": 1.0,
+          "newey_west": {
+            "valid": false,
+            "observations": 6,
+            "max_lag": 1,
+            "mean": 0.138873792324672,
+            "standard_error": null,
+            "tstat": 0.0,
+            "reason": "insufficient_daily_observations"
+          }
+        },
+        "noncollapse": true,
+        "source_out_of_sample_months": 8
+      },
+      "family_fdr": {
+        "raw_p": 0.0007127816354063239,
+        "adjusted_p": 0.0014255632708126478,
+        "passed": true,
+        "q": 0.1,
+        "method": "benjamini_hochberg",
+        "family_hypothesis_count": 2
+      },
+      "family_fdr_by_sensitivity": {
+        "raw_p": 0.0007127816354063239,
+        "adjusted_p": 0.0021383449062189717,
+        "passed": true,
+        "q": 0.1,
+        "method": "benjamini_yekutieli",
+        "family_hypothesis_count": 2
+      },
+      "classification": {
+        "status": "prospective_shadow_strong",
+        "reason": "strong_selection_evidence_and_short_source_out_of_sample_noncollapse;formal_promotion_prohibited",
+        "formal_promotion": false,
+        "capital_deployment_allowed": false
+      }
+    }
+  ],
+  "status_counts": {
+    "prospective_shadow_strong": 1,
+    "historical_factor_reject": 1
+  },
+  "holdout_accessed_path_count": 1,
+  "prospective_shadow_count": 1,
+  "formal_pass_count": 0,
+  "note": "This is a survivor-conditioned OKX adaptation of a broader Binance spot result. Even a positive result can authorize only frozen prospective observation, not capital."
+}

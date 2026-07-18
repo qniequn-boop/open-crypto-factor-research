@@ -13,7 +13,8 @@ venv/
 
 # Runtime data and generated output
 data_cache/
-logs/
+logs/*
+!logs/panel_literature_replication_batch005_20260716.json
 tmp/
 incoming_sync/
 backups/

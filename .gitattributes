@@ -3,3 +3,6 @@
 * text=auto eol=lf
 
 *.png binary
+
+# This frozen evidence object is fingerprinted exactly as generated.
+logs/panel_literature_replication_batch005_20260716.json -text !eol
