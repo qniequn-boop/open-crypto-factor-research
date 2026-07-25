@@ -59,7 +59,8 @@ flowchart TD
 | 经典动量复现 | 6 条冻结历史路径全部拒绝 |
 | 永续 basis 与 funding | 12 条双腿路径在成本后全部拒绝；当前样本内该家族已关闭 |
 | 月度低波动率 | 60 日路径拒绝；90 日路径只获准保持不变地做前瞻观察 |
-| 历史订单簿证据 | OKX 官方 L2 数据可以稳定重建；1 天、3 个资产不足以校准生产级成本曲面 |
+| 执行成本证据 | 5 个 OKX 永续资产、5 个冻结日期和 3 档名义金额显示出明显的可见订单簿成本差异；该曲面不能推断生产容量 |
+| 检测能力审计 | 18 个合成单元、3600 个结果显示机制通路可以打开，但对现实参考效应的检测能力不足；没有测试真实因子 |
 | Factor promotion（因子正式晋级） | 无 |
 | 组合、模拟交易或实盘 | 无 |
 
@@ -81,6 +82,22 @@ python examples/run_synthetic_evidence_demo.py
 
 添加 `--json` 可以得到机器可读结果。这个 Demo 验证的是研究逻辑，不是加密市场
 实证结论。
+
+## 执行经济学 Demo
+
+第二个无需行情数据的包公开了执行成本和门槛检测能力结论所依据的脱敏汇总证据：
+
+```bash
+python examples/run_execution_economics_power_demo.py --package evidence/execution_economics_power_v1.json
+python examples/run_execution_economics_power_demo.py --package evidence/execution_economics_power_v1.json --json
+```
+
+可见订单簿成本面覆盖 5 个资产、5 个冻结日期和 3 档名义金额；计入 5 bps 吃单费后，
+单边成本中位数为 5.18 至 12.91 bps，p95 为 5.82 至 33.54 bps。合成检测能力研究在
+1800 个现实参考效应结果中没有产生正式通过，分类为
+`mechanically_open_realistic_power_insufficient`（机制通路可打开，但现实效应检测能力
+不足）。这些是执行和测量结论，不是“真实因子有效”的证据。详见
+[研究说明](./docs/EXECUTION_ECONOMICS_AND_DETECTION_POWER_20260725.md)。
 
 ## 研究约束
 
@@ -110,7 +127,7 @@ AI 可以把已登记的经济机制翻译成标准、可证伪的候选，也�
 
 ## 可复现基线
 
-当前公开基线为 Python 3.11，**收集并通过 296 项测试**。机器可读的唯一基线是
+当前公开基线为 Python 3.11，**收集并通过 351 项测试**。机器可读的唯一基线是
 [`CURRENT_BASELINE.json`](./CURRENT_BASELINE.json)，GitHub Actions 会在每次提交到
 `main` 后独立验证。
 
@@ -137,6 +154,9 @@ python -m pytest -q
 | [REPRODUCIBILITY.md](./REPRODUCIBILITY.md) | 环境、锁定依赖、CI、数据边界和验证方法 |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | 提交假设、复现、代码和研究结论的规范 |
 | [examples/run_synthetic_evidence_demo.py](./examples/run_synthetic_evidence_demo.py) | 无需行情数据的泄漏、多重检验和晋级边界演示 |
+| [docs/EXECUTION_ECONOMICS_AND_DETECTION_POWER_20260725.md](./docs/EXECUTION_ECONOMICS_AND_DETECTION_POWER_20260725.md) | 脱敏的执行成本与合成检测能力证据 |
+| [examples/run_execution_economics_power_demo.py](./examples/run_execution_economics_power_demo.py) | 汇总执行经济学证据的无数据验证器 |
+| [evidence/execution_economics_power_v1.json](./evidence/execution_economics_power_v1.json) | 所有权限字段均为 false 的机器可读汇总证据 |
 | [LITERATURE_HYPOTHESIS_REGISTRY.md](./LITERATURE_HYPOTHESIS_REGISTRY.md) | 已登记文献机制和证伪要求 |
 | [PANEL_DATA_SUBSTRATE_V2.md](./PANEL_DATA_SUBSTRATE_V2.md) | 资产池、缺失值和幸存者偏差边界 |
 | [RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md](./RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md) | 独立对齐和怀疑者审计 |

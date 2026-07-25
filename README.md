@@ -67,7 +67,8 @@ in the record because negative results are part of the evidence.
 | Canonical momentum replications | Six frozen historical paths rejected |
 | Perpetual basis and funding | Twelve frozen two-leg paths rejected after costs; family closed on the current sample |
 | Monthly low volatility | 60-day path rejected; 90-day path allowed only into unchanged prospective observation |
-| Historical order-book evidence | Official OKX L2 reconstruction is feasible; one day and three assets cannot calibrate a production cost surface |
+| Execution-cost evidence | Five OKX perpetuals, five frozen dates, and three notionals show material visible-book cost heterogeneity; the surface does not support production capacity inference |
+| Detection-power audit | Eighteen synthetic cells and 3,600 outcomes show an open mechanical path but insufficient power at realistic reference effects; no real factor was tested |
 | Factor promotion | None |
 | Portfolio, paper trading, or deployment | None |
 
@@ -93,6 +94,24 @@ permission for combination, paper trading, or capital.
 
 Use `--json` for a machine-readable report. The demo validates research logic;
 it is not an empirical cryptocurrency result.
+
+## Execution Economics Demo
+
+A second data-free package exposes the sanitized aggregate evidence behind the
+execution-cost and gate-detection conclusions:
+
+```bash
+python examples/run_execution_economics_power_demo.py --package evidence/execution_economics_power_v1.json
+python examples/run_execution_economics_power_demo.py --package evidence/execution_economics_power_v1.json --json
+```
+
+The visible-book surface spans five assets, five frozen dates, and three
+notionals. Median one-way cost ranges from 5.18 to 12.91 bps and p95 cost from
+5.82 to 33.54 bps, including a 5 bps taker fee. The synthetic detection-power
+study produced zero formal passes in 1,800 realistic outcomes and was classified
+`mechanically_open_realistic_power_insufficient`. These are execution and
+measurement findings, not evidence that a real factor works. See the
+[research note](./docs/EXECUTION_ECONOMICS_AND_DETECTION_POWER_20260725.md).
 
 ## Methodological Safeguards
 
@@ -128,7 +147,7 @@ classification.
 
 ## Reproducible Baseline
 
-The current public baseline is Python 3.11 with **296 collected and passing
+The current public baseline is Python 3.11 with **351 collected and passing
 tests**. The machine-readable source of truth is
 [`CURRENT_BASELINE.json`](./CURRENT_BASELINE.json), checked independently by
 GitHub Actions on every commit to `main`.
@@ -158,6 +177,9 @@ researchers to obtain the relevant public market data independently. See
 | [REPRODUCIBILITY.md](./REPRODUCIBILITY.md) | Environment, locked dependencies, CI, data boundaries, and verification |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Standards for hypotheses, replications, code, and evidence language |
 | [examples/run_synthetic_evidence_demo.py](./examples/run_synthetic_evidence_demo.py) | Data-free demonstration of leakage, multiplicity, and promotion boundaries |
+| [docs/EXECUTION_ECONOMICS_AND_DETECTION_POWER_20260725.md](./docs/EXECUTION_ECONOMICS_AND_DETECTION_POWER_20260725.md) | Sanitized execution-cost and synthetic detection-power evidence |
+| [examples/run_execution_economics_power_demo.py](./examples/run_execution_economics_power_demo.py) | Data-free validator for the aggregate execution-economics package |
+| [evidence/execution_economics_power_v1.json](./evidence/execution_economics_power_v1.json) | Machine-readable aggregate evidence with every authority field set to false |
 | [LITERATURE_HYPOTHESIS_REGISTRY.md](./LITERATURE_HYPOTHESIS_REGISTRY.md) | Registered literature mechanisms and falsification requirements |
 | [PANEL_DATA_SUBSTRATE_V2.md](./PANEL_DATA_SUBSTRATE_V2.md) | Universe construction, missingness, and survivorship boundaries |
 | [RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md](./RESEARCH_ALIGNMENT_RED_TEAM_AUDIT_20260717.md) | Independent alignment and skeptic audit |
