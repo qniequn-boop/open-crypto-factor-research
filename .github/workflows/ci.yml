@@ -36,6 +36,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --require-hashes -r requirements.txt
 
+      - name: Validate execution-economics evidence package
+        run: >-
+          python examples/run_execution_economics_power_demo.py
+          --package evidence/execution_economics_power_v1.json
+          --json
+
       - name: Run full test suite
         id: pytest
         continue-on-error: true

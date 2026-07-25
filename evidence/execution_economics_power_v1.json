@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0",
+  "package_id": "execution_economics_power_v1",
+  "kind": "sanitized_public_research_package",
+  "created_at_utc": "2026-07-25T00:00:00Z",
+  "scope": {
+    "description": "Public-safe aggregate evidence on execution-cost heterogeneity and synthetic evidence-window detection power. This package contains no candidate formulas, no named strategy paths, no per-seed rows, no Holdout metrics, no loading values, no optimization history, and no operational identifiers.",
+    "real_factor_tested": false,
+    "mechanics_anchor_is_economic_evidence": false,
+    "production_cost_calibration_supported": false,
+    "production_capacity_inference_supported": false
+  },
+  "authorities": {
+    "factor_admission_authorized": false,
+    "combo_authorized": false,
+    "paper_trading_authorized": false,
+    "deployment_authorized": false,
+    "capital_authorized": false
+  },
+  "visible_book_cost_surface": {
+    "surface_id": "okx_l2_visible_book_v1_20260718",
+    "cost_basis": "one_way_all_in_visible_book_includes_taker_fee",
+    "fee_included_bps": 5.0,
+    "asset_count": 5,
+    "frozen_date_count": 5,
+    "grid_notionals_usdt": [100.0, 1000.0, 10000.0],
+    "expected_cell_count": 15,
+    "exclusions": [
+      "latency",
+      "queue_position",
+      "hidden_liquidity",
+      "rejects",
+      "outages",
+      "production_capacity_inference"
+    ],
+    "assets": [
+      "LDO-USDT-SWAP",
+      "LTC-USDT-SWAP",
+      "SOL-USDT-SWAP",
+      "TRX-USDT-SWAP",
+      "XRP-USDT-SWAP"
+    ],
+    "cells": [
+      {"inst_id": "LDO-USDT-SWAP", "notional_usdt": 100.0, "median_one_way_bps": 6.314665151547761, "p95_one_way_bps": 10.385029617662303, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "LDO-USDT-SWAP", "notional_usdt": 1000.0, "median_one_way_bps": 7.937189150820707, "p95_one_way_bps": 11.400212756179414, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "LDO-USDT-SWAP", "notional_usdt": 10000.0, "median_one_way_bps": 12.9109512975701, "p95_one_way_bps": 33.5405568236612, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "LTC-USDT-SWAP", "notional_usdt": 100.0, "median_one_way_bps": 5.885229943679827, "p95_one_way_bps": 6.770883149976362, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "LTC-USDT-SWAP", "notional_usdt": 1000.0, "median_one_way_bps": 5.891742471866539, "p95_one_way_bps": 7.758868446217461, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "LTC-USDT-SWAP", "notional_usdt": 10000.0, "median_one_way_bps": 6.229650749499482, "p95_one_way_bps": 13.886677894485347, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "SOL-USDT-SWAP", "notional_usdt": 100.0, "median_one_way_bps": 5.39044198568047, "p95_one_way_bps": 5.824898753281182, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "SOL-USDT-SWAP", "notional_usdt": 1000.0, "median_one_way_bps": 5.393934663788689, "p95_one_way_bps": 6.111384017142312, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "SOL-USDT-SWAP", "notional_usdt": 10000.0, "median_one_way_bps": 5.559503273287727, "p95_one_way_bps": 7.069183010564478, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "TRX-USDT-SWAP", "notional_usdt": 100.0, "median_one_way_bps": 5.1841349346407455, "p95_one_way_bps": 6.479661060984727, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "TRX-USDT-SWAP", "notional_usdt": 1000.0, "median_one_way_bps": 5.184260482863181, "p95_one_way_bps": 7.62501317400684, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "TRX-USDT-SWAP", "notional_usdt": 10000.0, "median_one_way_bps": 5.938405513754454, "p95_one_way_bps": 10.88695210560184, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "XRP-USDT-SWAP", "notional_usdt": 100.0, "median_one_way_bps": 5.366112628510633, "p95_one_way_bps": 6.132131012957982, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "XRP-USDT-SWAP", "notional_usdt": 1000.0, "median_one_way_bps": 5.367376941123851, "p95_one_way_bps": 7.0812090578082545, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5},
+      {"inst_id": "XRP-USDT-SWAP", "notional_usdt": 10000.0, "median_one_way_bps": 5.492965697816045, "p95_one_way_bps": 9.111141071717956, "min_buy_fill_fraction": 1.0, "min_sell_fill_fraction": 1.0, "regime_day_count": 5}
+    ],
+    "heterogeneity_conclusion": {
+      "min_median_one_way_bps": 5.1841349346407455,
+      "max_median_one_way_bps": 12.9109512975701,
+      "max_over_min_median_ratio": 2.4905,
+      "min_p95_one_way_bps": 5.824898753281182,
+      "max_p95_one_way_bps": 33.5405568236612,
+      "max_over_min_p95_ratio": 5.7581,
+      "median_cost_increases_with_notional_for_every_asset": true,
+      "all_min_fill_fractions_complete": true
+    }
+  },
+  "ohlc_proxy_admission": {
+    "proxy_name": "ohlc_bidask_composite_spread_proxy",
+    "proxy_type": "corwin_schultz_abdi_ranaldo_bidask_composite",
+    "valid_date_count": 5,
+    "dates_with_positive_rank": 5,
+    "median_cross_sectional_spearman": 0.4,
+    "frozen_gate_minimum_median_spearman": 0.5,
+    "admitted_for_cost_calibration": false,
+    "role": "ranking_diagnostic_only",
+    "interpretation": "The proxy is the preregistered bid-ask composite: the average of the 30-day Corwin-Schultz high-low estimator and the 30-day two-day-corrected Abdi-Ranaldo close-high-low estimator over 29 overlapping pairs. It ranked liquidity in the correct direction on all five frozen dates, but its median cross-sectional Spearman of 0.4 stayed below the frozen 0.5 gate, so it cannot calibrate execution-cost magnitude."
+  },
+  "cost_sensitivity_groups": {
+    "design": "nonbinding historical sensitivity from a fixed 7 bps one-way baseline to the most stressed cell (10000 USDT total capital, double-p95 scenario) over a frozen 8-asset substrate",
+    "metric": "validation_total_return_change",
+    "groups": [
+      {"group": "low_turnover_liquidity_amihud_rank_linear", "range": [-0.0074, -0.0066], "interpretation": "comparatively_stable"},
+      {"group": "low_turnover_liquidity_amihud_top_bottom", "range": [-0.012, -0.012], "interpretation": "comparatively_stable"},
+      {"group": "momentum", "range": [-0.37, -0.24], "interpretation": "deteriorated"},
+      {"group": "funding_carry", "range": [-0.65, -0.51], "interpretation": "deteriorated"},
+      {"group": "basis_carry", "range": [-0.65, -0.55], "interpretation": "deteriorated"},
+      {"group": "short_reversal", "range": [-0.79, -0.67], "interpretation": "deteriorated"}
+    ],
+    "conclusion": "low_turnover_groups_comparatively_stable_higher_turnover_groups_deteriorated",
+    "profit_recipe_published": false,
+    "named_path_outcomes_published": false
+  },
+  "detection_power": {
+    "study_kind": "synthetic_evidence_window_detection_power_confirmation",
+    "synthetic_only": true,
+    "real_factor_tested": false,
+    "windows_days": [124, 365, 730],
+    "feasible_horizon_windows_days": [124, 365],
+    "reference_window_days": 730,
+    "replications_per_cell": 200,
+    "distinct_cell_count": 6,
+    "cell_count": 18,
+    "outcome_count": 3600,
+    "realistic_outcome_count": 1800,
+    "realistic_formal_pass_count": 0,
+    "null_bands": {
+      "screened_pass_successes_max": 1,
+      "screened_pass_wilson95_upper_max": 0.028,
+      "screened_watchlist_or_pass_rate_max": 0.1
+    },
+    "cells": [
+      {
+        "cell_id": "null_full_panel",
+        "cell_type": "null",
+        "windows": {
+          "124": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.005},
+          "365": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.0},
+          "730": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.0}
+        }
+      },
+      {
+        "cell_id": "null_large_liquid_only",
+        "cell_type": "null",
+        "windows": {
+          "124": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.01},
+          "365": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.005},
+          "730": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.01}
+        }
+      },
+      {
+        "cell_id": "full_panel_net_sharpe_0.30",
+        "cell_type": "realistic_reference_effect",
+        "band_minima": {"screened_pass_rate_min": 0.25, "screened_watchlist_or_pass_rate_min": 0.65},
+        "windows": {
+          "124": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.29},
+          "365": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.32},
+          "730": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.395}
+        }
+      },
+      {
+        "cell_id": "full_panel_net_sharpe_0.60",
+        "cell_type": "realistic_reference_effect",
+        "band_minima": {"screened_pass_rate_min": 0.8, "screened_watchlist_or_pass_rate_min": 0.95},
+        "windows": {
+          "124": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.43},
+          "365": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.51},
+          "730": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.615}
+        }
+      },
+      {
+        "cell_id": "large_liquid_only_net_sharpe_0.50",
+        "cell_type": "realistic_reference_effect",
+        "band_minima": {"screened_pass_rate_min": 0.15, "screened_watchlist_or_pass_rate_min": 0.8},
+        "windows": {
+          "124": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.15},
+          "365": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.28},
+          "730": {"screened_pass_successes": 0, "screened_pass_rate": 0.0, "screened_watchlist_or_pass_rate": 0.385}
+        }
+      },
+      {
+        "cell_id": "mechanics_anchor_extreme_synthetic",
+        "cell_type": "mechanics_only_anchor",
+        "diagnostic_only": true,
+        "excluded_from_realistic_power_claims": true,
+        "band_minima": {"screened_pass_rate_min": 0.8},
+        "windows": {
+          "124": {"screened_pass_successes": 200, "screened_pass_rate": 1.0, "screened_watchlist_or_pass_rate": 1.0},
+          "365": {"screened_pass_successes": 200, "screened_pass_rate": 1.0, "screened_watchlist_or_pass_rate": 1.0},
+          "730": {"screened_pass_successes": 200, "screened_pass_rate": 1.0, "screened_watchlist_or_pass_rate": 1.0}
+        }
+      }
+    ],
+    "classification_order": [
+      "false_pass_uncontrolled",
+      "adequate_realistic_power_within_feasible_horizon",
+      "adequate_realistic_power_only_beyond_feasible_horizon",
+      "watchlist_power_only_within_feasible_horizon",
+      "watchlist_power_only_beyond_feasible_horizon",
+      "mechanically_open_realistic_power_insufficient",
+      "mechanics_not_demonstrated"
+    ],
+    "expected_classification": "mechanically_open_realistic_power_insufficient",
+    "expected_matched_rule_order": 6,
+    "interpretation": "Null controls stayed inside every frozen band and the diagnostic-only mechanics anchor passed at 100 percent at every window, so the gate is mechanically traversable and does not pass noise. All three realistic reference effects recorded zero formal passes in 1800 realistic outcomes, and every watchlist rate stayed below its frozen minimum through 730 days. The mechanics anchor is a deliberately extreme synthetic diagnostic and is not economic evidence; no real factor was tested."
+  }
+}

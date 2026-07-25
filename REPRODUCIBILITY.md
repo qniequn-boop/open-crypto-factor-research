@@ -45,6 +45,24 @@ production point-in-time leakage audit, family multiple-testing adjustment,
 and historical discovery classifier. It proves that these declared software
 boundaries execute; it does not reproduce an empirical factor return.
 
+## Data-Free Execution-Economics Package
+
+```bash
+python examples/run_execution_economics_power_demo.py --package evidence/execution_economics_power_v1.json
+python examples/run_execution_economics_power_demo.py --package evidence/execution_economics_power_v1.json --json
+python -m pytest tests/test_execution_economics_power_demo.py -q
+```
+
+This Python 3.11 standard-library validator needs no network or market data. It
+recomputes the published visible-book cost heterogeneity, rejects the frozen
+OHLC bid-ask composite as a magnitude calibrator, and derives the synthetic
+detection-power classification from the shipped aggregate rates. It also fails
+closed on unknown fields, tampered evidence, or any true authority flag.
+
+The package validates a sanitized historical and synthetic evidence record. It
+does not test a real factor, infer production capacity, or authorize factor
+admission, combination, paper trading, deployment, or capital.
+
 ## Continuous Integration
 
 The workflow in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml):
@@ -52,15 +70,16 @@ The workflow in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml):
 1. uses exact commit pins for official GitHub Actions;
 2. creates a fresh Python 3.11 environment;
 3. installs only the hash-locked dependency graph;
-4. runs the full test suite and emits JUnit results;
-5. compares those results with `CURRENT_BASELINE.json`.
+4. validates the shipped execution-economics package through its data-free CLI;
+5. runs the full test suite and emits JUnit results;
+6. compares those results with `CURRENT_BASELINE.json`.
 
 Dependabot may propose dependency and workflow updates weekly. Updates are not
 merged automatically and must pass the full baseline.
 
 ## Test Count Semantics
 
-The current baseline is 296 collected tests with zero expected skips. Counts
+The current baseline is 351 collected tests with zero expected skips. Counts
 such as 274, 278, 284, 286, and 288 in dated research reports document earlier
 development states. They remain visible for provenance but do not describe the
 current commit.

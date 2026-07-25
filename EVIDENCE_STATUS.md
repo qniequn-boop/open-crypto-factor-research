@@ -1,6 +1,6 @@
 # Evidence Status
 
-Status date: 2026-07-19
+Status date: 2026-07-25
 
 This ledger separates implemented research infrastructure from empirical
 evidence. A completed data loader or passing test suite is not evidence that a
@@ -29,11 +29,27 @@ factor earns a positive return.
 | Monthly low volatility, 60-day formation | Positive validation but negative in-sample net evidence under the frozen design | Terminal historical reject | None on the current sample |
 | Monthly low volatility, 90-day formation | Positive historical clue with material uncertainty, survivor conditioning, weak in-sample precision, and limited source-out-of-sample length | Prospective eligible, not promoted | Collect unchanged future observations under the frozen policy |
 | Low-volatility execution translation | Sparse realized funding and declared cost stresses were evaluated for the frozen signal | Passed for paper-design research only | Continue execution research; no factor or portfolio promotion |
-| OKX historical L2 pilot | One UTC day, three assets, reproducible 400-level book reconstruction | Data-pipeline feasibility pass; production cost calibration not passed | Run the preregistered unseen date and asset sample |
+| OKX visible-book cost surface | Five assets, five frozen dates, three notionals, and 15 complete aggregate cells; median one-way cost 5.18-12.91 bps and p95 5.82-33.54 bps with a 5 bps taker fee | Sanitized aggregate execution evidence; production cost calibration and capacity inference not passed | Expand direct measurement across assets, regimes, and operational frictions |
+| Evidence-window detection power | Eighteen synthetic cells, 200 replications per cell, and 3,600 outcomes; zero formal passes in 1,800 realistic-reference outcomes | `mechanically_open_realistic_power_insufficient`; diagnostic only, no real factor tested | Improve data breadth and research design before interpreting continued rejection as evidence of no effect |
 | Factor promotion | No factor has completed the required future evidence horizon | None | Wait for valid prospective evidence |
 | Combination research | No promoted factor is available for admission | Blocked by design | Do not create a promoted combo |
 | Strategy paper trading | No combination has passed the required strategy audit | None | No strategy paper-trading claim |
 | Live capital | No factor or strategy is authorized | None | No deployment |
+
+## Sanitized Execution-Economics Package
+
+The public package
+[`execution_economics_power_v1`](./evidence/execution_economics_power_v1.json)
+contains aggregate cost-surface, proxy-admission, cost-sensitivity, and
+synthetic detection-power evidence. Its schema is `1.0`; `real_factor_tested`
+and `mechanics_anchor_is_economic_evidence` are false, as are factor admission,
+combination, paper-trading, deployment, and capital authorities.
+
+The package is accompanied by a
+[research note](./docs/EXECUTION_ECONOMICS_AND_DETECTION_POWER_20260725.md)
+and a [data-free validator](./examples/run_execution_economics_power_demo.py).
+Passing that validator confirms package integrity and the declared arithmetic.
+It does not promote a factor or support production execution capacity.
 
 ## The Low-Volatility Claim, Precisely
 
@@ -72,8 +88,8 @@ decision-relevant evidence. Examples include:
 
 - enough valid prospective days to evaluate the frozen promotion policy;
 - a complete delisted-instrument archive that changes the survivorship claim;
-- a preregistered multi-regime L2 sample that supports an asset- and
-  notional-dependent cost surface;
+- a broader preregistered L2 sample that extends the asset- and
+  notional-dependent cost surface across more regimes and operational frictions;
 - a new literature mechanism admitted before its candidate formulas and
   results are known.
 
